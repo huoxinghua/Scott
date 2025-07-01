@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        groundCheck = GetComponentInChildren<GroundCheck>();
+        groundCheck = GetComponent<GroundCheck>();
     }
     private void OnEnable()
     {
@@ -49,14 +49,13 @@ public class PlayerMovement : MonoBehaviour
         Vector3 velocity = rb.linearVelocity;
         velocity.x = moveDirection.x * moveSpeed;
         velocity.z = moveDirection.y * moveSpeed;
-        rb.linearVelocity = velocity;
+        rb.linearVelocity = transform.rotation * (velocity + direction);
     }
-
+    Vector3 direction;
     public void Move(Vector2 dir)
     {
         moveDirection = dir;
     }
-
     public void Jump()
     {
         if (!groundCheck || groundCheck.isGrounded)
