@@ -8,6 +8,10 @@ public class PlayerInputManager : MonoBehaviour
     public event Action<Vector2> OnMoveInput;
     public event Action OnJumpInput;
     public event Action<Vector2> OnLookInput;
+    public event Action OnShootInput;
+    public event Action OnChangeWeaponInput;
+
+
     public Vector2 LookInput { get; private set; }
     private void Awake()
     {
@@ -23,6 +27,11 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Look.performed += HandleLook;
         inputActions.Player.Look.canceled += HandleLook;
 
+        inputActions.Player.Shoot.performed += HandleShoot;
+        inputActions.Player.Shoot.canceled += HandleShoot;
+        inputActions.Player.ChangeWeapon.performed += HandleChangeWeapon;
+        inputActions.Player.ChangeWeapon.canceled += HandleChangeWeapon;
+
     }
    
     private void OnDisable()
@@ -35,6 +44,12 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Jump.canceled -= HandleJump;
         inputActions.Player.Look.performed -= HandleLook;
         inputActions.Player.Look.canceled -= HandleLook;
+
+        inputActions.Player.Shoot.performed -= HandleShoot;
+        inputActions.Player.Shoot.canceled -= HandleShoot;
+
+        inputActions.Player.ChangeWeapon.performed -= HandleChangeWeapon;
+        inputActions.Player.ChangeWeapon.canceled -= HandleChangeWeapon;
     }
     private void HandleMove(InputAction.CallbackContext context)
     {
@@ -54,6 +69,21 @@ public class PlayerInputManager : MonoBehaviour
         OnLookInput?.Invoke(context.ReadValue<Vector2>());
     }
 
+    private void HandleShoot(InputAction.CallbackContext context)
+    {
 
+        if (context.performed)
+        {
+            OnShootInput?.Invoke();
+        }
+    }
+    private void HandleChangeWeapon(InputAction.CallbackContext context)
+    {
+
+        if (context.performed)
+        {
+            OnChangeWeaponInput?.Invoke();
+        }
+    }
 }
 
