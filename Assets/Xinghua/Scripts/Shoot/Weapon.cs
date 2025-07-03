@@ -2,39 +2,19 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    // [SerializeField] GameObject bulletPerfab;
     private Transform shootStartPoint;//fx
     [SerializeField] private WeaponSO[] weapons;
     private GameObject currentWeapon;
     private int currentIndex = 0;
-    // private Bullet bullet;
-    public float damageAmount;
-    // public List<GameObject> bulletPool = new List<GameObject>();
 
+    public float damageAmount;
 
     [SerializeField] private float shootSpeed;
     private void Awake()
     {
-        // bullet = GetComponent<Bullet>();
         // shootStartPoint = transform.GetChild(0);
     }
 
-
-    /*    public void ResetBulletNum()
-        {
-            bulletPool.Clear();
-        }*/
-    /*  public void Shoot()
-      {
-          Debug.Log("weapon is shooting");
-          GameObject newBullet = Instantiate(bulletPerfab, shootStartPoint.position, Quaternion.identity);
-
-          Bullet bullet = newBullet.GetComponent<Bullet>();
-          bulletPool.Add(newBullet);
-
-          Vector3 direction = shootStartPoint.forward;
-          bullet.Shoot(direction, damageAmount, shootSpeed);
-      }*/
     public void EquipWeapon()
     {
         if (currentWeapon != null)
@@ -51,10 +31,6 @@ public class Weapon : MonoBehaviour
         currentWeapon.transform.SetParent(transform, transform);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
-       
-
-
-
 
     }
     public void Shoot()

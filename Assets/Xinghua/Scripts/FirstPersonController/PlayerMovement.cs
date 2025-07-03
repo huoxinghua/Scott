@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        groundCheck = GetComponent<GroundCheck>();
+        groundCheck = GetComponentInChildren<GroundCheck>();
     }
     private void OnEnable()
     {
@@ -45,7 +45,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-       //move
+        //move
         Vector3 velocity = rb.linearVelocity;
         velocity.x = moveDirection.x * moveSpeed;
         velocity.z = moveDirection.y * moveSpeed;
@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     }
     public void Jump()
     {
-        if (!groundCheck || groundCheck.isGrounded)
+        if (groundCheck && groundCheck.isGrounded)
         {
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
             //Debug.Log("player jump");
