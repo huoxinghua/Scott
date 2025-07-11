@@ -27,8 +27,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Look.performed += HandleLook;
         inputActions.Player.Look.canceled += HandleLook;
 
-        inputActions.Player.Shoot.performed += HandleShoot;
-        inputActions.Player.Shoot.canceled += HandleShoot;
+        inputActions.Player.Attack.performed += HandleShoot;
+        inputActions.Player.Attack.canceled += HandleShoot;
         inputActions.Player.ChangeWeapon.performed += HandleChangeWeapon;
         inputActions.Player.ChangeWeapon.canceled += HandleChangeWeapon;
 
@@ -45,8 +45,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Look.performed -= HandleLook;
         inputActions.Player.Look.canceled -= HandleLook;
 
-        inputActions.Player.Shoot.performed -= HandleShoot;
-        inputActions.Player.Shoot.canceled -= HandleShoot;
+        inputActions.Player.Attack.performed -= HandleShoot;
+        inputActions.Player.Attack.canceled -= HandleShoot;
 
         inputActions.Player.ChangeWeapon.performed -= HandleChangeWeapon;
         inputActions.Player.ChangeWeapon.canceled -= HandleChangeWeapon;

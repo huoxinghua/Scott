@@ -41,12 +41,12 @@ public class Weapon : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 20f))
         {
             Debug.Log("Hit " + hit.collider.name);
-
-            //var damageable = hit.collider.GetComponent<IDamageable>();
-            /*if (damageable != null)
+      
+            var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+            if (damageable != null)
             {
                 damageable.TakeDamage(damageAmount);
-            }*/
+            }
         }
 
     }
