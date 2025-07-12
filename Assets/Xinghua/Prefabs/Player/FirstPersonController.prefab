@@ -47,7 +47,7 @@ MonoBehaviour:
   weapons:
   - {fileID: 11400000, guid: 1d26c6a15a5c8834bac874b7d4db3624, type: 2}
   - {fileID: 11400000, guid: 8ccf4d836aa98c94eb5dda851bed8014, type: 2}
-  damageAmount: 3
+  damageAmount: 25
   shootSpeed: 3
 --- !u!1 &1490442648193937706
 GameObject:
@@ -329,6 +329,7 @@ GameObject:
   - component: {fileID: 7238537606640069274}
   - component: {fileID: 1899763647885468100}
   - component: {fileID: 3046323754480585272}
+  - component: {fileID: 7399189470166605176}
   m_Layer: 0
   m_Name: FirstPersonController
   m_TagString: Untagged
@@ -429,7 +430,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
+  sprintMultiplier: 1.5
   jumpStrength: 8
+  fallMultiplier: 4
 --- !u!114 &3046323754480585272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -442,6 +445,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c8abdea527059344a6588026afa7bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7399189470166605176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143761731496887327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e8e688c5e077d4ea111befaf427141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 1000
 --- !u!1 &8650307969550493760
 GameObject:
   m_ObjectHideFlags: 0
@@ -593,6 +609,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 4783338928778684534}
-  sensitivity: 2
+  sensitivity: 4
   smoothing: 1.5
   rawLookMultiply: 0.009
