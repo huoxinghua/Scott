@@ -12,6 +12,8 @@ public class BaseEnemy : MonoBehaviour
     [SerializeField] float attackSpeed;
     [SerializeField] float health;
 
+    [SerializeField] Animator animator;
+
    public bool canAttack = false;
     public bool isAttacking = false;
     public EnemyState currentState;
@@ -61,6 +63,7 @@ public class BaseEnemy : MonoBehaviour
         {
             StartCoroutine(AttackCoroutine());
             isAttacking = true;
+            animator.SetBool("isAttack",true);
         }
     }
     //likely needs a better way and or needs event from animator
