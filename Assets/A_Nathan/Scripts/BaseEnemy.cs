@@ -4,17 +4,18 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Playables;
 
-public class BaseEnemy : MonoBehaviour
+public class BaseEnemy : MonoBehaviour , IDamageable
 {
     [SerializeField]float moveSpeed;
     [SerializeField] float attackDistance;
     [SerializeField] float attackDistBuffer;
     [SerializeField] float attackDamage;
     [SerializeField] float attackSpeed;
-    [SerializeField] float health;
+    [SerializeField] float maxHealth;
+    float currentHealth;
 
-    [SerializeField] Animator animator;
-
+    Animator animator;
+    public EnemySpawn enemySpawn;
 
     [SerializeField] float speedPercentVariation;
    public bool canAttack = false;
@@ -29,9 +30,24 @@ public class BaseEnemy : MonoBehaviour
         Moving = 0,
         Attacking = 1
     }
-
-
-
+    public void OnDestroy()
+    {
+        enemySpawn.EnemyWasKilled();
+    }
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        if(currentHealth <= 0)
+        {
+            //proper death later
+            Destroy(gameObject);
+        }
+    }
+    public void Awake()
+    {
+        animator = transform.GetComponentInChildren<Animator>();
+        currentHealth = maxHealth;
+    }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -86,21 +102,28 @@ public class BaseEnemy : MonoBehaviour
     {
         if (!isAttacking)
         {
-            animator.SetBool("isAttack", true);
-            StartCoroutine(AttackCoroutine());
+            animator.SetTrigger("Attack");
             isAttacking = true;
            
         }
     }
     //likely needs a better way and or needs event from animator
-    IEnumerator AttackCoroutine()
+   /* IEnumerator AttackCoroutine()
     {
         yield return new WaitForSeconds(attackSpeed);
+       
+        isAttacking = false;
+    }*/
+    public void OnAttemptHit()
+    {
         if (canAttack)
         {
             Debug.Log("hitPlayer");
-            
+
         }
+    }
+    public void OnAttackFinish()
+    {
         isAttacking = false;
     }
     // Update is called once per frame

@@ -97,8 +97,7 @@ MonoBehaviour:
   attackDistBuffer: 0.5
   attackDamage: 0
   attackSpeed: 2
-  health: 0
-  animator: {fileID: 7021844193491863619}
+  maxHealth: 100
   speedPercentVariation: 0.2
   canAttack: 0
   isAttacking: 0
@@ -174,6 +173,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9503f5eebd1fcef4582f63096351ae27, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7021844193491863619}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9503f5eebd1fcef4582f63096351ae27, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3419561907107295876}
   m_SourcePrefab: {fileID: 100100000, guid: 9503f5eebd1fcef4582f63096351ae27, type: 3}
 --- !u!4 &388198832888063314 stripped
 Transform:
@@ -207,3 +209,16 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3419561907107295876
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1020338427103805416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77d576ba835e44c4f92a96cae4c3d405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bEnemy: {fileID: 6811115277952761812}

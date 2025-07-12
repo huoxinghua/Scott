@@ -64,6 +64,7 @@ public class EnemySpawn : MonoBehaviour
     {
         int rand = Random.Range(0, spawnList.Count);
         GameObject latestEnemy = Instantiate(BaseEnemy, spawnList[rand]);
+        latestEnemy.GetComponent<BaseEnemy>().enemySpawn = this;
         EnemiesSpawned++;
         TrySpawn();
     }
