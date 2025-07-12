@@ -4,5 +4,7 @@ using UnityEngine;
 public class WeaponSO : ScriptableObject
 {
     public GameObject gunPrefab;
+    public int ammoCapacity;
+    public float fireRate;
     public float damage;
 }

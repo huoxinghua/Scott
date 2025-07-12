@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: BaseGun
   m_EditorClassIdentifier: 
   gunPrefab: {fileID: 5617306848609608939, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
+  ammoCapacity: 0
+  fireRate: 0
   damage: 20

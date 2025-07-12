@@ -47,14 +47,14 @@ public class Shoot : MonoBehaviour
 
     private void HandleShoot()
     {
-        Weapon weapon = GetComponentInChildren<Weapon>();
-        if (weapon != null)
+        Gun gun = GetComponentInChildren<Gun>();
+        if (gun != null)
         {
-            weapon.Shoot();
+            gun.Shoot();
         }
         else
         {
-            Debug.Log("weapon is null");
+            Debug.Log("gun is null");
         }
 
     }

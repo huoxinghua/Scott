@@ -5,11 +5,8 @@ public class Weapon : MonoBehaviour
     private Transform shootStartPoint;//fx
     [SerializeField] private WeaponSO[] weapons;
     private GameObject currentWeapon;
+    private Gun currentGun;
     private int currentIndex = 0;
-
-    public float damageAmount;
-
-    [SerializeField] private float shootSpeed;
     private void Awake()
     {
         // shootStartPoint = transform.GetChild(0);
@@ -27,13 +24,14 @@ public class Weapon : MonoBehaviour
        // Debug.Log("current index: " + currentIndex);
 
         currentWeapon = Instantiate(weapons[currentIndex].gunPrefab, transform.position, Quaternion.identity);
+        currentGun =currentWeapon.GetComponent<Gun>();
         Debug.Log("current weapon: " + currentWeapon.name);
         currentWeapon.transform.SetParent(transform, transform);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
 
     }
-    public void Shoot()
+/*    public void Shoot()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -45,9 +43,9 @@ public class Weapon : MonoBehaviour
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(damageAmount);
+                damageable.TakeDamage(currentGun.);
             }
         }
 
-    }
+    }*/
 }
