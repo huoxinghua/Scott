@@ -15,13 +15,15 @@ public class EnemySpawn : MonoBehaviour
 
     [SerializeField] int maxZombiesInScene;
     [SerializeField] float spawnSpeed = 4;
-    int EnemiesToSpawn = 10;
+    [SerializeField] int firstWaveEnemyAmount;
+    int EnemiesToSpawn;
     int EnemiesSpawned;
     int EnemiesKilled;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        EnemiesToSpawn = firstWaveEnemyAmount;
         //get all spawnpoints in scene (with a max possible in the scene)
         for (int i = 1; i < maxSpawnPoints; i++)
         {

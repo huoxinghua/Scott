@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Playables;
@@ -14,12 +15,15 @@ public class BaseEnemy : MonoBehaviour
 
     [SerializeField] Animator animator;
 
+
+    [SerializeField] float speedPercentVariation;
    public bool canAttack = false;
     public bool isAttacking = false;
     public EnemyState currentState;
     NavMeshAgent agent;
     GameObject playerObj;
     Transform playerTransform;
+    List<int> agentTypeIdList = new List<int>();
     public enum EnemyState
     {
         Moving = 0,
@@ -41,9 +45,30 @@ public class BaseEnemy : MonoBehaviour
             Debug.Log("notFound");
         }
         agent = GetComponent<NavMeshAgent>();   
+        float SpeedChange = Random.Range(-speedPercentVariation, speedPercentVariation);
+
+        if(SpeedChange < 0)
+        {
+      moveSpeed -= (moveSpeed * Mathf.Abs(SpeedChange));
+        }
+        else
+        {
+       moveSpeed += (moveSpeed * SpeedChange);
+        }
         agent.speed = moveSpeed;
+        Debug.Log(agent.agentTypeID);
+        GenerateAgentIdList();
+        agent.agentTypeID = agentTypeIdList[Random.Range(0,agentTypeIdList.Count)];
         agent.stoppingDistance = attackDistance;
         currentState = EnemyState.Moving;
+    }
+    public void GenerateAgentIdList()
+    {
+        agentTypeIdList.Clear();
+        for (int i = 0; i < NavMesh.GetSettingsCount(); i++)
+        {
+            agentTypeIdList.Add(NavMesh.GetSettingsByIndex(i).agentTypeID);
+        }
     }
     public void Moving()
     {
@@ -61,9 +86,10 @@ public class BaseEnemy : MonoBehaviour
     {
         if (!isAttacking)
         {
+            animator.SetBool("isAttack", true);
             StartCoroutine(AttackCoroutine());
             isAttacking = true;
-            animator.SetBool("isAttack",true);
+           
         }
     }
     //likely needs a better way and or needs event from animator
