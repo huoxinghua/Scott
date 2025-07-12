@@ -7,15 +7,20 @@ public class PlayerMovement : MonoBehaviour
     [Header("move")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveDirection;
+    private bool isSprinting = false;
+    [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
     [SerializeField] private float jumpStrength = 2f;
     private Rigidbody rb;
-
+    [SerializeField] private float fallMultiplier = 4f;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = GetComponentInChildren<GroundCheck>();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
+ 
     private void OnEnable()
     {
         inputManager = GetComponentInChildren<PlayerInputManager>();
@@ -47,14 +52,31 @@ public class PlayerMovement : MonoBehaviour
     {
         //move
         Vector3 velocity = rb.linearVelocity;
-        velocity.x = moveDirection.x * moveSpeed;
-        velocity.z = moveDirection.y * moveSpeed;
+        var currentSpeed = moveSpeed;
+        if(isSprinting)
+        {
+            currentSpeed =moveSpeed * sprintMultiplier;
+        }
+        else
+        {
+            currentSpeed = moveSpeed;
+        }
+        velocity.x = moveDirection.x * currentSpeed;
+        velocity.z = moveDirection.y * currentSpeed;
         rb.linearVelocity = transform.rotation * (velocity + direction);
+
+        // extra gravity when falling
+        if (!groundCheck.isGrounded && rb.linearVelocity.y < 0)
+        {
+          
+            rb.AddForce(Vector3.down * fallMultiplier, ForceMode.Acceleration);
+        }
     }
     Vector3 direction;
-    public void Move(Vector2 dir)
+    public void Move(Vector2 dir,bool spriting)
     {
         moveDirection = dir;
+        isSprinting = spriting;
     }
     public void Jump()
     {
