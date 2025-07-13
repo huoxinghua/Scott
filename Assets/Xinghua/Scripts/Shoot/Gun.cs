@@ -59,8 +59,11 @@ public class Gun : MonoBehaviour
             {
             
                 shoot++;
-               
-                var objFX = Instantiate(gunData.cube, hit.point, Quaternion.identity);
+                Vector3 offsetPos = hit.point + hit.normal * 0.001f; 
+                Quaternion rotation = Quaternion.LookRotation(-hit.normal);
+                var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+                objHole.transform.SetParent(hit.collider.gameObject.transform);
+                var objFX = Instantiate(gunData.cube, offsetPos, rotation);
                 SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
                 Destroy(objFX, 0.5f);
               //  Debug.Log("Hit " + hit.collider.name + shoot + "times");

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunPrefab: {fileID: 1768929361323547252, guid: bb75943dbeebf0e44ab14a84153dc771, type: 3}
   ammoCapacity: 0
-  fireRate: 0
-  damage: 40
+  fireRate: -0.25
+  damage: 4
   range: 20
   shootCooldown: 0.2
   cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}
+  holeFX: {fileID: 7875382998292775455, guid: 640944ed71b0e6448a3b14e80240d711, type: 3}

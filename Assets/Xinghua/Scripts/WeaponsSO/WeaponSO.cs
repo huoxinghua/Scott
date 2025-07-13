@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponSO", menuName = "Weapon/WeaponSO")]
 public class WeaponSO : ScriptableObject
@@ -10,4 +10,5 @@ public class WeaponSO : ScriptableObject
     public float range;
     public float shootCooldown;
     public GameObject cube;
+    public GameObject holeFX;
 }
