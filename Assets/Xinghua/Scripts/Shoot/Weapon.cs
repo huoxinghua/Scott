@@ -7,11 +7,15 @@ public class Weapon : MonoBehaviour
     private GameObject currentWeapon;
     private Gun currentGun;
     private int currentIndex = 0;
+    [SerializeField]public GameObject hairCross;
     private void Awake()
     {
         // shootStartPoint = transform.GetChild(0);
     }
-
+    private void Start()
+    {
+        hairCross.SetActive(true);
+    }
     public void EquipWeapon()
     {
         if (currentWeapon != null)

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -15,6 +16,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
 
+    public float spreadAmount = 0.02f;
 
     private void Start()
     {
@@ -30,29 +32,48 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        float offsetX = Random.Range(-spreadAmount, spreadAmount);
+        float offsetY = Random.Range(-spreadAmount, spreadAmount);
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f+ offsetX, 0.5f +offsetY, 0));
+
+ 
         RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * 20f, Color.red, 1.0f);
+       
+           
+        
+       
+        Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, gunData.range))
         {
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
-           
+       /*     Weapon weaponManager = GetComponentInParent<Weapon>();
+            if (hit.collider.GetComponent<IDamageable>() != null)
+            {
+                weaponManager.hairCross.SetActive(true);
+            }
+            else
+            {
+                weaponManager.hairCross.SetActive(false);
+            }*/
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
-
+            
                 shoot++;
                
-                var obj = Instantiate(gunData.cube, hit.point, Quaternion.identity);
+                var objFX = Instantiate(gunData.cube, hit.point, Quaternion.identity);
                 SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
-                Destroy(obj, 0.5f);
-                Debug.Log("Hit " + hit.collider.name + shoot + "times");
+                Destroy(objFX, 0.5f);
+              //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
                 StartGunShake();
+                CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                camShake.isShake = true;
             }
 
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
+              
                 damageable.TakeDamage(gunData.damage);
                 Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
             }
