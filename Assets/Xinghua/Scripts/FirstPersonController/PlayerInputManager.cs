@@ -54,6 +54,13 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.ChangeWeapon.performed -= HandleChangeWeapon;
         inputActions.Player.ChangeWeapon.canceled -= HandleChangeWeapon;
     }
+    private void Update()
+    {
+        if (inputActions.Player.Attack.IsPressed())
+        {
+            OnShootInput?.Invoke();
+        }
+    }
     Vector2 moveInput;
     private void HandleMove(InputAction.CallbackContext context)
     {
@@ -86,7 +93,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleShoot(InputAction.CallbackContext context)
     {
-
+     // Debug.Log("handle shoot" + context);
         if (context.performed)
         {
             OnShootInput?.Invoke();

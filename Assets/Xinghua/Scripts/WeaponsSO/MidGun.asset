@@ -16,3 +16,6 @@ MonoBehaviour:
   ammoCapacity: 0
   fireRate: 0
   damage: 40
+  range: 20
+  shootCooldown: 0.2
+  cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}

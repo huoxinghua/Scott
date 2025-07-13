@@ -7,4 +7,7 @@ public class WeaponSO : ScriptableObject
     public int ammoCapacity;
     public float fireRate;
     public float damage;
+    public float range;
+    public float shootCooldown;
+    public GameObject cube;
 }
