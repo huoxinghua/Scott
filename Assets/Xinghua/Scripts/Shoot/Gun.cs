@@ -11,7 +11,7 @@ public class Gun : MonoBehaviour
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Coroutine shakeCoroutine;
-
+    [SerializeField] private ParticleSystem muzzleFlash; 
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
@@ -22,6 +22,8 @@ public class Gun : MonoBehaviour
     {
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
+
+       
     }
     private void StartGunShake()
     {
@@ -65,6 +67,11 @@ public class Gun : MonoBehaviour
                 objHole.transform.SetParent(hit.collider.gameObject.transform);
                 var objFX = Instantiate(gunData.cube, offsetPos, rotation);
                 SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
+                muzzleFlash = GetComponentInChildren<ParticleSystem>();
+                {
+                    muzzleFlash.Play();
+                    Debug.Log("shoot effect: " +muzzleFlash );
+                }
                 Destroy(objFX, 0.5f);
               //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
