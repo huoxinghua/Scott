@@ -37,12 +37,9 @@ public class Gun : MonoBehaviour
         float offsetX = Random.Range(-spreadAmount, spreadAmount);
         float offsetY = Random.Range(-spreadAmount, spreadAmount);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f+ offsetX, 0.5f +offsetY, 0));
-
  
         RaycastHit hit;
        
-           
-        
        
         Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, gunData.range))
@@ -75,9 +72,10 @@ public class Gun : MonoBehaviour
                 Destroy(objFX, 0.5f);
               //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
-                StartGunShake();
+
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.isShake = true;
+                camShake.Shake();
+
             }
 
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();

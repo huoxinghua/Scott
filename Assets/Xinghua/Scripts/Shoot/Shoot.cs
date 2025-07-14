@@ -48,11 +48,9 @@ public class Shoot : MonoBehaviour
     private void HandleShoot()
     {
         Gun gun = GetComponentInChildren<Gun>();
-        CameraShake camShake = GetComponentInChildren<CameraShake>();
         if (gun != null)
         {
             gun.Shoot();
-            camShake.Shake();
         }
         else
         {

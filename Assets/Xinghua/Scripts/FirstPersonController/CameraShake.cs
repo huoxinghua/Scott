@@ -10,15 +10,7 @@ public class CameraShake : MonoBehaviour
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Coroutine currentShake;
-    private void LateUpdate()
-    {
-        if (isShake == true)
-        {
-            {
-                Shake();
-            }
-        }
-    }
+
     public void Shake()
     {
 
@@ -61,5 +53,6 @@ public class CameraShake : MonoBehaviour
 
         transform.localPosition = originalPosition;
         transform.localRotation = originalRotation;
+        Debug.Log("camera shake pos");
     }
 }
