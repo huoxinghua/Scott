@@ -12333,11 +12333,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1135584892}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &344652756 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1933353017267689172, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-  m_PrefabInstance: {fileID: 2080428906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &347686651
 GameObject:
   m_ObjectHideFlags: 0
@@ -68508,6 +68503,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 1933353017267689172, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2581294907183424812, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: shakeDuration
       value: 0.2
@@ -68523,7 +68522,7 @@ PrefabInstance:
     - target: {fileID: 3514011931680755063, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: hairCross
       value: 
-      objectReference: {fileID: 344652756}
+      objectReference: {fileID: 0}
     - target: {fileID: 4143761731496887327, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_Name
       value: FirstPersonController

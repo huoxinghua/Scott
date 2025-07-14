@@ -1,22 +1,26 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Events;
+
 
 public class Gun : MonoBehaviour
 {
     private int shoot = 0;
     private float lastShootTime = 0f;
-    [SerializeField] private WeaponSO gunData;
+    public WeaponSO gunData;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Coroutine shakeCoroutine;
-    [SerializeField] private ParticleSystem muzzleFlash; 
+    private ParticleSystem muzzleFlash; 
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
+    private CrosshairController crosshairController;
 
     public float spreadAmount = 0.02f;
+    private void Awake()
+    {
+        crosshairController = GetComponent<CrosshairController>();
+    }
 
     private void Start()
     {
@@ -32,6 +36,7 @@ public class Gun : MonoBehaviour
 
         shakeCoroutine = StartCoroutine(GunShake());
     }
+    public bool isShoot =false;
     public void Shoot()
     {
         float offsetX = Random.Range(-spreadAmount, spreadAmount);
@@ -41,7 +46,7 @@ public class Gun : MonoBehaviour
         RaycastHit hit;
        
        
-        Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
+       // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, gunData.range))
         {
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
@@ -58,10 +63,11 @@ public class Gun : MonoBehaviour
             {
             
                 shoot++;
+                crosshairController.PlayShootAnimation();
                 Vector3 offsetPos = hit.point + hit.normal * 0.001f; 
                 Quaternion rotation = Quaternion.LookRotation(-hit.normal);
-                var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-                objHole.transform.SetParent(hit.collider.gameObject.transform);
+              //  var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+              //  objHole.transform.SetParent(hit.collider.gameObject.transform);
                 var objFX = Instantiate(gunData.cube, offsetPos, rotation);
                 SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
                 muzzleFlash = GetComponentInChildren<ParticleSystem>();

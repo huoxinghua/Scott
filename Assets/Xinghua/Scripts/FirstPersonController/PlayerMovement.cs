@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,6 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveDirection;
     private bool isSprinting = false;
+
     [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
     [SerializeField] private float jumpStrength = 2f;
@@ -73,10 +75,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
     Vector3 direction;
+    public bool isMoving =false;
     public void Move(Vector2 dir,bool spriting)
     {
+
         moveDirection = dir;
         isSprinting = spriting;
+        if (dir != Vector2.zero)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
     }
     public void Jump()
     {
