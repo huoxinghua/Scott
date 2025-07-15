@@ -96,12 +96,17 @@ public class BaseEnemy : MonoBehaviour , IDamageable
         else
         {
             agent.speed = moveSpeed;
+            animator.SetFloat("Speed", agent.velocity.magnitude / moveSpeed);
         }
+       // Debug.Log(agent.velocity.magnitude / moveSpeed);
+        
     }
     public void Attacking()
     {
+        animator.SetFloat("Speed", 0);
         if (!isAttacking)
         {
+            animator.SetInteger("AtkNumber", Random.Range(0, 3));
             animator.SetTrigger("Attack");
             isAttacking = true;
            
