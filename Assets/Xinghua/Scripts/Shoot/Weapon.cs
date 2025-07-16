@@ -4,9 +4,9 @@ using UnityEngine;
 public class Weapon : MonoBehaviour
 {
     private Transform shootStartPoint;//fx
-    [SerializeField] private WeaponSO[] weapons;
+    [SerializeField] public WeaponSO[] weapons;
     private GameObject currentWeapon;
-    private Gun currentGun;
+    public Gun currentGun;
     private int currentIndex = 0;
     [SerializeField]public GameObject crossHair;
     private void Awake()
@@ -16,7 +16,7 @@ public class Weapon : MonoBehaviour
  
     private void Start()
     {
-      
+      currentGun = GetComponentInChildren<Gun>();
       //  EquipWeapon();
       //  crossHair.SetActive(false);
     }
@@ -24,7 +24,7 @@ public class Weapon : MonoBehaviour
     {
         if (currentWeapon != null)
         {
-            // currentWeapon.SetActive(false);
+             currentWeapon.SetActive(false);
             Destroy(currentWeapon);
 
         }

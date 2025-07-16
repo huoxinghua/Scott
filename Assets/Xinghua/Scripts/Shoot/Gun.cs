@@ -51,7 +51,7 @@ public class Gun : MonoBehaviour
             muzzleFlash.Play();
             Debug.Log("shoot effect: " + muzzleFlash);
         }
-
+        
      
         // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
@@ -59,6 +59,7 @@ public class Gun : MonoBehaviour
             Vector3 offsetPos = hit.point + hit.normal * 0.001f;
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
+            Camera.main.GetComponent<CameraShake>().Shake();
             if (hit.collider.GetComponent<IDamageable>() == null && !TooCloseToOtherHoles(offsetPos))
             {
                 var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);

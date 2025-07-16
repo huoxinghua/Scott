@@ -46636,6 +46636,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1412170271 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1380502004203188602, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
+  m_PrefabInstance: {fileID: 1548909003}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba10ccb008af01747b93f73cdf21af8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1412654074
 Mesh:
   m_ObjectHideFlags: 0
@@ -68562,6 +68573,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3514011931680755063, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: crossHair
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3514011931680755063, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: currentGun
+      value: 
+      objectReference: {fileID: 1412170271}
     - target: {fileID: 3739907671180372764, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_IsActive
       value: 0
