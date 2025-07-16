@@ -96,7 +96,7 @@ public class Shoot : MonoBehaviour
         isAutoShooting = true;
         while (true) 
         {
-           
+
             HandleShoot();
             CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
             camShake.Shake();

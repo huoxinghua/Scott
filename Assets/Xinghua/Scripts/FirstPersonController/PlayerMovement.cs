@@ -15,6 +15,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpStrength = 2f;
     private Rigidbody rb;
     [SerializeField] private float fallMultiplier = 4f;
+
+    private Vector3 originalPos;
+    private int safePosition = -7;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -22,7 +25,11 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
- 
+    private void Start()
+    {
+        originalPos = transform.position;
+    }
+
     private void OnEnable()
     {
         inputManager = GetComponentInChildren<PlayerInputManager>();
@@ -72,6 +79,11 @@ public class PlayerMovement : MonoBehaviour
         {
           
             rb.AddForce(Vector3.down * fallMultiplier, ForceMode.Acceleration);
+        }
+
+        if(transform.position.y <= safePosition)
+        {
+            transform.position = originalPos;
         }
     }
     Vector3 direction;

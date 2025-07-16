@@ -45,7 +45,7 @@ public class Gun : MonoBehaviour
  
         RaycastHit hit;
 
-        SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
+     
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
         {
             muzzleFlash.Play();
@@ -57,15 +57,17 @@ public class Gun : MonoBehaviour
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
             Vector3 offsetPos = hit.point + hit.normal * 0.001f;
-            Quaternion rotation = Quaternion.LookRotation(-hit.normal);
-            if (hit.collider.GetComponent<IDamageable>() == null)
-                {
-                    var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-                    objHole.transform.SetParent(hit.collider.gameObject.transform);
-                    Destroy(objHole, 5f);
-                }
+            Quaternion rotation = Quaternion.LookRotation(hit.normal);
+            rotation *= Quaternion.Euler(0f, 180f, 0f);
+            if (hit.collider.GetComponent<IDamageable>() == null && !TooCloseToOtherHoles(offsetPos))
+            {
+                var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+                objHole.transform.SetParent(hit.collider.transform);
+                objHole.tag = "BulletHole";
+                Destroy(objHole, 5f);
+            }
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
-  
+
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
             
@@ -92,7 +94,18 @@ public class Gun : MonoBehaviour
         }
 
     }
- 
+    bool TooCloseToOtherHoles(Vector3 pos)
+    {
+        Collider[] nearby = Physics.OverlapSphere(pos, 0.05f);
+        foreach (var c in nearby)
+        {
+            if (c.CompareTag("BulletHole"))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private IEnumerator GunShakeOnce()
     {
@@ -119,6 +132,10 @@ public class Gun : MonoBehaviour
 
         transform.localPosition = originalPosition;
 
+    }
+    public void OnShootSoundPlay()
+    {
+         SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
     }
 }
 

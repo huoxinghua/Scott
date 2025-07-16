@@ -24,7 +24,8 @@ public class CrosshairController : MonoBehaviour
 
         crosshair = Instantiate(gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-        Debug.Log("crosshairImage:" + crosshairImage.name);
+      //  crosshairImage.rectTransform.sizeDelta = new Vector2(100f, 100f);
+
         player = FindAnyObjectByType<PlayerMovement>();
 
     }
