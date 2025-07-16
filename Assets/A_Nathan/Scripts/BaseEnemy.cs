@@ -25,6 +25,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable
     GameObject playerObj;
     Transform playerTransform;
     List<int> agentTypeIdList = new List<int>();
+    bool hasJumped = false;
     public enum EnemyState
     {
         Moving = 0,
@@ -47,6 +48,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable
     {
         animator = transform.GetComponentInChildren<Animator>();
         currentHealth = maxHealth;
+       
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -88,6 +90,19 @@ public class BaseEnemy : MonoBehaviour , IDamageable
     }
     public void Moving()
     {
+        if(agent.isOnOffMeshLink)
+        {
+            if (!hasJumped)
+            {
+                animator.SetTrigger("Jump");
+            }
+            
+            hasJumped = true;
+        }
+        else
+        {
+            hasJumped = false;
+        }
         agent.SetDestination(playerTransform.position);
         if (isAttacking)
         {
@@ -96,12 +111,17 @@ public class BaseEnemy : MonoBehaviour , IDamageable
         else
         {
             agent.speed = moveSpeed;
+            animator.SetFloat("Speed", agent.velocity.magnitude / moveSpeed);
         }
+       // Debug.Log(agent.velocity.magnitude / moveSpeed);
+        
     }
     public void Attacking()
     {
+        animator.SetFloat("Speed", 0);
         if (!isAttacking)
         {
+            animator.SetInteger("AtkNumber", Random.Range(0, 3));
             animator.SetTrigger("Attack");
             isAttacking = true;
            
