@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -8,11 +9,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveDirection;
     private bool isSprinting = false;
+
     [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
     [SerializeField] private float jumpStrength = 2f;
     private Rigidbody rb;
     [SerializeField] private float fallMultiplier = 4f;
+
+    private Vector3 originalPos;
+    private int safePosition = -7;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -20,7 +25,11 @@ public class PlayerMovement : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
- 
+    private void Start()
+    {
+        originalPos = transform.position;
+    }
+
     private void OnEnable()
     {
         inputManager = GetComponentInChildren<PlayerInputManager>();
@@ -71,12 +80,27 @@ public class PlayerMovement : MonoBehaviour
           
             rb.AddForce(Vector3.down * fallMultiplier, ForceMode.Acceleration);
         }
+
+        if(transform.position.y <= safePosition)
+        {
+            transform.position = originalPos;
+        }
     }
     Vector3 direction;
+    public bool isMoving =false;
     public void Move(Vector2 dir,bool spriting)
     {
+
         moveDirection = dir;
         isSprinting = spriting;
+        if (dir != Vector2.zero)
+        {
+            isMoving = true;
+        }
+        else
+        {
+            isMoving = false;
+        }
     }
     public void Jump()
     {

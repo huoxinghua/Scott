@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 6553890077304084718}
   - component: {fileID: 3413017686035768310}
   - component: {fileID: 6811115277952761812}
-  - component: {fileID: 3383406843890447748}
+  - component: {fileID: 1799261104895939722}
   m_Layer: 0
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -157,10 +157,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.76625276
-  m_Height: 1.5325055
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.43400598, z: -0.09446156}
+  m_Radius: 0.62
+  m_Height: 2.32
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.37, z: 0.14}
 --- !u!195 &3413017686035768310
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ MonoBehaviour:
   canAttack: 0
   isAttacking: 0
   currentState: 0
---- !u!114 &3383406843890447748
+--- !u!114 &1799261104895939722
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,44 +215,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 6318170868623974246}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9019bb368996454cb00e5ff7470029f, type: 3}
+  m_Script: {fileID: 11500000, guid: 03bc8063c9e95401f9a8a38bc716750d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ragdollColliders:
-  - {fileID: 4639848088253102285}
-  - {fileID: 2779793827770621035}
-  - {fileID: 3438138946966734208}
-  - {fileID: 1682116345164576538}
-  - {fileID: 7683749603139466347}
-  - {fileID: 5456037239043538826}
-  - {fileID: 5522379189013969552}
-  - {fileID: 1814283953228912278}
-  - {fileID: 2383338332939321507}
-  - {fileID: 212354505898814994}
-  - {fileID: 6911293077544295003}
-  - {fileID: 5618173038835668521}
-  - {fileID: 4231027198568093042}
-  - {fileID: 4872623249003991396}
-  - {fileID: 2910025072348223762}
-  - {fileID: 7361880190398329006}
-  ragdollRBs:
-  - {fileID: 5336686727255364259}
-  - {fileID: 8425876862173872057}
-  - {fileID: 2086406075503829618}
-  - {fileID: 8836628778089793620}
-  - {fileID: 2123672757827051568}
-  - {fileID: 8621133110413084587}
-  - {fileID: 4957585169503599864}
-  - {fileID: 2929066994076291785}
-  - {fileID: 3087690293152981545}
-  - {fileID: 4820807441936292636}
-  - {fileID: 4971310514652580174}
-  - {fileID: 1985258639467348640}
-  - {fileID: 8163605630018834703}
-  - {fileID: 3182242232015925332}
-  - {fileID: 198900179947304278}
-  - {fileID: 797069333126074352}
-  anim: {fileID: 7021844193491863619}
+  m_Method: 3
+  m_Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -1.3406922
+      outSlope: -1.3406922
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13791752
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7357430117312238980
 GameObject:
   m_ObjectHideFlags: 0
