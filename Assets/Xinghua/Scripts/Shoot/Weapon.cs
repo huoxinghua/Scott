@@ -1,39 +1,50 @@
+using System.Collections;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
     private Transform shootStartPoint;//fx
-    [SerializeField] private WeaponSO[] weapons;
+    [SerializeField] public WeaponSO[] weapons;
     private GameObject currentWeapon;
+    public Gun currentGun;
     private int currentIndex = 0;
-
-    public float damageAmount;
-
-    [SerializeField] private float shootSpeed;
+    [SerializeField]public GameObject crossHair;
     private void Awake()
     {
         // shootStartPoint = transform.GetChild(0);
     }
-
+ 
+    private void Start()
+    {
+      currentGun = GetComponentInChildren<Gun>();
+      //  EquipWeapon();
+      //  crossHair.SetActive(false);
+    }
     public void EquipWeapon()
     {
         if (currentWeapon != null)
         {
-            // currentWeapon.SetActive(false);
+             currentWeapon.SetActive(false);
             Destroy(currentWeapon);
 
         }
         currentIndex = (currentIndex + 1) % weapons.Length;
-       // Debug.Log("current index: " + currentIndex);
-
+        Debug.Log("current index: " + currentIndex);
+        if (weapons[currentIndex] == null)
+        {
+            Debug.LogError($"weapons[{currentIndex}] is null");
+            return;
+        }
         currentWeapon = Instantiate(weapons[currentIndex].gunPrefab, transform.position, Quaternion.identity);
+        currentGun =currentWeapon.GetComponent<Gun>();
         Debug.Log("current weapon: " + currentWeapon.name);
         currentWeapon.transform.SetParent(transform, transform);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
+        crossHair.gameObject.SetActive(true);
 
     }
-    public void Shoot()
+/*    public void Shoot()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         RaycastHit hit;
@@ -45,9 +56,9 @@ public class Weapon : MonoBehaviour
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-                damageable.TakeDamage(damageAmount);
+                damageable.TakeDamage(currentGun.);
             }
         }
 
-    }
+    }*/
 }

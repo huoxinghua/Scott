@@ -139,6 +139,13 @@ public class BaseEnemy : MonoBehaviour , IDamageable
         if (canAttack)
         {
             Debug.Log("hitPlayer");
+            //xh code this can been used already
+        /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(attackDamage);
+            }*/
+            //xh code end
 
         }
     }

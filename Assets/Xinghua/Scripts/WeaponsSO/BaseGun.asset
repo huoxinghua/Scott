@@ -13,4 +13,16 @@ MonoBehaviour:
   m_Name: BaseGun
   m_EditorClassIdentifier: 
   gunPrefab: {fileID: 5617306848609608939, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
-  damage: 20
+  ammoCapacity: 0
+  fireRate: 0
+  damage: 2
+  range: 200
+  shootCooldown: 0.6
+  cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}
+  holeFX: {fileID: 7875382998292775455, guid: 640944ed71b0e6448a3b14e80240d711, type: 3}
+  crosshairNormalColor: {r: 0.3960484, g: 0.45670858, b: 0.4716981, a: 1}
+  crosshairEnemyColor: {r: 1, g: 0, b: 0, a: 1}
+  crosshairMoveScale: 1.2
+  crosshairIdleScale: 1
+  crosshairFlashDuration: 0.1
+  crosshairCanves: {fileID: 7223813662040375847, guid: 2cf6ea7ae36d5544ba8a81025dca424e, type: 3}
