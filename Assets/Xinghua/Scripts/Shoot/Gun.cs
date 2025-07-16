@@ -51,8 +51,8 @@ public class Gun : MonoBehaviour
             Debug.Log("shoot effect: " + muzzleFlash);
         }
 
-        CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-        camShake.Shake();
+        /*CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+        camShake.Shake();*/
         // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {

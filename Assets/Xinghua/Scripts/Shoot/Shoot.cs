@@ -72,7 +72,7 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
-      
+        isAutoShooting = false;
         if (continuousShootingCoroutine != null)
         {
             StopCoroutine(continuousShootingCoroutine); 
@@ -88,18 +88,18 @@ public class Shoot : MonoBehaviour
             StopCoroutine(continuousShootingCoroutine);
             continuousShootingCoroutine = null; 
         }
+        isAutoShooting = false;
     }
-
+    public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
-   
-        HandleShoot();
-        yield return new WaitForSeconds(shootInterval); 
-
-
+        isAutoShooting = true;
         while (true) 
         {
+           
             HandleShoot();
+            CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+            camShake.Shake();
             yield return new WaitForSeconds(shootInterval);
         }
     }

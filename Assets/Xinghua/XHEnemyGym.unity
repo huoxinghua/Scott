@@ -68586,6 +68586,10 @@ PrefabInstance:
       propertyPath: shakeRotationAmount.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3046323754480585272, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: shootInterval
+      value: 0.05
+      objectReference: {fileID: 0}
     - target: {fileID: 3514011931680755063, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: hairCross
       value: 
@@ -68633,6 +68637,10 @@ PrefabInstance:
     - target: {fileID: 4783338928778684534, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7117063200113035615, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: recoilSpeedMultiplay
+      value: 0.0001
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

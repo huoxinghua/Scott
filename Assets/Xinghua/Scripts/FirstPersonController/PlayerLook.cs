@@ -9,7 +9,12 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] private float rawLookMultiply = 0.009f;
     Vector2 velocity;
     Vector2 frameVelocity;
+   // private float maxRecoilAmount = 10f;
 
+    [SerializeField] private float recoilAddSpeed = 3f;   
+    [SerializeField] private float recoilRecoverSpeed = 4f;
+    [SerializeField] private float recoilSpeedMultiplay = 0.001f;
+    private float recoilOffsetY = 0f;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -47,6 +52,8 @@ public class PlayerLook : MonoBehaviour
     }
 
     Vector2 rawLook;
+
+
     void Update()
     {
         rawLook = inputManager.inputActions.Player.Look.ReadValue<Vector2>();
@@ -58,7 +65,23 @@ public class PlayerLook : MonoBehaviour
         velocity.y = Mathf.Clamp(velocity.y, -90, 90);
 
         // Rotate camera up-down 
-        transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
+     /*   transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
+        character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);*/
+        Shoot shoot = character.GetComponent<Shoot>();
+        Debug.Log("camera recoil up");
+        if (shoot.isAutoShooting == true)
+        {
+            Debug.Log("camera recoil up");
+            recoilOffsetY += recoilAddSpeed* recoilSpeedMultiplay * Time.deltaTime;
+            //recoilOffsetY = Mathf.Clamp(recoilOffsetY, 0f, maxRecoilAmount);
+        }
+        else
+        {
+            recoilOffsetY = Mathf.MoveTowards(recoilOffsetY, 0f, recoilRecoverSpeed *recoilSpeedMultiplay * Time.deltaTime);
+        }
+
+        float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -90f, 90f);
+        transform.localRotation = Quaternion.AngleAxis(-finalY, Vector3.right);
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }
 
