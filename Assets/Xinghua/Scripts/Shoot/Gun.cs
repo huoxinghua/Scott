@@ -32,27 +32,27 @@ public class Gun : MonoBehaviour
         if (shakeCoroutine != null)
             StopCoroutine(shakeCoroutine);
 
-        shakeCoroutine = StartCoroutine(GunShake());
+        shakeCoroutine = StartCoroutine(GunShakeOnce());
     }
-    public bool isShoot =false;
+
     public void Shoot()
     {
         Debug.Log("Shoot");
+        StartGunShake();
         float offsetX = Random.Range(-spreadAmount, spreadAmount);
         float offsetY = Random.Range(-spreadAmount, spreadAmount);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f+ offsetX, 0.5f +offsetY, 0));
  
         RaycastHit hit;
 
-       // SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
+        SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
         {
             muzzleFlash.Play();
             Debug.Log("shoot effect: " + muzzleFlash);
         }
 
-        /*CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-        camShake.Shake();*/
+     
         // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity))
         {
@@ -92,6 +92,15 @@ public class Gun : MonoBehaviour
         }
 
     }
+ 
+
+    private IEnumerator GunShakeOnce()
+    {
+        float shakeStrength = 0.05f;
+        transform.localPosition = originalPosition + Random.insideUnitSphere * shakeStrength;
+        yield return new WaitForSeconds(0.05f);
+        transform.localPosition = originalPosition;
+    }
     private IEnumerator GunShake()
     {
 
@@ -102,19 +111,14 @@ public class Gun : MonoBehaviour
         {
             elapsed += Time.deltaTime;
 
-            transform.localPosition = originalPosition + upwardShakeDirection * shakePositionAmount;
-            //transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
-            /* transform.localRotation = originalRotation * Quaternion.Euler(
-                 Random.Range(-shakeRotationAmount.x, shakeRotationAmount.x),
-                 Random.Range(-shakeRotationAmount.y, shakeRotationAmount.y),
-                 Random.Range(-shakeRotationAmount.z, shakeRotationAmount.z)
-             );*/
+          //  transform.localPosition = originalPosition + upwardShakeDirection * shakePositionAmount;
+            transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
             yield return null;
         }
 
 
         transform.localPosition = originalPosition;
-       // transform.localRotation = originalRotation;
+
     }
 }
 

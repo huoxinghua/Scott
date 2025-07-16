@@ -68640,7 +68640,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7117063200113035615, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: recoilSpeedMultiplay
-      value: 0.0001
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
