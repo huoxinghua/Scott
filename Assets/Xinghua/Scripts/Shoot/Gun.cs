@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 
 public class Gun : MonoBehaviour
@@ -21,13 +22,10 @@ public class Gun : MonoBehaviour
     {
         crosshairController = GetComponent<CrosshairController>();
     }
-
     private void Start()
     {
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
-
-       
     }
     private void StartGunShake()
     {
@@ -39,61 +37,55 @@ public class Gun : MonoBehaviour
     public bool isShoot =false;
     public void Shoot()
     {
+        Debug.Log("Shoot");
         float offsetX = Random.Range(-spreadAmount, spreadAmount);
         float offsetY = Random.Range(-spreadAmount, spreadAmount);
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f+ offsetX, 0.5f +offsetY, 0));
  
         RaycastHit hit;
-       
-       
-       // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
-        if (Physics.Raycast(ray, out hit, gunData.range))
+
+       // SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
+        muzzleFlash = GetComponentInChildren<ParticleSystem>();
         {
+            muzzleFlash.Play();
+            Debug.Log("shoot effect: " + muzzleFlash);
+        }
+
+        CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+        camShake.Shake();
+        // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            Vector3 offsetPos = hit.point + hit.normal * 0.001f;
+            Quaternion rotation = Quaternion.LookRotation(-hit.normal);
+            if (hit.collider.GetComponent<IDamageable>() == null)
+                {
+                    var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+                    objHole.transform.SetParent(hit.collider.gameObject.transform);
+                    Destroy(objHole, 5f);
+                }
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
-       /*     Weapon weaponManager = GetComponentInParent<Weapon>();
-            if (hit.collider.GetComponent<IDamageable>() != null)
-            {
-                weaponManager.hairCross.SetActive(true);
-            }
-            else
-            {
-                weaponManager.hairCross.SetActive(false);
-            }*/
+  
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
             
                 shoot++;
                // crosshairController.PlayShootAnimation();
-                Vector3 offsetPos = hit.point + hit.normal * 0.001f; 
-                Quaternion rotation = Quaternion.LookRotation(-hit.normal);
+              
 
-                if (hit.collider.GetComponent<IDamageable>() == null)
-                {
-                    var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-                    objHole.transform.SetParent(hit.collider.gameObject.transform);
-                   Destroy(objHole,5f);
-                }
-               
+           
+
                 var objFX = Instantiate(gunData.cube, offsetPos, rotation);
-                SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
-                muzzleFlash = GetComponentInChildren<ParticleSystem>();
-                {
-                    muzzleFlash.Play();
-                    Debug.Log("shoot effect: " +muzzleFlash );
-                }
+            
                 Destroy(objFX, 0.5f);
               //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
-
-                CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.Shake();
-
             }
+         
 
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
             {
-              
                 damageable.TakeDamage(gunData.damage);
                 Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
             }

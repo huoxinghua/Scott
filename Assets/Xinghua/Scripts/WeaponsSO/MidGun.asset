@@ -25,4 +25,4 @@ MonoBehaviour:
   crosshairMoveScale: 1.2
   crosshairIdleScale: 1
   crosshairFlashDuration: 0.1
-  crosshairCanves: {fileID: 37894515656320958, guid: 2cf6ea7ae36d5544ba8a81025dca424e, type: 3}
+  crosshairCanves: {fileID: 7223813662040375847, guid: 2cf6ea7ae36d5544ba8a81025dca424e, type: 3}

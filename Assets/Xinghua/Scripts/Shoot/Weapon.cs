@@ -14,7 +14,8 @@ public class Weapon : MonoBehaviour
     }
     private void Start()
     {
-       // hairCross.SetActive(true);
+        // hairCross.SetActive(true);
+        EquipWeapon();
     }
     public void EquipWeapon()
     {

@@ -8,7 +8,8 @@ public class PlayerInputManager : MonoBehaviour
     public event Action<Vector2, bool> OnMoveInput;
     public event Action OnJumpInput;
     public event Action<Vector2> OnLookInput;
-    public event Action OnShootInput;
+    public event Action OnShootStarted;
+    public event Action OnShootCanceled;
     public event Action OnChangeWeaponInput;
     public event Action OnSprintInput;
 
@@ -31,8 +32,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Sprint.performed += HandleSprint;
         inputActions.Player.Sprint.canceled += HandleSprint;
 
-        inputActions.Player.Attack.performed += HandleShoot;
-        inputActions.Player.Attack.canceled += HandleShoot;
+        inputActions.Player.Attack.started += HandleShootStarted;
+        inputActions.Player.Attack.canceled += HandleShootCanceled;
         inputActions.Player.ChangeWeapon.performed += HandleChangeWeapon;
         inputActions.Player.ChangeWeapon.canceled += HandleChangeWeapon;
 
@@ -48,19 +49,13 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Look.performed -= HandleLook;
         inputActions.Player.Look.canceled -= HandleLook;
 
-        inputActions.Player.Attack.performed -= HandleShoot;
-        inputActions.Player.Attack.canceled -= HandleShoot;
+        inputActions.Player.Attack.started -= HandleShootStarted;
+        inputActions.Player.Attack.canceled -= HandleShootCanceled;
 
         inputActions.Player.ChangeWeapon.performed -= HandleChangeWeapon;
         inputActions.Player.ChangeWeapon.canceled -= HandleChangeWeapon;
     }
-    private void Update()
-    {
-        if (inputActions.Player.Attack.IsPressed())
-        {
-            OnShootInput?.Invoke();
-        }
-    }
+
     Vector2 moveInput;
     private void HandleMove(InputAction.CallbackContext context)
     {
@@ -91,13 +86,14 @@ public class PlayerInputManager : MonoBehaviour
         OnLookInput?.Invoke(context.ReadValue<Vector2>());
     }
 
-    private void HandleShoot(InputAction.CallbackContext context)
+    private void HandleShootStarted(InputAction.CallbackContext context)
     {
-     // Debug.Log("handle shoot" + context);
-        if (context.performed)
-        {
-            OnShootInput?.Invoke();
-        }
+        OnShootStarted?.Invoke(); 
+    }
+
+    private void HandleShootCanceled(InputAction.CallbackContext context)
+    {
+        OnShootCanceled?.Invoke();
     }
     private void HandleChangeWeapon(InputAction.CallbackContext context)
     {

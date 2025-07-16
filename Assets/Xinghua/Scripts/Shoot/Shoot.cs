@@ -1,8 +1,15 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Shoot : MonoBehaviour
 {
     private PlayerInputManager inputManager;
+    public float shootInterval = 5f;
+    
+    private Coroutine gunShakeCoroutine;
+    private Coroutine continuousShootingCoroutine;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
@@ -12,7 +19,9 @@ public class Shoot : MonoBehaviour
         if (inputManager != null)
         {
 
-            inputManager.OnShootInput += HandleShoot;
+            inputManager.OnShootStarted += HandleShootStartedInput;
+            inputManager.OnShootCanceled += HandleShootCanceledInput;
+
             inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
@@ -24,7 +33,8 @@ public class Shoot : MonoBehaviour
     {
         if (inputManager != null)
         {
-            inputManager.OnShootInput -= HandleShoot;
+            inputManager.OnShootStarted -= HandleShootStartedInput;
+            inputManager.OnShootCanceled -= HandleShootCanceledInput;
             inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
@@ -57,5 +67,39 @@ public class Shoot : MonoBehaviour
             Debug.Log("gun is null");
         }
 
+    }
+
+    private void HandleShootStartedInput()
+    {
+      
+        if (continuousShootingCoroutine != null)
+        {
+            StopCoroutine(continuousShootingCoroutine); 
+        }
+        continuousShootingCoroutine = StartCoroutine(ContinuousShootingRoutine());
+    }
+
+    private void HandleShootCanceledInput()
+    {
+      
+        if (continuousShootingCoroutine != null)
+        {
+            StopCoroutine(continuousShootingCoroutine);
+            continuousShootingCoroutine = null; 
+        }
+    }
+
+    private IEnumerator ContinuousShootingRoutine()
+    {
+   
+        HandleShoot();
+        yield return new WaitForSeconds(shootInterval); 
+
+
+        while (true) 
+        {
+            HandleShoot();
+            yield return new WaitForSeconds(shootInterval);
+        }
     }
 }
