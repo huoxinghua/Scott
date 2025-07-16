@@ -1,39 +1,47 @@
+using System.Collections;
 using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
     private Transform shootStartPoint;//fx
-    [SerializeField] private WeaponSO[] weapons;
+    [SerializeField] public WeaponSO[] weapons;
     private GameObject currentWeapon;
-    private Gun currentGun;
+    public Gun currentGun;
     private int currentIndex = 0;
-    [SerializeField]public GameObject hairCross;
+    [SerializeField]public GameObject crossHair;
     private void Awake()
     {
         // shootStartPoint = transform.GetChild(0);
     }
+ 
     private void Start()
     {
-        // hairCross.SetActive(true);
-       // EquipWeapon();
+      currentGun = GetComponentInChildren<Gun>();
+      //  EquipWeapon();
+      //  crossHair.SetActive(false);
     }
     public void EquipWeapon()
     {
         if (currentWeapon != null)
         {
-            // currentWeapon.SetActive(false);
+             currentWeapon.SetActive(false);
             Destroy(currentWeapon);
 
         }
         currentIndex = (currentIndex + 1) % weapons.Length;
-       // Debug.Log("current index: " + currentIndex);
-
+        Debug.Log("current index: " + currentIndex);
+        if (weapons[currentIndex] == null)
+        {
+            Debug.LogError($"weapons[{currentIndex}] is null");
+            return;
+        }
         currentWeapon = Instantiate(weapons[currentIndex].gunPrefab, transform.position, Quaternion.identity);
         currentGun =currentWeapon.GetComponent<Gun>();
         Debug.Log("current weapon: " + currentWeapon.name);
         currentWeapon.transform.SetParent(transform, transform);
         currentWeapon.transform.localPosition = Vector3.zero;
         currentWeapon.transform.localRotation = Quaternion.identity;
+        crossHair.gameObject.SetActive(true);
 
     }
 /*    public void Shoot()

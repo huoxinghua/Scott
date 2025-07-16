@@ -22,7 +22,7 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootStarted += HandleShootStartedInput;
             inputManager.OnShootCanceled += HandleShootCanceledInput;
 
-          //  inputManager.OnChangeWeaponInput += ChangeWeapon;
+           // inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
         {
@@ -43,9 +43,10 @@ public class Shoot : MonoBehaviour
             Debug.Log("input manager is null ");
         }
     }
+    Weapon weapon;
     private void ChangeWeapon()
     {
-        Weapon weapon = GetComponentInChildren<Weapon>();
+         weapon = GetComponentInChildren<Weapon>();
         if (weapon != null)
         {
             weapon.EquipWeapon();
@@ -93,14 +94,19 @@ public class Shoot : MonoBehaviour
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
+
         isAutoShooting = true;
-        while (true) 
+        while (true)
         {
-           
+
             HandleShoot();
             CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
             camShake.Shake();
             yield return new WaitForSeconds(shootInterval);
         }
+
+        /*HandleShoot();
+        yield return new WaitForSeconds(shootInterval); */// this is for single shoot
+
     }
 }

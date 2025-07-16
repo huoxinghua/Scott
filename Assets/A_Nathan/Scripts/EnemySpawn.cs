@@ -53,7 +53,7 @@ public class EnemySpawn : MonoBehaviour
     //check if allowed to spawn. Wont spawn if too many have spawned at once, or all have been spawned
     public void TrySpawn()
     {
-        if (EnemiesSpawned - EnemiesKilled < maxZombiesInScene && EnemiesSpawned < EnemiesToSpawn)
+        if (EnemiesSpawned - EnemiesKilled < maxZombiesInScene && EnemiesSpawned < EnemiesToSpawn && this != null)//xh add :this != null
         {
             StartCoroutine(SpawnDelay());
         }
