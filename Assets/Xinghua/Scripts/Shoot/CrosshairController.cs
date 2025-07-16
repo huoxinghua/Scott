@@ -14,7 +14,7 @@ public class CrosshairController : MonoBehaviour
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Coroutine animCoroutine;
-    public PlayerMovement player;
+    private PlayerMovement player;
     private Transform originalRotation;
     private Transform targetRotation;
     private void Awake()
@@ -46,7 +46,7 @@ public class CrosshairController : MonoBehaviour
     private void Update()
     {
         UpdateCrosshairColor();
-        UpdateCrosshairScale();
+        //UpdateCrosshairScale();
     }
 
     private void UpdateCrosshairColor()

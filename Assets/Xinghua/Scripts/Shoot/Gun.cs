@@ -63,11 +63,17 @@ public class Gun : MonoBehaviour
             {
             
                 shoot++;
-                crosshairController.PlayShootAnimation();
+               // crosshairController.PlayShootAnimation();
                 Vector3 offsetPos = hit.point + hit.normal * 0.001f; 
                 Quaternion rotation = Quaternion.LookRotation(-hit.normal);
-              //  var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-              //  objHole.transform.SetParent(hit.collider.gameObject.transform);
+
+                if (hit.collider.GetComponent<IDamageable>() == null)
+                {
+                    var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+                    objHole.transform.SetParent(hit.collider.gameObject.transform);
+                   Destroy(objHole,5f);
+                }
+               
                 var objFX = Instantiate(gunData.cube, offsetPos, rotation);
                 SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
                 muzzleFlash = GetComponentInChildren<ParticleSystem>();
@@ -99,24 +105,24 @@ public class Gun : MonoBehaviour
 
         float shakeTime = 0.1f;
         float elapsed = 0f;
-
+        Vector3 upwardShakeDirection = Vector3.up;
         while (elapsed < shakeTime)
         {
             elapsed += Time.deltaTime;
 
-
-            transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
-            transform.localRotation = originalRotation * Quaternion.Euler(
-                Random.Range(-shakeRotationAmount.x, shakeRotationAmount.x),
-                Random.Range(-shakeRotationAmount.y, shakeRotationAmount.y),
-                Random.Range(-shakeRotationAmount.z, shakeRotationAmount.z)
-            );
+            transform.localPosition = originalPosition + upwardShakeDirection * shakePositionAmount;
+            //transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
+            /* transform.localRotation = originalRotation * Quaternion.Euler(
+                 Random.Range(-shakeRotationAmount.x, shakeRotationAmount.x),
+                 Random.Range(-shakeRotationAmount.y, shakeRotationAmount.y),
+                 Random.Range(-shakeRotationAmount.z, shakeRotationAmount.z)
+             );*/
             yield return null;
         }
 
 
         transform.localPosition = originalPosition;
-        transform.localRotation = originalRotation;
+       // transform.localRotation = originalRotation;
     }
 }
 

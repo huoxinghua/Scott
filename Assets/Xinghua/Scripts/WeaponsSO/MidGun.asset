@@ -20,7 +20,7 @@ MonoBehaviour:
   shootCooldown: 0.2
   cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}
   holeFX: {fileID: 7875382998292775455, guid: 640944ed71b0e6448a3b14e80240d711, type: 3}
-  crosshairNormalColor: {r: 1, g: 1, b: 1, a: 1}
+  crosshairNormalColor: {r: 0.39607844, g: 0.45882353, b: 0.4745098, a: 1}
   crosshairEnemyColor: {r: 1, g: 0, b: 0, a: 1}
   crosshairMoveScale: 1.2
   crosshairIdleScale: 1
