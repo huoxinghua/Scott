@@ -27,13 +27,13 @@ public class CameraShake : MonoBehaviour
     private void ResetTransform()
     {
         transform.localPosition = originalPosition;
-        transform.localRotation = originalRotation;
+     //   transform.localRotation = originalRotation;
     }
     private IEnumerator ShakeRoutine()
     {
         Debug.Log("camera shake");
         originalPosition = transform.localPosition;
-        originalRotation = transform.localRotation;
+      //  originalRotation = transform.localRotation;
 
         float elapsed = 0f;
 
@@ -42,17 +42,17 @@ public class CameraShake : MonoBehaviour
             elapsed += Time.deltaTime;
 
             transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
-            transform.localRotation = originalRotation * Quaternion.Euler(
-                Random.Range(-shakeRotationAmount.x, shakeRotationAmount.x),
-                Random.Range(-shakeRotationAmount.y, shakeRotationAmount.y),
-                Random.Range(-shakeRotationAmount.z, shakeRotationAmount.z)
-            );
+           // transform.localRotation = originalRotation * Quaternion.Euler(
+                //Random.Range(-shakeRotationAmount.x, shakeRotationAmount.x),
+                //Random.Range(-shakeRotationAmount.y, shakeRotationAmount.y),
+                //Random.Range(-shakeRotationAmount.z, shakeRotationAmount.z)
+            //);
             isShake = false;
             yield return null;
         }
 
         transform.localPosition = originalPosition;
-        transform.localRotation = originalRotation;
+       // transform.localRotation = originalRotation;
         Debug.Log("camera shake pos");
     }
 }
