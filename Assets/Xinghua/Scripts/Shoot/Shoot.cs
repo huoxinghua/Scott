@@ -22,7 +22,7 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootStarted += HandleShootStartedInput;
             inputManager.OnShootCanceled += HandleShootCanceledInput;
 
-            inputManager.OnChangeWeaponInput += ChangeWeapon;
+          //  inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
         {
@@ -35,7 +35,8 @@ public class Shoot : MonoBehaviour
         {
             inputManager.OnShootStarted -= HandleShootStartedInput;
             inputManager.OnShootCanceled -= HandleShootCanceledInput;
-            inputManager.OnChangeWeaponInput += ChangeWeapon;
+
+           // inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
         {
