@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 6553890077304084718}
   - component: {fileID: 3413017686035768310}
   - component: {fileID: 6811115277952761812}
+  - component: {fileID: 1799261104895939722}
   m_Layer: 0
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -156,10 +157,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.76625276
-  m_Height: 1.5325055
-  m_Direction: 1
-  m_Center: {x: 0, y: -0.43400598, z: -0.09446156}
+  m_Radius: 0.62
+  m_Height: 2.32
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.37, z: 0.14}
 --- !u!195 &3413017686035768310
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -205,6 +206,43 @@ MonoBehaviour:
   canAttack: 0
   isAttacking: 0
   currentState: 0
+--- !u!114 &1799261104895939722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6318170868623974246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03bc8063c9e95401f9a8a38bc716750d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Method: 3
+  m_Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: -1.3406922
+      outSlope: -1.3406922
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13791752
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &7357430117312238980
 GameObject:
   m_ObjectHideFlags: 0
