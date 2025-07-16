@@ -47,6 +47,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable
     {
         animator = transform.GetComponentInChildren<Animator>();
         currentHealth = maxHealth;
+        transform.SetParent(null);
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
