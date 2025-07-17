@@ -158,10 +158,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.62
-  m_Height: 2.32
+  m_Radius: 0.55
+  m_Height: 1.32
   m_Direction: 2
-  m_Center: {x: 0, y: -0.37, z: 0.14}
+  m_Center: {x: 0, y: -0.44, z: 0.14}
 --- !u!195 &3413017686035768310
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ NavMeshAgent:
   m_Acceleration: 2
   avoidancePriority: 50
   m_AngularSpeed: 200
-  m_StoppingDistance: 0
+  m_StoppingDistance: 1
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
@@ -197,7 +197,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  attackDistance: 1.5
+  attackDistance: 2
   attackDistBuffer: 0.5
   attackDamage: 0
   attackSpeed: 2
