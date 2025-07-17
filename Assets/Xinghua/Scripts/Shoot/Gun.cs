@@ -15,7 +15,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
-    private CrosshairController crosshairController;
+    [SerializeField] private LayerMask lm;
+     private CrosshairController crosshairController;
 
     public float spreadAmount = 0.02f;
     private void Awake()
@@ -54,7 +55,7 @@ public class Gun : MonoBehaviour
         
      
         // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity,~lm))
         {
             Vector3 offsetPos = hit.point + hit.normal * 0.001f;
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
