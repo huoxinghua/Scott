@@ -78,9 +78,9 @@ public class Gun : MonoBehaviour
 
            
 
-                var objFX = Instantiate(gunData.cube, offsetPos, rotation);
+               // var objFX = Instantiate(gunData.cube, offsetPos, rotation);
             
-                Destroy(objFX, 0.5f);
+              //  Destroy(objFX, 0.5f);
               //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
             }
