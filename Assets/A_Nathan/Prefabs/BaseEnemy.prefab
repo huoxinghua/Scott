@@ -207,6 +207,7 @@ MonoBehaviour:
   canAttack: 0
   isAttacking: 0
   currentState: 0
+  ragDollScript: {fileID: 8507021921055297684}
 --- !u!114 &1799261104895939722
 MonoBehaviour:
   m_ObjectHideFlags: 0

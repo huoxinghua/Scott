@@ -88,8 +88,10 @@ public class Gun : MonoBehaviour
          
 
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+            var ragDollable = hit.collider.gameObject.GetComponent<IRagDollable>();
             if (damageable != null)
             {
+                ragDollable.DamagePos(hit.transform);
                 damageable.TakeDamage(gunData.damage);
                 Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
             }
