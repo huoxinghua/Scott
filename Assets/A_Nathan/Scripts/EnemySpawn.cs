@@ -66,6 +66,7 @@ public class EnemySpawn : MonoBehaviour
         GameObject latestEnemy = Instantiate(BaseEnemy, spawnList[rand]);
         latestEnemy.GetComponent<BaseEnemy>().enemySpawn = this;
         EnemiesSpawned++;
+        latestEnemy.transform.SetParent(null,true);
         TrySpawn();
     }
 
