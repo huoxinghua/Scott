@@ -15,7 +15,7 @@ MonoBehaviour:
   gunPrefab: {fileID: 1768929361323547252, guid: bb75943dbeebf0e44ab14a84153dc771, type: 3}
   ammoCapacity: 0
   fireRate: -0.25
-  damage: 4
+  damage: 10
   range: 20
   shootCooldown: 10
   cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}

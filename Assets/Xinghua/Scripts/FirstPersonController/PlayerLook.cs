@@ -69,6 +69,8 @@ public class PlayerLook : MonoBehaviour
            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);*/
         Shoot shoot = character.GetComponent<Shoot>();
         Debug.Log("camera recoil up");
+
+        //turn into function called only on shoot
         if (shoot.isAutoShooting == true)
         {
             Debug.Log("camera recoil up");

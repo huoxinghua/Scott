@@ -110,7 +110,7 @@ public class Gun : MonoBehaviour
 
     private IEnumerator GunShakeOnce()
     {
-        float shakeStrength = 0.05f;
+        float shakeStrength = 0.01f;
         transform.localPosition = originalPosition + Random.insideUnitSphere * shakeStrength;
         yield return new WaitForSeconds(0.05f);
         transform.localPosition = originalPosition;
