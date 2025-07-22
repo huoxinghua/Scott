@@ -68,12 +68,12 @@ public class PlayerLook : MonoBehaviour
         /*   transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);*/
         Shoot shoot = character.GetComponent<Shoot>();
-        Debug.Log("camera recoil up");
+        //Debug.Log("camera recoil up");
 
         //turn into function called only on shoot
         if (shoot.isAutoShooting == true)
         {
-            Debug.Log("camera recoil up");
+          //  Debug.Log("camera recoil up");
             recoilOffsetY += recoilAddSpeed * recoilSpeedMultiplay * Time.deltaTime;
             //recoilOffsetY = Mathf.Clamp(recoilOffsetY, 0f, maxRecoilAmount);
         }

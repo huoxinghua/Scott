@@ -21,7 +21,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
    public bool canAttack = false;
     public bool isAttacking = false;
     public EnemyState currentState;
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     GameObject playerObj;
     Transform playerTransform;
     List<int> agentTypeIdList = new List<int>();
@@ -74,7 +74,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+   virtual public void Start()
     {
         if (GameObject.Find("FirstPersonController") != null)
         {
