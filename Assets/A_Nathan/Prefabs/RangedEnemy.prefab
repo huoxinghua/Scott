@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2884389057772927430}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RayOrigin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -47,7 +47,7 @@ GameObject:
   - component: {fileID: 5378329429841731058}
   - component: {fileID: 9034265478990112504}
   - component: {fileID: 4495439619645118967}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: RangedEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -188,6 +188,9 @@ MonoBehaviour:
   attackSpeed: 3.5
   maxHealth: 75
   rayOrigin: {fileID: 2884389057772927430}
+  lm:
+    serializedVersion: 2
+    m_Bits: 960
   enemySpawn: {fileID: 0}
   speedPercentVariation: 0.2
   canAttack: 0

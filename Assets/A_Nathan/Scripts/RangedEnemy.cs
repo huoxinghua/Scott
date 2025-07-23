@@ -13,6 +13,7 @@ public class RangedEnemy : MonoBehaviour
 [SerializeField] float attackSpeed;
 [SerializeField] float maxHealth;
     [SerializeField] Transform rayOrigin;
+    [SerializeField] LayerMask lm;
 float currentHealth;
 
 Animator animator;
@@ -29,6 +30,7 @@ List<int> agentTypeIdList = new List<int>();
 bool hasJumped = false;
 //[SerializeField] Ragdoll ragDollScript;
 Transform hitPoint;
+    bool isAroundCorner = false;
 public enum EnemyState
 {
     Moving = 0,
@@ -114,6 +116,7 @@ public void GenerateAgentIdList()
 }
 public void Moving()
 {
+       
     if (agent.isOnOffMeshLink)
     {
         if (!hasJumped)
@@ -182,6 +185,12 @@ public void OnAttackFinish()
     isAttacking = false;
 }
 // Update is called once per frame
+IEnumerator GetAroundCorner()
+    {
+        isAroundCorner = true;
+        yield return new WaitForSeconds(1.5f);
+        agent.ResetPath();
+    }
 void Update()
 {
     switch (currentState)
@@ -203,11 +212,15 @@ void Update()
     if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
     {
             RaycastHit hit;
-            if(Physics.Raycast(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, out hit, Vector3.Distance(rayOrigin.position, playerTransform.position) * 1.1f)){
+            if(Physics.Raycast(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, out hit, Vector3.Distance(rayOrigin.position, playerTransform.position) * 1.1f,~lm)){
                 Debug.DrawRay(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, Color.green);
                 if (hit.collider.gameObject.name == "FirstPersonController")
                 {
                     Debug.Log("HitPlayer");
+                    if (!isAroundCorner)
+                    {
+                        StartCoroutine(GetAroundCorner());  
+                    }
                     currentState = EnemyState.Attacking;
                     canAttack = true;
                 }
@@ -216,12 +229,14 @@ void Update()
                     Debug.Log(hit.collider.gameObject.name);
                     currentState = EnemyState.Moving;
                     canAttack = false;
+                    isAroundCorner = false;
                 }
             }
         
     }
     else
     {
+            isAroundCorner = false;
         currentState = EnemyState.Moving;
         canAttack = false;
     }
