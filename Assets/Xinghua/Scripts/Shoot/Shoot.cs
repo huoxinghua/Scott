@@ -22,7 +22,7 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootStarted += HandleShootStartedInput;
             inputManager.OnShootCanceled += HandleShootCanceledInput;
 
-           // inputManager.OnChangeWeaponInput += ChangeWeapon;
+            inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
         {
@@ -36,17 +36,17 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootStarted -= HandleShootStartedInput;
             inputManager.OnShootCanceled -= HandleShootCanceledInput;
 
-           // inputManager.OnChangeWeaponInput += ChangeWeapon;
+            inputManager.OnChangeWeaponInput += ChangeWeapon;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
-    Weapon weapon;
+    WeaponController weapon;
     private void ChangeWeapon()
     {
-         weapon = GetComponentInChildren<Weapon>();
+         weapon = GetComponentInChildren<WeaponController>();
         if (weapon != null)
         {
             weapon.EquipWeapon();

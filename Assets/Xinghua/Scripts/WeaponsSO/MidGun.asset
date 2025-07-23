@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993d600b31429ce46a2bcf189ae6b8c0, type: 3}
   m_Name: MidGun
   m_EditorClassIdentifier: 
-  gunPrefab: {fileID: 1768929361323547252, guid: bb75943dbeebf0e44ab14a84153dc771, type: 3}
+  gunPrefab: {fileID: 5617306848609608939, guid: 5344ec19b1e08d644b5eb74d04142f4d, type: 3}
   ammoCapacity: 0
   fireRate: -0.25
   damage: 10
