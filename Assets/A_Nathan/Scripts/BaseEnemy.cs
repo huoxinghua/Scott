@@ -97,7 +97,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
        moveSpeed += (moveSpeed * SpeedChange);
         }
         agent.speed = moveSpeed;
-        Debug.Log(agent.agentTypeID);
+     //   Debug.Log(agent.agentTypeID);
         GenerateAgentIdList();
         agent.agentTypeID = agentTypeIdList[Random.Range(0,agentTypeIdList.Count)];
         agent.stoppingDistance = attackDistance;
