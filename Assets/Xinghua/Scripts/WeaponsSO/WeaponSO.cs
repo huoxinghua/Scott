@@ -21,4 +21,8 @@ public class WeaponSO : ScriptableObject
     public float crosshairIdleScale = 1f;
     public float crosshairFlashDuration = 0.1f;
     public GameObject crosshairCanves;
+
+    public float spreadAmount;
+
+    public int maxMagazineSize = 30;
 }

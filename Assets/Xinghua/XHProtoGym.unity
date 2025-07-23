@@ -85838,6 +85838,10 @@ PrefabInstance:
       propertyPath: lm.m_Bits
       value: 448
       objectReference: {fileID: 0}
+    - target: {fileID: 479768648531529866, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: reserveAmmo
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: 3411706809566847628, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_Interpolate
       value: 2

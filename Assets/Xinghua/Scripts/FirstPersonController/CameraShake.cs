@@ -31,7 +31,7 @@ public class CameraShake : MonoBehaviour
     }
     private IEnumerator ShakeRoutine()
     {
-        Debug.Log("camera shake");
+       // Debug.Log("camera shake");
         originalPosition = transform.localPosition;
       //  originalRotation = transform.localRotation;
 
