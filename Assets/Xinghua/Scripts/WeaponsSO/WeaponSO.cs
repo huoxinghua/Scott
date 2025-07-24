@@ -25,4 +25,5 @@ public class WeaponSO : ScriptableObject
     public float spreadAmount;
 
     public int maxMagazineSize = 30;
+    public int ammoStore = 120;
 }

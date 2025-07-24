@@ -98,6 +98,8 @@ public class Shoot : MonoBehaviour
             continuousShootingCoroutine = null;
         }
         isAutoShooting = false;
+        Gun gun = GetComponentInChildren<Gun>(false);
+        gun.shoot = 0;
     }
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()

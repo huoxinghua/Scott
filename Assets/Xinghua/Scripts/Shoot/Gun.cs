@@ -6,18 +6,18 @@ using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
 {
-    private int shoot = 0;
+    public int shoot = 0;
     private float lastShootTime = 0f;
     public WeaponSO gunData;
     private Vector3 originalPosition;
     private Quaternion originalRotation;
     private Coroutine shakeCoroutine;
-    private ParticleSystem muzzleFlash; 
+    private ParticleSystem muzzleFlash;
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private LayerMask lm;
-     private CrosshairController crosshairController;
+    private CrosshairController crosshairController;
 
     public float spreadAmount = 0.02f;
     private int bulletsPerShot = 5;
@@ -26,6 +26,7 @@ public class Gun : MonoBehaviour
     [Header("Ammo and Magazine")]
     public int currentAmmo;
     public int reserveAmmo = 30;
+
 
     private void Awake()
     {
@@ -47,34 +48,45 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
-        if(currentAmmo <= 0)
+        if (currentAmmo <= 0)
         {
             Debug.Log("no ammo");
             return;
         }
         StartGunShake();
-        float offsetX = Random.Range(-spreadAmount, spreadAmount);
-        float offsetY = Random.Range(-spreadAmount, spreadAmount);
-        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f+ offsetX, 0.5f +offsetY, 0));
- 
+        float offsetX = 0f;
+        float offsetY = 0f;
+
+        if (shoot > 0)
+        {
+             offsetX = Random.Range(-spreadAmount, spreadAmount);
+             offsetY = Random.Range(-spreadAmount, spreadAmount);
+        }
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f + offsetX, 0.5f + offsetY, 0));
+
         RaycastHit hit;
 
-     
+
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
         {
             muzzleFlash.Play();
-          //  Debug.Log("shoot effect: " + muzzleFlash);
+            //  Debug.Log("shoot effect: " + muzzleFlash);
         }
-        
-     
+
+
         // Debug.DrawRay(ray.origin, ray.direction * gunData.range, Color.red, 1.0f);
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity,~lm))
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~lm))
         {
-            Vector3 offsetPos = hit.point + hit.normal * 0.001f;
+            // Vector3 offsetPos = hit.point + hit.normal * 0.001f;
+            Vector3 offsetPos = hit.point;
+            if (shoot > 1)
+            {
+                offsetPos += hit.normal * 0.001f;
+            }
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
             Camera.main.GetComponent<CameraShake>().Shake();
-            if (hit.collider.GetComponent<IDamageable>() == null && !TooCloseToOtherHoles(offsetPos))
+            if (hit.collider.GetComponent<IDamageable>() == null )
             {
                 var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
                 OnShoot?.Invoke();
@@ -86,10 +98,11 @@ public class Gun : MonoBehaviour
 
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
-                CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.Shake();
                 shoot++;
+               /* CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                camShake.Shake();*/
                
+
                 currentAmmo--;
                 // crosshairController.PlayShootAnimation();
 
@@ -102,7 +115,7 @@ public class Gun : MonoBehaviour
                 //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
             }
-          
+
 
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
@@ -113,16 +126,15 @@ public class Gun : MonoBehaviour
         }
 
     }
-
     public void Reload()
     {
-        if(currentAmmo == gunData.maxMagazineSize)
+        if (currentAmmo == gunData.maxMagazineSize)
         {
             Debug.Log("gun full ammo ,you do not need reload");
             return;
         }
         Debug.Log("gun reload");
-        int neededAmmo =gunData.maxMagazineSize - currentAmmo;
+        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
 
         if (reserveAmmo <= 0)
         {
@@ -133,11 +145,11 @@ public class Gun : MonoBehaviour
         int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
         currentAmmo += ammoToLoad;
         reserveAmmo -= ammoToLoad;
-        Debug.Log("reload finish："+ currentAmmo+ "/"+reserveAmmo);
+        Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);
     }
     public void FireMultiRayShot()
     {
-        
+
         for (int i = 0; i < bulletsPerShot; i++)
         {
             float offsetX = Random.Range(-gunData.spreadAmount, gunData.spreadAmount);
@@ -148,7 +160,7 @@ public class Gun : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ~lm))
             {
-               
+
                 Vector3 hitPos = hit.point + hit.normal * 0.001f;
                 Quaternion rotation = Quaternion.LookRotation(hit.normal) * Quaternion.Euler(0f, 180f, 0f);
 
@@ -173,7 +185,7 @@ public class Gun : MonoBehaviour
         }
     }
 
-    bool TooCloseToOtherHoles(Vector3 pos)
+/*    bool TooCloseToOtherHoles(Vector3 pos)
     {
         Collider[] nearby = Physics.OverlapSphere(pos, 0.05f);
         foreach (var c in nearby)
@@ -184,7 +196,7 @@ public class Gun : MonoBehaviour
             }
         }
         return false;
-    }
+    }*/
 
     private IEnumerator GunShakeOnce()
     {
@@ -203,7 +215,7 @@ public class Gun : MonoBehaviour
         {
             elapsed += Time.deltaTime;
 
-          //  transform.localPosition = originalPosition + upwardShakeDirection * shakePositionAmount;
+            //  transform.localPosition = originalPosition + upwardShakeDirection * shakePositionAmount;
             transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
             yield return null;
         }
@@ -214,7 +226,7 @@ public class Gun : MonoBehaviour
     }
     public void OnShootSoundPlay()
     {
-         SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
+        SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
     }
 }
 

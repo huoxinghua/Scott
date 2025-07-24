@@ -28,3 +28,5 @@ MonoBehaviour:
   crosshairFlashDuration: 0.1
   crosshairCanves: {fileID: 7223813662040375847, guid: 2cf6ea7ae36d5544ba8a81025dca424e, type: 3}
   spreadAmount: 0.04
+  maxMagazineSize: 30
+  ammoStore: 60
