@@ -13,7 +13,8 @@ public class PlayerInputManager : MonoBehaviour
     public event Action OnChangeWeaponInput;
     public event Action OnSprintInput;
     public event Action OnGunReloadInput;
-    public event Action OnAimInput;
+    public event Action OnAimInputStart;
+    public event Action OnAimInputCancle;
 
     public Vector2 LookInput { get; private set; }
     private void Awake()
@@ -40,8 +41,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.GunReload.performed += HandleGunReload;
         inputActions.Player.GunReload.canceled += HandleGunReload;
 
-        inputActions.Player.Aim.started += HandleAim;
-        inputActions.Player.Aim.canceled += HandleAim;
+        inputActions.Player.Aim.started += HandleAimStart;
+        inputActions.Player.Aim.canceled += HandleAimCancle;
     }
     private void OnDisable()
     {
@@ -62,8 +63,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.GunReload.performed -= HandleGunReload;
         inputActions.Player.GunReload.canceled -= HandleGunReload;
 
-        inputActions.Player.Aim.started -= HandleAim;
-        inputActions.Player.Aim.canceled -= HandleAim;
+        inputActions.Player.Aim.started -= HandleAimStart;
+        inputActions.Player.Aim.canceled -= HandleAimCancle;
     }
 
     private void HandleGunReload(InputAction.CallbackContext context)
@@ -75,14 +76,16 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    private void HandleAim(InputAction.CallbackContext context)
+    private void HandleAimStart(InputAction.CallbackContext context)
     {
-       if(context.performed)
-        {
-            OnAimInput?.Invoke();    
-        }
-    }
 
+            OnAimInputStart?.Invoke();    
+    }
+    private void HandleAimCancle(InputAction.CallbackContext context)
+    {
+
+        OnAimInputCancle?.Invoke();
+    }
     Vector2 moveInput;
     private void HandleMove(InputAction.CallbackContext context)
     {

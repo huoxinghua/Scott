@@ -270,7 +270,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 2
   m_Constraints: 112
   m_CollisionDetection: 1
 --- !u!136 &2451427935329931670
@@ -321,7 +321,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  sprintMultiplier: 1.5
+  isSprinting: 0
+  sprintMultiplier: 2
   jumpStrength: 8
   fallMultiplier: 4
   isMoving: 0
@@ -505,10 +506,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   character: {fileID: 4783338928778684534}
-  sensitivity: 4
+  sensitivity: 30
   smoothing: 1.5
   rawLookMultiply: 0.009
   recoilSpeedMultiplay: 1
+  recoilAmount: 0.2
+  aimSensitivityMultiplier: 0.1
 --- !u!114 &2581294907183424812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +535,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 9175798577839777697}
     m_Modifications:
+    - target: {fileID: -1380502004203188602, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
+      propertyPath: lm.m_Bits
+      value: 448
+      objectReference: {fileID: 0}
+    - target: {fileID: -1380502004203188602, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
+      propertyPath: reserveAmmo
+      value: 60
+      objectReference: {fileID: 0}
     - target: {fileID: -1380502004203188602, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
       propertyPath: shakePositionAmount
       value: 1

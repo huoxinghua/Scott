@@ -23,7 +23,7 @@ public class PlayerLook : MonoBehaviour
     [SerializeField]private float recoilAmount = 0.2f;
 
     private bool isAiming = false;
-    [SerializeField]private float aimSensitivityMultiplier = 0.5f;
+    [SerializeField]private float aimSensitivityMultiplier = 0.0005f;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -38,7 +38,8 @@ public class PlayerLook : MonoBehaviour
         {
 
             inputManager.OnLookInput += Look;
-            inputManager.OnAimInput += Aim;
+            inputManager.OnAimInputStart += AimStart;
+            inputManager.OnAimInputCancle += AimCancle;
         }
         else
         {
@@ -56,7 +57,8 @@ public class PlayerLook : MonoBehaviour
         if (inputManager != null)
         {
             inputManager.OnLookInput -= Look;
-            inputManager.OnAimInput -= Aim;
+            inputManager.OnAimInputStart -= AimStart;
+            inputManager.OnAimInputCancle -= AimCancle;
         }
         else
         {
@@ -97,15 +99,16 @@ public class PlayerLook : MonoBehaviour
         Debug.Log("CameraPositonReset");
     }
 
-    Vector2 rawLook;
-    bool isAim = false;
-    private void Aim()
+
+    private void AimStart()
     {
-        isAim = true;
+        isAiming = true;
+        Debug.Log("is aiming start");
     }
-    private void LowSensitivity()
+    private void AimCancle()
     {
-        isAim = false;
+        isAiming = false;
+        Debug.Log("is aiming false");
     }
     void Update()
     {
@@ -121,7 +124,7 @@ public class PlayerLook : MonoBehaviour
         {
             currentSensitivity = sensitivity;
         }
-        Vector2 rawFrameVelocity = Vector2.Scale(rawLookScale, Vector2.one * sensitivity);
+        Vector2 rawFrameVelocity = Vector2.Scale(rawLookScale, Vector2.one * currentSensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -90, 90);

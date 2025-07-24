@@ -70147,11 +70147,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!4 &1729620892 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 9175798577839777697, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-  m_PrefabInstance: {fileID: 2080428906}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1737411365
 GameObject:
   m_ObjectHideFlags: 0
@@ -85834,26 +85829,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 479768648531529866, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-      propertyPath: lm.m_Bits
-      value: 448
-      objectReference: {fileID: 0}
-    - target: {fileID: 479768648531529866, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-      propertyPath: reserveAmmo
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 3411706809566847628, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-      propertyPath: m_Interpolate
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3514011931680755063, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-      propertyPath: damageAmount
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3514011931680755063, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-      propertyPath: weaponContainer
-      value: 
-      objectReference: {fileID: 1729620892}
     - target: {fileID: 4143761731496887327, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
@@ -85897,10 +85872,6 @@ PrefabInstance:
     - target: {fileID: 4783338928778684534, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7117063200113035615, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
-      propertyPath: sensitivity
-      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

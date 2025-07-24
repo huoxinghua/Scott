@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [Header("move")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveDirection;
-    private bool isSprinting = false;
+    [SerializeField] private bool isSprinting = false;
 
     [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
