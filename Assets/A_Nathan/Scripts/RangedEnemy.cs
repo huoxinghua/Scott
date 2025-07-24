@@ -14,6 +14,8 @@ public class RangedEnemy : MonoBehaviour
 [SerializeField] float maxHealth;
     [SerializeField] Transform rayOrigin;
     [SerializeField] LayerMask lm;
+    [SerializeField] Transform bulletOrigin;
+    [SerializeField] GameObject projectilePrefab;
 float currentHealth;
 
 Animator animator;
@@ -22,6 +24,7 @@ public EnemySpawn enemySpawn;
 [SerializeField] float speedPercentVariation;
 public bool canAttack = false;
 public bool isAttacking = false;
+bool isHighArc;
 public EnemyState currentState;
 public NavMeshAgent agent;
 GameObject playerObj;
@@ -82,7 +85,7 @@ virtual public void Start()
     if (GameObject.Find("FirstPersonController") != null)
     {
         playerObj = GameObject.Find("FirstPersonController");
-        playerTransform = playerObj.transform;
+        playerTransform = playerObj.transform.GetChild(0);
     }
     else
     {
@@ -99,6 +102,14 @@ virtual public void Start()
     {
         moveSpeed += (moveSpeed * SpeedChange);
     }
+    if(Random.Range(0,2) == 0)
+        {
+            isHighArc = true;
+        }
+        else
+        {
+            isHighArc = false;
+        }
     agent.speed = moveSpeed;
     Debug.Log(agent.agentTypeID);
     GenerateAgentIdList();
@@ -152,10 +163,10 @@ public void Attacking()
     //animator.SetFloat("Speed", 0);
     if (!isAttacking)
     {
-      //  animator.SetInteger("AtkNumber", Random.Range(0, 3));
-   //     animator.SetTrigger("Attack");
-       // isAttacking = true;
-
+            //  animator.SetInteger("AtkNumber", Random.Range(0, 3));
+            //     animator.SetTrigger("Attack");
+            // isAttacking = true;
+            StartCoroutine(ShootCor()); 
     }
 }
 //likely needs a better way and or needs event from animator
@@ -169,17 +180,30 @@ public void OnAttemptHit()
 {
     if (canAttack)
     {
-        Debug.Log("hitPlayer");
-        //xh code this can been used already
-        /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(attackDamage);
-            }*/
-        //xh code end
+            GameObject tempBullet = Instantiate(projectilePrefab,bulletOrigin);
+            tempBullet.GetComponent<REProjectile>().targetTransform = playerTransform;
+            tempBullet.GetComponent<REProjectile>().shootHigh = isHighArc;
+       // Debug.Log("hitPlayer");
+       //xh code this can been used already
+            /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(attackDamage);
+                }*/
+            //xh code end
 
     }
 }
+
+    //temp solution while waiting for anim
+    IEnumerator ShootCor()
+    {
+        isAttacking = true;
+        yield return new WaitForSeconds(1);
+        OnAttemptHit();
+        yield return new WaitForSeconds(Random.Range(.5f,3f));
+        OnAttackFinish();
+    }
 public void OnAttackFinish()
 {
     isAttacking = false;

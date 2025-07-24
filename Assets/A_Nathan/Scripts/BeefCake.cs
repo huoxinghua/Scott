@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.Playables;
 
-public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
+
+//essentially base enemy but slower, stronger, and BEEFIER
+public class BeefCake : MonoBehaviour
 {
-    [SerializeField]float moveSpeed;
+    [SerializeField] float moveSpeed;
     [SerializeField] float attackDistance;
     [SerializeField] float attackDistBuffer;
     [SerializeField] float attackDamage;
@@ -18,7 +19,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     public EnemySpawn enemySpawn;
 
     [SerializeField] float speedPercentVariation;
-   public bool canAttack = false;
+    public bool canAttack = false;
     public bool isAttacking = false;
     public EnemyState currentState;
     public NavMeshAgent agent;
@@ -36,7 +37,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     }
     public void OnDestroy()
     {
-       
+
     }
     public void DamagePos(Transform hitPos)
     {
@@ -45,19 +46,19 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if(currentHealth <= 0 && currentState != EnemyState.Dead)
+        if (currentHealth <= 0 && currentState != EnemyState.Dead)
         {
             currentState = EnemyState.Dead;
-            
+
             GetComponent<CapsuleCollider>().enabled = false;
             agent.SetDestination(transform.position);
             agent.ResetPath();
             agent.isStopped = true;
-           // agent.enabled = false;
-            ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position   )  , 1000f);
+            // agent.enabled = false;
+            ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position), 1000f);
             enemySpawn.EnemyWasKilled();
             StartCoroutine(DecayBody());
-            
+
             //proper death later
             //  Destroy(gameObject);
         }
@@ -71,10 +72,10 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     {
         animator = transform.GetComponentInChildren<Animator>();
         currentHealth = maxHealth;
-       
+
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-   virtual public void Start()
+    virtual public void Start()
     {
         if (GameObject.Find("FirstPersonController") != null)
         {
@@ -85,21 +86,21 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
         {
             Debug.Log("notFound");
         }
-        agent = GetComponent<NavMeshAgent>();   
+        agent = GetComponent<NavMeshAgent>();
         float SpeedChange = Random.Range(-speedPercentVariation, speedPercentVariation);
 
-        if(SpeedChange < 0)
+        if (SpeedChange < 0)
         {
-      moveSpeed -= (moveSpeed * Mathf.Abs(SpeedChange));
+            moveSpeed -= (moveSpeed * Mathf.Abs(SpeedChange));
         }
         else
         {
-       moveSpeed += (moveSpeed * SpeedChange);
+            moveSpeed += (moveSpeed * SpeedChange);
         }
         agent.speed = moveSpeed;
-     //   Debug.Log(agent.agentTypeID);
+        //   Debug.Log(agent.agentTypeID);
         GenerateAgentIdList();
-        agent.agentTypeID = agentTypeIdList[Random.Range(0,agentTypeIdList.Count)];
+        agent.agentTypeID = agentTypeIdList[Random.Range(0, agentTypeIdList.Count)];
         agent.stoppingDistance = attackDistance;
         currentState = EnemyState.Moving;
     }
@@ -113,20 +114,20 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     }
     public void Moving()
     {
-        if(agent.isOnOffMeshLink)
+        if (agent.isOnOffMeshLink)
         {
             if (!hasJumped)
             {
                 animator.SetTrigger("Jump");
             }
-            
+
             hasJumped = true;
         }
         else
         {
             hasJumped = false;
         }
-        if(currentState == EnemyState.Dead)
+        if (currentState == EnemyState.Dead)
         {
             return;
         }
@@ -140,8 +141,8 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
             agent.speed = moveSpeed;
             animator.SetFloat("Speed", agent.velocity.magnitude / moveSpeed);
         }
-       // Debug.Log(agent.velocity.magnitude / moveSpeed);
-        
+        // Debug.Log(agent.velocity.magnitude / moveSpeed);
+
     }
     public void Attacking()
     {
@@ -151,27 +152,27 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
             animator.SetInteger("AtkNumber", Random.Range(0, 3));
             animator.SetTrigger("Attack");
             isAttacking = true;
-           
+
         }
     }
     //likely needs a better way and or needs event from animator
-   /* IEnumerator AttackCoroutine()
-    {
-        yield return new WaitForSeconds(attackSpeed);
-       
-        isAttacking = false;
-    }*/
+    /* IEnumerator AttackCoroutine()
+     {
+         yield return new WaitForSeconds(attackSpeed);
+
+         isAttacking = false;
+     }*/
     public void OnAttemptHit()
     {
         if (canAttack)
         {
-           // Debug.Log("hitPlayer");
+            // Debug.Log("hitPlayer");
             //xh code this can been used already
-        /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
-            if (playerHealth != null)
-            {
-                playerHealth.TakeDamage(attackDamage);
-            }*/
+            /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.TakeDamage(attackDamage);
+                }*/
             //xh code end
 
         }
@@ -187,12 +188,12 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
         {
             case EnemyState.Moving:
                 Moving();
-              //  Debug.Log("EnemyIsMoving");
+                //  Debug.Log("EnemyIsMoving");
                 break;
 
             case EnemyState.Attacking:
                 Attacking();
-              //  Debug.Log("EnemyIsAttacking");
+                //  Debug.Log("EnemyIsAttacking");
                 break;
 
             default:
@@ -211,3 +212,4 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
         }
     }
 }
+

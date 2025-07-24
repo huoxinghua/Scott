@@ -8,24 +8,23 @@ public class REProjectile : MonoBehaviour
     Rigidbody body;
     public float forwardForce;
     public float upwardsForce;
+    public bool shootHigh;
     Vector3 startPos;
     Vector3 endPos;
-    [SerializeField] Transform targetTransform;
+    public Transform targetTransform;
 
-    void Start()
+    void Awake()
     {
         //distance to target 
     }
-    public void Awake()
+    public void Start()
     {
         targetPosition = targetTransform.position;
+        transform.SetParent(null);
         distanceToTarget = Vector3.Distance(targetPosition, transform.position);
         body = GetComponent<Rigidbody>();
-      //  transform.LookAt(targetPosition);
-        Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
         startPos = transform.position;
-      //  body.AddForce(transform.forward * forwardForce*distanceToTarget + transform.up * upwardsForce);
-        Vector3 velocity = CalculateLaunchVelocity(transform.position, targetPosition, 20f, Physics.gravity);
+        Vector3 velocity = CalculateLaunchVelocity(transform.position, targetPosition, 25f, Physics.gravity,shootHigh);
         body.linearVelocity = velocity;
     }
     // Update is called once per frame
@@ -36,16 +35,11 @@ public class REProjectile : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == 0)
-        {
-            endPos = transform.position;
-            Debug.Log(transform.position.x + " " + transform.position.y + " " + transform.position.z);
-            Debug.Log("Distance Traveled = " + Vector3.Distance(startPos, endPos));
-        }
+        Destroy(gameObject);
     }
 
     //senior GPT provided this. Much needed. MUCH NEEDED
-    public static Vector3 CalculateLaunchVelocity(Vector3 startPos, Vector3 targetPos, float launchSpeed, Vector3 gravity)
+    public static Vector3 CalculateLaunchVelocity(Vector3 startPos, Vector3 targetPos, float launchSpeed, Vector3 gravity, bool highArc)
     {
         Vector3 delta = targetPos - startPos;
         Vector3 deltaXZ = new Vector3(delta.x, 0f, delta.z);
@@ -64,12 +58,19 @@ public class REProjectile : MonoBehaviour
         }
 
         float sqrt = Mathf.Sqrt(underSqrt);
-
+        float angle;
         // Two possible angles: high arc or low arc
         float angleLow = Mathf.Atan2(speedSquared - sqrt, g * xz);
         float angleHigh = Mathf.Atan2(speedSquared + sqrt, g * xz);
+        if (highArc)
+        {
+             angle = angleHigh; // You can switch to angleHigh for a higher arc
 
-        float angle = angleHigh; // You can switch to angleHigh for a higher arc
+        }
+        else
+        {
+             angle = angleLow;
+        }
 
         Vector3 velocityXZ = deltaXZ.normalized * Mathf.Cos(angle) * launchSpeed;
         float velocityY = Mathf.Sin(angle) * launchSpeed;
