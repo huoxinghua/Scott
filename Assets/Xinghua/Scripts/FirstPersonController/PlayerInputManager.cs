@@ -13,6 +13,7 @@ public class PlayerInputManager : MonoBehaviour
     public event Action OnChangeWeaponInput;
     public event Action OnSprintInput;
     public event Action OnGunReloadInput;
+    public event Action OnAimInput;
 
     public Vector2 LookInput { get; private set; }
     private void Awake()
@@ -39,6 +40,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.GunReload.performed += HandleGunReload;
         inputActions.Player.GunReload.canceled += HandleGunReload;
 
+        inputActions.Player.Aim.started += HandleAim;
+        inputActions.Player.Aim.canceled += HandleAim;
     }
     private void OnDisable()
     {
@@ -58,6 +61,9 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.ChangeWeapon.canceled -= HandleChangeWeapon;
         inputActions.Player.GunReload.performed -= HandleGunReload;
         inputActions.Player.GunReload.canceled -= HandleGunReload;
+
+        inputActions.Player.Aim.started -= HandleAim;
+        inputActions.Player.Aim.canceled -= HandleAim;
     }
 
     private void HandleGunReload(InputAction.CallbackContext context)
@@ -66,6 +72,14 @@ public class PlayerInputManager : MonoBehaviour
         {
             Debug.Log("OnGunReloadInput");
             OnGunReloadInput?.Invoke();
+        }
+    }
+
+    private void HandleAim(InputAction.CallbackContext context)
+    {
+       if(context.performed)
+        {
+            OnAimInput?.Invoke();    
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Collections;
+using Unity.Burst.Intrinsics;
 using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
@@ -20,6 +21,9 @@ public class PlayerLook : MonoBehaviour
     Vector2 rawLook;
     Coroutine resetCoroutine;
     [SerializeField]private float recoilAmount = 0.2f;
+
+    private bool isAiming = false;
+    [SerializeField]private float aimSensitivityMultiplier = 0.5f;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -34,6 +38,7 @@ public class PlayerLook : MonoBehaviour
         {
 
             inputManager.OnLookInput += Look;
+            inputManager.OnAimInput += Aim;
         }
         else
         {
@@ -51,6 +56,7 @@ public class PlayerLook : MonoBehaviour
         if (inputManager != null)
         {
             inputManager.OnLookInput -= Look;
+            inputManager.OnAimInput -= Aim;
         }
         else
         {
@@ -91,11 +97,30 @@ public class PlayerLook : MonoBehaviour
         Debug.Log("CameraPositonReset");
     }
 
+    Vector2 rawLook;
+    bool isAim = false;
+    private void Aim()
+    {
+        isAim = true;
+    }
+    private void LowSensitivity()
+    {
+        isAim = false;
+    }
     void Update()
     {
         rawLook = inputManager.inputActions.Player.Look.ReadValue<Vector2>();
         Vector2 rawLookScale = Vector2.Scale(rawLook, Vector2.one * rawLookMultiply);
+        float currentSensitivity;
 
+        if (isAiming)
+        {
+            currentSensitivity = sensitivity * aimSensitivityMultiplier;
+        }
+        else
+        {
+            currentSensitivity = sensitivity;
+        }
         Vector2 rawFrameVelocity = Vector2.Scale(rawLookScale, Vector2.one * sensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
