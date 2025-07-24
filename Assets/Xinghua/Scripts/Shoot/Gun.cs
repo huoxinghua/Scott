@@ -135,8 +135,9 @@ public class Gun : MonoBehaviour
             Debug.Log("gun full ammo ,you do not need reload");
             return;
         }
-        Debug.Log("gun reload");
-        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
+        currentAmmo =gunData.maxMagazineSize;
+      
+/*        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
 
         if (reserveAmmo <= 0)
         {
@@ -147,7 +148,7 @@ public class Gun : MonoBehaviour
         int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
         currentAmmo += ammoToLoad;
         reserveAmmo -= ammoToLoad;
-        Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);
+        Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);*/
     }
     public void FireMultiRayShot()
     {

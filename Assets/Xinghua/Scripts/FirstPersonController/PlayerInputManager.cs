@@ -5,13 +5,15 @@ using UnityEngine.InputSystem;
 public class PlayerInputManager : MonoBehaviour
 {
     public InputSystem_Actions inputActions;
-    public event Action<Vector2, bool> OnMoveInput;
+    public event Action<Vector2> OnMoveInput;
+    public event Action OnSprintInputStart;
+    public event Action OnSprintInputCancel;
     public event Action OnJumpInput;
     public event Action<Vector2> OnLookInput;
     public event Action OnShootStarted;
     public event Action OnShootCanceled;
     public event Action OnChangeWeaponInput;
-    public event Action OnSprintInput;
+
     public event Action OnGunReloadInput;
     public event Action OnAimInputStart;
     public event Action OnAimInputCancle;
@@ -31,8 +33,8 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Look.performed += HandleLook;
         inputActions.Player.Look.canceled += HandleLook;
 
-        inputActions.Player.Sprint.performed += HandleSprint;
-        inputActions.Player.Sprint.canceled += HandleSprint;
+        inputActions.Player.Sprint.started += HandleSprintStart;
+        inputActions.Player.Sprint.canceled += HandleSprintCancel;
 
         inputActions.Player.Attack.started += HandleShootStarted;
         inputActions.Player.Attack.canceled += HandleShootCanceled;
@@ -75,11 +77,9 @@ public class PlayerInputManager : MonoBehaviour
             OnGunReloadInput?.Invoke();
         }
     }
-
     private void HandleAimStart(InputAction.CallbackContext context)
     {
-
-            OnAimInputStart?.Invoke();    
+        OnAimInputStart?.Invoke();
     }
     private void HandleAimCancle(InputAction.CallbackContext context)
     {
@@ -90,17 +90,15 @@ public class PlayerInputManager : MonoBehaviour
     private void HandleMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        OnMoveInput?.Invoke(moveInput, false);
+        OnMoveInput?.Invoke(moveInput);
     }
-
-    private void HandleSprint(InputAction.CallbackContext context)
+    private void HandleSprintStart(InputAction.CallbackContext context)
     {
-        bool isSprinting = false;
-        if (context.performed)
-        {
-            isSprinting = true;
-        }
-        OnMoveInput?.Invoke(moveInput, true);
+        OnSprintInputStart?.Invoke();
+    }
+    private void HandleSprintCancel(InputAction.CallbackContext context)
+    {
+        OnSprintInputCancel?.Invoke();
     }
 
     private void HandleJump(InputAction.CallbackContext context)
@@ -118,7 +116,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleShootStarted(InputAction.CallbackContext context)
     {
-        OnShootStarted?.Invoke(); 
+        OnShootStarted?.Invoke();
     }
 
     private void HandleShootCanceled(InputAction.CallbackContext context)

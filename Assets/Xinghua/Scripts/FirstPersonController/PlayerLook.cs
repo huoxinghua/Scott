@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Burst.Intrinsics;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class PlayerLook : MonoBehaviour
 {
@@ -21,9 +22,15 @@ public class PlayerLook : MonoBehaviour
     Vector2 rawLook;
     Coroutine resetCoroutine;
     [SerializeField]private float recoilAmount = 0.2f;
-
-    private bool isAiming = false;
+    [HideInInspector]
+    public bool isAiming = false;
     [SerializeField]private float aimSensitivityMultiplier = 0.0005f;
+    private float normalFOV = 100f; 
+    private float aimFOV = 40f;     
+    private float fovTransitionSpeed = 10f; 
+    [SerializeField] float fovTransitionTime = 0.2f;
+    private float targetFOV;
+
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -39,7 +46,7 @@ public class PlayerLook : MonoBehaviour
 
             inputManager.OnLookInput += Look;
             inputManager.OnAimInputStart += AimStart;
-            inputManager.OnAimInputCancle += AimCancle;
+            inputManager.OnAimInputCancle += AimCancel;
         }
         else
         {
@@ -58,7 +65,7 @@ public class PlayerLook : MonoBehaviour
         {
             inputManager.OnLookInput -= Look;
             inputManager.OnAimInputStart -= AimStart;
-            inputManager.OnAimInputCancle -= AimCancle;
+            inputManager.OnAimInputCancle -= AimCancel;
         }
         else
         {
@@ -75,10 +82,8 @@ public class PlayerLook : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         originalY = transform.position.y;
     }
-
     private void HandleShoot()
     {
-
         CameraUP();
         if (resetCoroutine != null)
             StopCoroutine(resetCoroutine);
@@ -99,16 +104,40 @@ public class PlayerLook : MonoBehaviour
         Debug.Log("CameraPositonReset");
     }
 
-
     private void AimStart()
     {
+        PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
+        if(playerMovement.isSprinting == true) return;
         isAiming = true;
-        Debug.Log("is aiming start");
+        targetFOV = aimFOV;
     }
-    private void AimCancle()
+    void AimCancel()
     {
         isAiming = false;
-        Debug.Log("is aiming false");
+        targetFOV = normalFOV;
+        if (fovCoroutine != null)
+            StopCoroutine(fovCoroutine);
+        fovCoroutine = StartCoroutine(SmoothFOV(Camera.main.fieldOfView, normalFOV, fovTransitionTime));
+    }
+    private void HandleCameraFOV()
+    {
+        float currentFOV = Camera.main.fieldOfView;
+        float lerpFactor = Time.deltaTime * fovTransitionSpeed;
+        float nextFOV = Mathf.Lerp(currentFOV, targetFOV, lerpFactor);
+        Camera.main.fieldOfView = nextFOV;
+    }
+    Coroutine fovCoroutine;
+
+    IEnumerator SmoothFOV(float from, float to, float duration)
+    {
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            Camera.main.fieldOfView = Mathf.Lerp(from, to, elapsed / duration);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        Camera.main.fieldOfView = to; 
     }
     void Update()
     {
@@ -119,11 +148,14 @@ public class PlayerLook : MonoBehaviour
         if (isAiming)
         {
             currentSensitivity = sensitivity * aimSensitivityMultiplier;
+            HandleCameraFOV();
         }
         else
         {
             currentSensitivity = sensitivity;
+            
         }
+       
         Vector2 rawFrameVelocity = Vector2.Scale(rawLookScale, Vector2.one * currentSensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
@@ -134,7 +166,7 @@ public class PlayerLook : MonoBehaviour
            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);*/
         Shoot shoot = character.GetComponent<Shoot>();
 
-        float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -90f, 90f);
+        float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -180f, 180f);
         transform.localRotation = Quaternion.AngleAxis(-finalY, Vector3.right);
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }

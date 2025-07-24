@@ -8,7 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("move")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveDirection;
-    [SerializeField] private bool isSprinting = false;
+   // [HideInInspector]
+    public bool isSprinting = false;
 
     [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
@@ -38,12 +39,17 @@ public class PlayerMovement : MonoBehaviour
         {
             inputManager.OnMoveInput += Move;
             inputManager.OnJumpInput += Jump;
+            inputManager.OnSprintInputStart += SprintStart;
+            inputManager.OnSprintInputCancel += SprintCancel;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
+
+  
+
     private void OnDisable()
     {
         inputManager = GetComponent<PlayerInputManager>();
@@ -51,20 +57,31 @@ public class PlayerMovement : MonoBehaviour
         {
             inputManager.OnMoveInput -= Move;
             inputManager.OnJumpInput -= Jump;
+            inputManager.OnSprintInputStart -= SprintStart;
+            inputManager.OnSprintInputCancel -= SprintCancel;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
+    private void SprintStart()
+    {
+        isSprinting = true;
+    }
+    private void SprintCancel()
+    {
+        isSprinting = false;
+    }
     private void FixedUpdate()
     {
         //move
         Vector3 velocity = rb.linearVelocity;
         var currentSpeed = moveSpeed;
-        if(isSprinting)
+        PlayerLook camera = Camera.main.GetComponent<PlayerLook>();
+        if(isSprinting )
         {
-            currentSpeed =moveSpeed * sprintMultiplier;
+            currentSpeed = moveSpeed * sprintMultiplier;
         }
         else
         {
@@ -88,11 +105,10 @@ public class PlayerMovement : MonoBehaviour
     }
     Vector3 direction;
     public bool isMoving =false;
-    public void Move(Vector2 dir,bool spriting)
+    public void Move(Vector2 dir)
     {
-
         moveDirection = dir;
-        isSprinting = spriting;
+      
         if (dir != Vector2.zero)
         {
             isMoving = true;
