@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 
 public class Gun : MonoBehaviour
@@ -20,6 +21,7 @@ public class Gun : MonoBehaviour
 
     public float spreadAmount = 0.02f;
     private int bulletsPerShot = 5;
+    public event Action OnShoot;
 
     [Header("Ammo and Magazine")]
     public int currentAmmo;
@@ -75,6 +77,7 @@ public class Gun : MonoBehaviour
             if (hit.collider.GetComponent<IDamageable>() == null && !TooCloseToOtherHoles(offsetPos))
             {
                 var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+                OnShoot?.Invoke();
                 objHole.transform.SetParent(hit.collider.transform);
                 objHole.tag = "BulletHole";
                 Destroy(objHole, 5f);
@@ -86,19 +89,20 @@ public class Gun : MonoBehaviour
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
                 shoot++;
+               
                 currentAmmo--;
-               // crosshairController.PlayShootAnimation();
-              
+                // crosshairController.PlayShootAnimation();
 
-           
 
-               // var objFX = Instantiate(gunData.cube, offsetPos, rotation);
-            
-              //  Destroy(objFX, 0.5f);
-              //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
+
+
+                // var objFX = Instantiate(gunData.cube, offsetPos, rotation);
+
+                //  Destroy(objFX, 0.5f);
+                //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
                 lastShootTime = Time.time;
             }
-         
+          
 
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             if (damageable != null)
@@ -112,6 +116,11 @@ public class Gun : MonoBehaviour
 
     public void Reload()
     {
+        if(currentAmmo == gunData.maxMagazineSize)
+        {
+            Debug.Log("gun full ammo ,you do not need reload");
+            return;
+        }
         Debug.Log("gun reload");
         int neededAmmo =gunData.maxMagazineSize - currentAmmo;
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class PlayerLook : MonoBehaviour
 {
@@ -12,9 +13,13 @@ public class PlayerLook : MonoBehaviour
     // private float maxRecoilAmount = 10f;
 
     private float recoilAddSpeed = 3f;
-    private float recoilRecoverSpeed = 4f;
+    private float recoilRecoverSpeed = 1f;
     [SerializeField] private float recoilSpeedMultiplay = 1f;
     private float recoilOffsetY = 0f;
+    private Gun gun;
+    Vector2 rawLook;
+    Coroutine resetCoroutine;
+    [SerializeField]private float recoilAmount = 0.2f;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -34,7 +39,13 @@ public class PlayerLook : MonoBehaviour
         {
             Debug.Log("input manager is null ");
         }
+
+        gun = GetComponentInChildren<Gun>();
+        gun.OnShoot += HandleShoot;
     }
+
+
+
     private void OnDisable()
     {
         if (inputManager != null)
@@ -45,14 +56,40 @@ public class PlayerLook : MonoBehaviour
         {
             Debug.Log("input manager is null ");
         }
+
+        gun = GetComponentInChildren<Gun>();
+        gun.OnShoot -= HandleShoot;
     }
+
+
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        originalY = transform.position.y;
     }
 
-    Vector2 rawLook;
+    private void HandleShoot()
+    {
 
+        CameraUP();
+        if (resetCoroutine != null)
+            StopCoroutine(resetCoroutine);
+        resetCoroutine = StartCoroutine(CameraPositonReset());
+
+    }
+    float originalY;
+    private void CameraUP()
+    {
+        Debug.Log("camera recoil up");
+        recoilOffsetY += recoilAddSpeed * recoilSpeedMultiplay * recoilAmount;
+
+    }
+    private IEnumerator CameraPositonReset()
+    {
+        yield return new WaitForEndOfFrame();
+        recoilOffsetY = Mathf.MoveTowards(recoilOffsetY, originalY, recoilRecoverSpeed * recoilSpeedMultiplay * recoilAmount);
+        Debug.Log("CameraPositonReset");
+    }
 
     void Update()
     {
@@ -68,19 +105,6 @@ public class PlayerLook : MonoBehaviour
         /*   transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
            character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);*/
         Shoot shoot = character.GetComponent<Shoot>();
-       // Debug.Log("camera recoil up");
-
-        //turn into function called only on shoot
-        if (shoot.isAutoShooting == true)
-        {
-            //Debug.Log("camera recoil up");
-            recoilOffsetY += recoilAddSpeed * recoilSpeedMultiplay * Time.deltaTime;
-            //recoilOffsetY = Mathf.Clamp(recoilOffsetY, 0f, maxRecoilAmount);
-        }
-        else
-        {
-            recoilOffsetY = Mathf.MoveTowards(recoilOffsetY, 0f, recoilRecoverSpeed * recoilSpeedMultiplay * Time.deltaTime);
-        }
 
         float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -90f, 90f);
         transform.localRotation = Quaternion.AngleAxis(-finalY, Vector3.right);
