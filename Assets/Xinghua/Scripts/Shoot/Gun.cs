@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -44,6 +45,7 @@ public class Gun : MonoBehaviour
             StopCoroutine(shakeCoroutine);
 
         shakeCoroutine = StartCoroutine(GunShakeOnce());
+        
     }
 
     public void Shoot()

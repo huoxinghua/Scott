@@ -1,10 +1,16 @@
 ﻿using UnityEngine;
 
+public enum GunType
+{
+    Automatic,
+    SpreadShot
+}
 
 
 [CreateAssetMenu(fileName = "WeaponSO", menuName = "Weapon/WeaponSO")]
 public class WeaponSO : ScriptableObject
 {
+    public GunType type;
     public GameObject gunPrefab;
     public int ammoCapacity;
     public float fireRate;
@@ -13,7 +19,7 @@ public class WeaponSO : ScriptableObject
     public float shootCooldown;
     public GameObject cube;
     public GameObject holeFX;
-    public bool isAutoShoot = true;
+
     [Header("Crosshair Settings")]
     public Color crosshairNormalColor = Color.white;
     public Color crosshairEnemyColor = Color.red;

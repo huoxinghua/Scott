@@ -91,7 +91,6 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootCanceledInput()
     {
-
         if (continuousShootingCoroutine != null)
         {
             StopCoroutine(continuousShootingCoroutine);
@@ -104,19 +103,22 @@ public class Shoot : MonoBehaviour
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
-
-        isAutoShooting = true;
-        while (true)
+        Gun gun = GetComponentInChildren<Gun>(false);
+        var type = gun.gunData.type;
+        if (gun != null && type == GunType.Automatic)
         {
-
-            HandleShoot(true);
-
-            yield return new WaitForSeconds(shootInterval);
+            //isAutoShooting = true;
+            while (true)
+            {
+                HandleShoot(true);
+                yield return new WaitForSeconds(shootInterval);
+            }
         }
-
-        /*  HandleShoot(false);
-
-          yield return new WaitForSeconds(shootInterval); // this is for single shoot*/
+        else
+        {
+            HandleShoot(false);
+            yield return new WaitForSeconds(shootInterval); // this is for single shoot
+        }
 
     }
 }

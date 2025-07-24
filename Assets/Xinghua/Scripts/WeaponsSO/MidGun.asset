@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 993d600b31429ce46a2bcf189ae6b8c0, type: 3}
   m_Name: MidGun
   m_EditorClassIdentifier: 
+  type: 1
   gunPrefab: {fileID: 5617306848609608939, guid: 5344ec19b1e08d644b5eb74d04142f4d, type: 3}
   ammoCapacity: 0
   fireRate: -0.25
@@ -20,7 +21,6 @@ MonoBehaviour:
   shootCooldown: 10
   cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}
   holeFX: {fileID: 7875382998292775455, guid: 640944ed71b0e6448a3b14e80240d711, type: 3}
-  isAutoShoot: 0
   crosshairNormalColor: {r: 0.39607844, g: 0.45882353, b: 0.4745098, a: 1}
   crosshairEnemyColor: {r: 1, g: 0, b: 0, a: 1}
   crosshairMoveScale: 1.2

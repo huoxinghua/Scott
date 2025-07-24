@@ -23,7 +23,6 @@ public class WeaponController : MonoBehaviour
         currentGun = GetComponentInChildren<Gun>();
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-        guns.Enqueue(currentGun.gameObject);
         var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
         another.gameObject.SetActive(false);
         another.transform.SetParent(transform);
