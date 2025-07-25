@@ -18,16 +18,21 @@ public class PlayerInputManager : MonoBehaviour
     public event Action OnGunReloadInput;
     public event Action OnAimInputStart;
     public event Action OnAimInputCancle;
+    public event Action OnInteractInput;
 
     public Vector2 LookInput { get; private set; }
+    PlayerUpgrade playerUpgrade;
     private void Awake()
     {
         inputActions = new InputSystem_Actions();
+        playerUpgrade = GetComponent<PlayerUpgrade>();
     }
     public void OnUIOpen()
     {
         inputActions.Player.Disable();
         inputActions.UI.Enable();
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     public void OnUIClose()
@@ -59,7 +64,12 @@ public class PlayerInputManager : MonoBehaviour
 
         inputActions.Player.Aim.started += HandleAimStart;
         inputActions.Player.Aim.canceled += HandleAimCancle;
+        inputActions.Player.Interact.performed += Interact;
+        inputActions.Player.Interact.canceled += Interact;
+
+        playerUpgrade.OnUIInput += OnUIOpen;
     }
+
     private void OnDisable()
     {
         inputActions.Disable();
@@ -81,6 +91,10 @@ public class PlayerInputManager : MonoBehaviour
 
         inputActions.Player.Aim.started -= HandleAimStart;
         inputActions.Player.Aim.canceled -= HandleAimCancle;
+        inputActions.Player.Interact.performed -= Interact;
+        inputActions.Player.Interact.canceled -= Interact;
+
+        playerUpgrade.OnUIInput += OnUIOpen;
     }
     
     private void HandleGunReload(InputAction.CallbackContext context)
@@ -150,6 +164,10 @@ public class PlayerInputManager : MonoBehaviour
         {
             OnChangeWeaponInput?.Invoke();
         }
+    }
+    private void Interact(InputAction.CallbackContext context)
+    {
+        OnInteractInput?.Invoke();
     }
 
 
