@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 public class PlayerInputManager : MonoBehaviour
@@ -23,9 +24,22 @@ public class PlayerInputManager : MonoBehaviour
     {
         inputActions = new InputSystem_Actions();
     }
+    public void OnUIOpen()
+    {
+        inputActions.Player.Disable();
+        inputActions.UI.Enable();
+    }
+
+    public void OnUIClose()
+    {
+        inputActions.UI.Disable();
+        inputActions.Player.Enable();
+    }
+
     private void OnEnable()
     {
         inputActions.Enable();
+        OnUIClose();
         inputActions.Player.Move.performed += HandleMove;
         inputActions.Player.Move.canceled += HandleMove;
         inputActions.Player.Jump.performed += HandleJump;
@@ -68,7 +82,7 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Aim.started -= HandleAimStart;
         inputActions.Player.Aim.canceled -= HandleAimCancle;
     }
-
+    
     private void HandleGunReload(InputAction.CallbackContext context)
     {
         if (context.performed)
@@ -116,6 +130,12 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleShootStarted(InputAction.CallbackContext context)
     {
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            OnUIOpen();
+            return;
+        }
+           
         OnShootStarted?.Invoke();
     }
 
