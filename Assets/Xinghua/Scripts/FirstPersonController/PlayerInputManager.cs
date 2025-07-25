@@ -1,4 +1,5 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -19,7 +20,8 @@ public class PlayerInputManager : MonoBehaviour
     public event Action OnAimInputStart;
     public event Action OnAimInputCancle;
     public event Action OnInteractInput;
-
+    //temp
+    public event Action OnUpgradeInput;
     public Vector2 LookInput { get; private set; }
     PlayerUpgrade playerUpgrade;
     private void Awake()
@@ -68,6 +70,9 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Aim.canceled += HandleAimCancle;
         inputActions.Player.Interact.performed += Interact;
         inputActions.Player.Interact.canceled += Interact;
+        //test input temp
+        inputActions.Player.Upgrade.performed += Upgrade;
+        inputActions.Player.Upgrade.canceled += Upgrade;
 
         if (playerUpgrade != null)
         {
@@ -75,6 +80,11 @@ public class PlayerInputManager : MonoBehaviour
         }
            
      
+    }
+
+    private void Upgrade(InputAction.CallbackContext context)
+    {
+        OnUpgradeInput?.Invoke();    
     }
 
     private void OnDisable()
@@ -100,6 +110,10 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Aim.canceled -= HandleAimCancle;
         inputActions.Player.Interact.performed -= Interact;
         inputActions.Player.Interact.canceled -= Interact;
+        //test input
+        inputActions.Player.Upgrade.performed += Upgrade;
+        inputActions.Player.Upgrade.canceled += Upgrade;
+
         if (playerUpgrade != null)
         {
             playerUpgrade.OnUIInput -= OnUIOpen;
@@ -154,11 +168,11 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleShootStarted(InputAction.CallbackContext context)
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+   /*     if (EventSystem.current.IsPointerOverGameObject())
         {
             OnUIOpen();
             return;
-        }
+        }*/
            
         OnShootStarted?.Invoke();
     }

@@ -4,13 +4,12 @@ using UnityEngine;
 
 public class PlayerUpgrade : MonoBehaviour
 {
-    private List<ModuleConfig> equippedModules = new List<ModuleConfig>();
-
+    [HideInInspector]
+    public PlayerUpgradeProfile profile;
 
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
     private PlayerInputManager inputManager;
-
     public event Action OnUIInput;
 
     private void Awake()
@@ -18,7 +17,7 @@ public class PlayerUpgrade : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         playerMovement = GetComponent<PlayerMovement>();
         inputManager = GetComponent<PlayerInputManager>();
-
+        var profile = Resources.Load<PlayerUpgradeProfile>("Data/PlayerUpgradeProfile");
 
     }
     private void OnEnable()
@@ -27,15 +26,7 @@ public class PlayerUpgrade : MonoBehaviour
         {
             inputManager.OnInteractInput += HandleInteract;
         }
-        if (PodiumManager.Instance != null)
-        {
-            PodiumManager.Instance.OnConfirmUpgradePodium += EquipModule;
-           
-        }
-        else
-        {
-            Debug.Log(" PodiumManager.Instance.null");
-        }
+ 
     }
     private void OnDisable()
     {
@@ -43,11 +34,24 @@ public class PlayerUpgrade : MonoBehaviour
         {
             inputManager.OnInteractInput -= HandleInteract;
         }
-        if (PodiumManager.Instance != null && inputManager != null)
-        {
-            PodiumManager.Instance.OnConfirmUpgradePodium -= EquipModule;
 
+    }
+    private void Start()
+    {
+        ApplyBonuses();
+    }
+    private void ApplyBonuses()
+    {
+        float totalHealthBonus = 1f;
+        float totalMoveSpeedBonus = 1f;
+        foreach (var m in profile.equippedUpgrades)
+        {
+            totalHealthBonus = m.stats.SanityBonus;
+            totalMoveSpeedBonus = m.stats.MoveSpeedBonus;
         }
+        playerHealth.SetBonusHealth(totalHealthBonus);
+        playerMovement.SetBonusSpeed(totalMoveSpeedBonus);
+
     }
     public bool isInteract = false;
     private void HandleInteract()
@@ -91,32 +95,8 @@ public class PlayerUpgrade : MonoBehaviour
     }
     public void EquipModule(ModuleConfig module)
     {
-        Debug.Log("PlayerUpgrade EquipModule: " + module.name);
-        equippedModules.Add(module);
-        Debug.Log("PlayerUpgrade EquipModule count: " + equippedModules.Count);
-        ApplyBonuses();
+
         inputManager.OnUIClose();
     }
-    public void ApplyBonuses()
-    {
-        if (playerHealth != null)
-            playerHealth.SetBonusHealth(GetHealthBonus());
-        // if (playerMovement != null)
-        // playerMovement.SetBonusMoveSpeed(GetMoveSpeedBonus());
-
-    }
-    public float GetHealthBonus()
-    {
-        float result = 0;
-        foreach (var m in equippedModules)
-            result += m.stats.SanityBonus;
-        return result;
-    }
-    public float GetMoveSpeedBonus()
-    {
-        float result = 0;
-        foreach (var m in equippedModules)
-            result += m.stats.MoveSpeedBonus;
-        return result;
-    }
+ 
 }

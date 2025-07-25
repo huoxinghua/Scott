@@ -134,6 +134,15 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Upgrade"",
+                    ""type"": ""Button"",
+                    ""id"": ""1b4ae329-3d46-448d-89dc-489bad7ad546"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -563,6 +572,17 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""GunReload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""54ff6bf8-7bb6-4d4a-a807-e6e9e37091a2"",
+                    ""path"": ""<Keyboard>/u"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Upgrade"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1162,6 +1182,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_ChangeWeapon = m_Player.FindAction("ChangeWeapon", throwIfNotFound: true);
         m_Player_GunReload = m_Player.FindAction("GunReload", throwIfNotFound: true);
+        m_Player_Upgrade = m_Player.FindAction("Upgrade", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1253,6 +1274,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_ChangeWeapon;
     private readonly InputAction m_Player_GunReload;
+    private readonly InputAction m_Player_Upgrade;
     public struct PlayerActions
     {
         private @InputSystem_Actions m_Wrapper;
@@ -1269,6 +1291,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @ChangeWeapon => m_Wrapper.m_Player_ChangeWeapon;
         public InputAction @GunReload => m_Wrapper.m_Player_GunReload;
+        public InputAction @Upgrade => m_Wrapper.m_Player_Upgrade;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1314,6 +1337,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @GunReload.started += instance.OnGunReload;
             @GunReload.performed += instance.OnGunReload;
             @GunReload.canceled += instance.OnGunReload;
+            @Upgrade.started += instance.OnUpgrade;
+            @Upgrade.performed += instance.OnUpgrade;
+            @Upgrade.canceled += instance.OnUpgrade;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1354,6 +1380,9 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
             @GunReload.started -= instance.OnGunReload;
             @GunReload.performed -= instance.OnGunReload;
             @GunReload.canceled -= instance.OnGunReload;
+            @Upgrade.started -= instance.OnUpgrade;
+            @Upgrade.performed -= instance.OnUpgrade;
+            @Upgrade.canceled -= instance.OnUpgrade;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1548,6 +1577,7 @@ public partial class @InputSystem_Actions: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnChangeWeapon(InputAction.CallbackContext context);
         void OnGunReload(InputAction.CallbackContext context);
+        void OnUpgrade(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

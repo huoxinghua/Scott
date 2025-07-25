@@ -22,6 +22,6 @@ MonoBehaviour:
     SpreadAmountBonus: 0
     RecoilBonus: 0
     ReloadSpeedBonus: 0
-    MoveSpeedBonus: 10
-    SanityBonus: 2
+    MoveSpeedBonus: 1.2
+    SanityBonus: 1.2
     ShotsPerShootBonus: 0

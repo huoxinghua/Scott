@@ -112,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Upgrade",
+                    "type": "Button",
+                    "id": "1b4ae329-3d46-448d-89dc-489bad7ad546",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -541,6 +550,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "GunReload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54ff6bf8-7bb6-4d4a-a807-e6e9e37091a2",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Upgrade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

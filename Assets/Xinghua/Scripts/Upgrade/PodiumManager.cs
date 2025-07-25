@@ -6,12 +6,14 @@ public class PodiumManager : MonoBehaviour
 {
     public static PodiumManager Instance;
     public event Action<ModuleConfig> OnConfirmUpgradePodium;
+    public UnityEvent OnUpgrade;
     public UnityEvent OnUIClosePodium;
     private UpgradePodium[] podiums;
 
     public GameObject interactPrompt;
     public GameObject cvonfirmButton;
     public GameObject cancelButton;
+    PlayerUpgrade playerUpgrade;
     private void Awake()
     {
         Instance = this;
@@ -22,12 +24,22 @@ public class PodiumManager : MonoBehaviour
         interactPrompt.SetActive(false);
         cvonfirmButton.SetActive(false);
         cancelButton.SetActive(false);
+        playerUpgrade = FindAnyObjectByType<PlayerUpgrade>();
         
     }
     public void ConfirmUpgrade()
     {
         OnConfirmUpgradePodium?.Invoke(currentUpgradeOptinon);
-        Debug.Log("ConfirmUpgrade" + currentUpgradeOptinon.name + currentUpgradeOptinon.GetType());
+        if (currentUpgradeOptinon != null)
+        {
+            playerUpgrade.profile.AddUpgrade(currentUpgradeOptinon);
+            Debug.Log("ConfirmUpgrade" + currentUpgradeOptinon.name);
+        }
+        else
+        {
+            Debug.Log("playerUpgrade null" );
+        }
+        
         HideOption();
     }
     public void ShowInteractE()
@@ -52,7 +64,6 @@ public class PodiumManager : MonoBehaviour
     {
         OnUIClosePodium?.Invoke();
         HideButton();
-
     }
     private ModuleConfig currentUpgradeOptinon = null;
     private UpgradePodium currentPanel= null;

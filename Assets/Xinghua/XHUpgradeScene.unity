@@ -424,6 +424,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e352702a4d80d14db4ef8243cacccfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  OnUpgrade:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1686333357}
+        m_TargetAssemblyTypeName: PlayerUpgrade, Assembly-CSharp
+        m_MethodName: EquipModule
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: ModuleConfig, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnUIClosePodium:
     m_PersistentCalls:
       m_Calls:
@@ -972,7 +987,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f18ad393fef044a82bfad23f6490a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canves: {fileID: 562121370}
+  upgardePanel: {fileID: 0}
   config: {fileID: 11400000, guid: 5353e5adb33fd924dbb4d4de2298ccbc, type: 2}
 --- !u!1 &334026066
 GameObject:
@@ -1257,6 +1272,63 @@ RectTransform:
   m_AnchoredPosition: {x: 6, y: 2.2374}
   m_SizeDelta: {x: 25, y: 7.8933}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1001 &399752275
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2093092240489133574, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_Name
+      value: SceneSwitch
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 553.8606
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 578.6923
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 9.603489
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630654745693931775, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
 --- !u!1 &521926149
 GameObject:
   m_ObjectHideFlags: 0
@@ -2133,7 +2205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f18ad393fef044a82bfad23f6490a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canves: {fileID: 562121370}
+  upgardePanel: {fileID: 0}
   config: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
 --- !u!1 &1189380109
 GameObject:
@@ -2819,6 +2891,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90fb3e15cbcf76c45acf7a70b285ee01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1686333357 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2610430574401121059, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+  m_PrefabInstance: {fileID: 1947406307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a770510723da14ab3ca4002a262086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1721174501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2941,7 +3024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f18ad393fef044a82bfad23f6490a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canves: {fileID: 562121370}
+  upgardePanel: {fileID: 0}
   config: {fileID: 11400000, guid: f8d7a28d039167145afd2333a25d2a33, type: 2}
 --- !u!1 &1818959204
 GameObject:
@@ -3027,6 +3110,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2610430574401121059, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: podiumManager
+      value: 
+      objectReference: {fileID: 161618463}
+    - target: {fileID: 2610430574401121059, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: equippedModules.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -3037,6 +3124,10 @@ PrefabInstance:
     - target: {fileID: 4143761731496887327, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143761731496887327, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4783338928778684534, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3349,3 +3440,4 @@ SceneRoots:
   - {fileID: 582493130}
   - {fileID: 1947406307}
   - {fileID: 161618462}
+  - {fileID: 399752275}

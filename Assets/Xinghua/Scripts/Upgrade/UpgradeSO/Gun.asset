@@ -16,8 +16,8 @@ MonoBehaviour:
     Type: 1
     Name: 
     Description: 
-    DamageBonus: 2
-    MagazineBonus: 2
+    DamageBonus: 1.5
+    MagazineBonus: 1.5
     FireRateBonus: 0
     SpreadAmountBonus: 0
     RecoilBonus: 0
