@@ -39,12 +39,14 @@ public class PlayerInputManager : MonoBehaviour
     {
         inputActions.UI.Disable();
         inputActions.Player.Enable();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void OnEnable()
     {
         inputActions.Enable();
-        OnUIClose();
+       
         inputActions.Player.Move.performed += HandleMove;
         inputActions.Player.Move.canceled += HandleMove;
         inputActions.Player.Jump.performed += HandleJump;
@@ -67,7 +69,12 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Interact.performed += Interact;
         inputActions.Player.Interact.canceled += Interact;
 
-        playerUpgrade.OnUIInput += OnUIOpen;
+        if (playerUpgrade != null)
+        {
+            playerUpgrade.OnUIInput += OnUIOpen;
+        }
+           
+     
     }
 
     private void OnDisable()
@@ -93,8 +100,11 @@ public class PlayerInputManager : MonoBehaviour
         inputActions.Player.Aim.canceled -= HandleAimCancle;
         inputActions.Player.Interact.performed -= Interact;
         inputActions.Player.Interact.canceled -= Interact;
-
-        playerUpgrade.OnUIInput += OnUIOpen;
+        if (playerUpgrade != null)
+        {
+            playerUpgrade.OnUIInput -= OnUIOpen;
+        } 
+     
     }
     
     private void HandleGunReload(InputAction.CallbackContext context)
@@ -167,6 +177,7 @@ public class PlayerInputManager : MonoBehaviour
     }
     private void Interact(InputAction.CallbackContext context)
     {
+        Debug.Log("get interact input");
         OnInteractInput?.Invoke();
     }
 

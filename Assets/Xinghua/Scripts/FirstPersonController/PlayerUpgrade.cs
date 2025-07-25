@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class PlayerUpgrade : MonoBehaviour
 {
-    public List<ModuleConfig> equippedModules = new List<ModuleConfig>();
+    private List<ModuleConfig> equippedModules = new List<ModuleConfig>();
 
 
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
     private PlayerInputManager inputManager;
-    private PodiumManager podiumManager;
+
     public event Action OnUIInput;
+
     private void Awake()
     {
         playerHealth = GetComponent<PlayerHealth>();
         playerMovement = GetComponent<PlayerMovement>();
-      
+        inputManager = GetComponent<PlayerInputManager>();
+
+
     }
     private void OnEnable()
     {
@@ -27,6 +30,7 @@ public class PlayerUpgrade : MonoBehaviour
         if (PodiumManager.Instance != null)
         {
             PodiumManager.Instance.OnConfirmUpgradePodium += EquipModule;
+           
         }
         else
         {
@@ -39,7 +43,7 @@ public class PlayerUpgrade : MonoBehaviour
         {
             inputManager.OnInteractInput -= HandleInteract;
         }
-        if (PodiumManager.Instance != null)
+        if (PodiumManager.Instance != null && inputManager != null)
         {
             PodiumManager.Instance.OnConfirmUpgradePodium -= EquipModule;
 
@@ -48,25 +52,41 @@ public class PlayerUpgrade : MonoBehaviour
     public bool isInteract = false;
     private void HandleInteract()
     {
-        isInteract = true;
+        Debug.Log("get interact input");
+        TryInteractPodium();
     }
-   
+   private bool isInRange =false ;
     private void OnTriggerEnter(Collider other)
     {
-        UpgradePodium upgradeObj = other.GetComponent<UpgradePodium>();
-        if (upgradeObj != null)
+        UpgradePodium upgradePodium = other.GetComponent<UpgradePodium>();
+        if (upgradePodium != null)
         {
-            upgradeObj.TryInteract();
+            PodiumManager.Instance.ShowInteractE();
+            upgradePodium.ShowPanel();
+            isInRange = true;
+            PodiumManager.Instance.SetCurrentUpgradeOptinon(upgradePodium.config);
+        
+        }
+    }
+    private void TryInteractPodium()
+    {
+        Debug.Log("TryInteractPodium");
+        if (isInRange)
+        {
+            PodiumManager.Instance.ShowButton();
+
             OnUIInput?.Invoke();
-          
         }
     }
     private void OnTriggerExit(Collider other)
     {
-        UpgradePodium upgradeObj = other.GetComponent<UpgradePodium>();
-        if (upgradeObj != null)
+        UpgradePodium upgradePodium = other.GetComponent<UpgradePodium>();
+        if (upgradePodium != null)
         {
-            upgradeObj.EndInteract();
+            upgradePodium.HidePanel();
+            PodiumManager.Instance.HideInteractE();
+            PodiumManager.Instance.HideButton();
+            isInRange=false;
         }
     }
     public void EquipModule(ModuleConfig module)
@@ -75,7 +95,7 @@ public class PlayerUpgrade : MonoBehaviour
         equippedModules.Add(module);
         Debug.Log("PlayerUpgrade EquipModule count: " + equippedModules.Count);
         ApplyBonuses();
-       // inputManager.OnUIClose();
+        inputManager.OnUIClose();
     }
     public void ApplyBonuses()
     {

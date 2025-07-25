@@ -424,7 +424,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e352702a4d80d14db4ef8243cacccfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canves: {fileID: 562121370}
+  OnUIClosePodium:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1686333353}
+        m_TargetAssemblyTypeName: PlayerInputManager, Assembly-CSharp
+        m_MethodName: OnUIClose
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  interactPrompt: {fileID: 938374572}
+  cvonfirmButton: {fileID: 857884152}
+  cancelButton: {fileID: 1682860965}
 --- !u!1 &208378189
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,8 +973,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canves: {fileID: 562121370}
-  config: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
-  isUpgradeConfirmed: 0
+  config: {fileID: 11400000, guid: 5353e5adb33fd924dbb4d4de2298ccbc, type: 2}
 --- !u!1 &334026066
 GameObject:
   m_ObjectHideFlags: 0
@@ -1676,10 +1692,10 @@ MonoBehaviour:
       - m_Target: {fileID: 161618463}
         m_TargetAssemblyTypeName: PodiumManager, Assembly-CSharp
         m_MethodName: ConfirmUpgrade
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 332615022}
-          m_ObjectArgumentAssemblyTypeName: UpgradePodium, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2119,7 +2135,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   canves: {fileID: 562121370}
   config: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
-  isUpgradeConfirmed: 0
 --- !u!1 &1189380109
 GameObject:
   m_ObjectHideFlags: 0
@@ -2793,6 +2808,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1682860965}
   m_CullTransparentMesh: 1
+--- !u!114 &1686333353 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7238537606640069274, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+  m_PrefabInstance: {fileID: 1947406307}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90fb3e15cbcf76c45acf7a70b285ee01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1721174501
 GameObject:
   m_ObjectHideFlags: 0
@@ -2916,8 +2942,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canves: {fileID: 562121370}
-  config: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
-  isUpgradeConfirmed: 0
+  config: {fileID: 11400000, guid: f8d7a28d039167145afd2333a25d2a33, type: 2}
 --- !u!1 &1818959204
 GameObject:
   m_ObjectHideFlags: 0
@@ -3008,7 +3033,7 @@ PrefabInstance:
     - target: {fileID: 2610430574401121059, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: 'equippedModules.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 4143761731496887327, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_Name
       value: FirstPersonController

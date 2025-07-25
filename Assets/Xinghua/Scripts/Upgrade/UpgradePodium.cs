@@ -2,61 +2,33 @@ using UnityEngine;
 
 public class UpgradePodium : MonoBehaviour
 {
-    private GameObject interactPrompt;
-
-    /*  public GameObject UpgardePanel;
-      public GameObject ConfirmButton;
-      public GameObject CancelButton;*/
-
-    public GameObject canves;
-
+    public GameObject upgardePanel;
     public ModuleConfig config;
-    PlayerUpgrade player;
+
     private void Awake()
     {
-        interactPrompt = gameObject.transform.GetChild(0).gameObject;
-        player = FindAnyObjectByType<PlayerUpgrade>();
+        upgardePanel = gameObject.transform.GetChild(0).gameObject;
+      
     }
     void Start()
     {
-        HideOption();
-        if (interactPrompt != null)
+        if (upgardePanel != null)
         {
-            interactPrompt.SetActive(false);
+            upgardePanel.SetActive(false);
         }
     }
-
-    public void TryInteract()
+    public void ShowPanel()
     {
-        Debug.Log("Interact upgrade area");
-        ShowOption();
+        if (upgardePanel != null)
+        {
+            upgardePanel.SetActive(true);
+        }
     }
-    public void UpgradeConfirm()
+    public void HidePanel()
     {
-        isUpgradeConfirmed = true;
-        PodiumManager podiumManager = GetComponentInParent<PodiumManager>();
-        podiumManager.ConfirmUpgrade(this) ;
-       // HideOption();
+        if (upgardePanel != null)
+        {
+            upgardePanel.SetActive(false);
+        }
     }
-
-    public void EndInteract()
-    {
-        canves.SetActive(false);
-        interactPrompt.SetActive(false);
-
-    }
-    public void ShowOption()
-    {
-        canves.SetActive(true);
-        interactPrompt.SetActive(true);
-      
-
-    }
-    public void HideOption()
-    {
-        canves.SetActive(false);
-        interactPrompt.SetActive(false);
-
-    }
-    public bool isUpgradeConfirmed = false;
 }

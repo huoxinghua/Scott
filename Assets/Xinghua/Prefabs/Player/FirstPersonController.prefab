@@ -218,12 +218,13 @@ GameObject:
   - component: {fileID: 3411706809566847628}
   - component: {fileID: 7238537606640069274}
   - component: {fileID: 1899763647885468100}
+  - component: {fileID: 2610430574401121059}
   - component: {fileID: 3046323754480585272}
   - component: {fileID: 7399189470166605176}
   - component: {fileID: 6912802623870004504}
   m_Layer: 0
   m_Name: FirstPersonController
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -303,6 +304,18 @@ MonoBehaviour:
   jumpStrength: 8
   fallMultiplier: 4
   isMoving: 0
+--- !u!114 &2610430574401121059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4143761731496887327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5a770510723da14ab3ca4002a262086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3046323754480585272
 MonoBehaviour:
   m_ObjectHideFlags: 0
