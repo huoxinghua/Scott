@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangedEnemy : MonoBehaviour
+public class RangedEnemy : MonoBehaviour, IDamageable
 { 
 [SerializeField]float moveSpeed;
 [SerializeField] float attackDistance;
@@ -51,6 +51,7 @@ public void DamagePos(Transform hitPos)
 public void TakeDamage(float damage)
 {
     currentHealth -= damage;
+        Debug.Log(currentHealth.ToString());
     if (currentHealth <= 0 && currentState != EnemyState.Dead)
     {
         currentState = EnemyState.Dead;
@@ -61,8 +62,11 @@ public void TakeDamage(float damage)
         agent.isStopped = true;
         // agent.enabled = false;
     //    ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position), 1000f);
-        enemySpawn.EnemyWasKilled();
-        StartCoroutine(DecayBody());
+    if(enemySpawn != null)
+            {
+                enemySpawn.EnemyWasKilled();
+            }
+            StartCoroutine(DecayBody());
 
         //proper death later
         //  Destroy(gameObject);
@@ -233,36 +237,40 @@ void Update()
             Debug.Log("Unknown state.");
             break;
     }
-    if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
-    {
-            RaycastHit hit;
-            if(Physics.Raycast(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, out hit, Vector3.Distance(rayOrigin.position, playerTransform.position) * 1.1f,~lm)){
-                Debug.DrawRay(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, Color.green);
-                if (hit.collider.gameObject.name == "FirstPersonController")
+        if (currentState != EnemyState.Dead)
+        {
+            if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, out hit, Vector3.Distance(rayOrigin.position, playerTransform.position) * 1.1f, ~lm))
                 {
-                 //   Debug.Log("HitPlayer");
-                    if (!isAroundCorner)
+                    Debug.DrawRay(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, Color.green);
+                    if (hit.collider.gameObject.name == "FirstPersonController")
                     {
-                        StartCoroutine(GetAroundCorner());  
+                        //   Debug.Log("HitPlayer");
+                        if (!isAroundCorner)
+                        {
+                            StartCoroutine(GetAroundCorner());
+                        }
+                        currentState = EnemyState.Attacking;
+                        canAttack = true;
                     }
-                    currentState = EnemyState.Attacking;
-                    canAttack = true;
+                    else
+                    {
+                        //    Debug.Log(hit.collider.gameObject.name);
+                        currentState = EnemyState.Moving;
+                        canAttack = false;
+                        isAroundCorner = false;
+                    }
                 }
-                else
-                {
-                //    Debug.Log(hit.collider.gameObject.name);
-                    currentState = EnemyState.Moving;
-                    canAttack = false;
-                    isAroundCorner = false;
-                }
+
             }
-        
-    }
-    else
-    {
-            isAroundCorner = false;
-        currentState = EnemyState.Moving;
-        canAttack = false;
-    }
+            else
+            {
+                isAroundCorner = false;
+                currentState = EnemyState.Moving;
+                canAttack = false;
+            }
+        }
 }
 }

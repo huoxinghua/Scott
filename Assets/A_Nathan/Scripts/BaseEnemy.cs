@@ -199,15 +199,18 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
                 Debug.Log("Unknown state.");
                 break;
         }
-        if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+        if (currentState != EnemyState.Dead)
         {
-            currentState = EnemyState.Attacking;
-            canAttack = true;
-        }
-        else
-        {
-            currentState = EnemyState.Moving;
-            canAttack = false;
+            if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+            {
+                currentState = EnemyState.Attacking;
+                canAttack = true;
+            }
+            else
+            {
+                currentState = EnemyState.Moving;
+                canAttack = false;
+            }
         }
     }
 }
