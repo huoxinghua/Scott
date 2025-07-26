@@ -27,9 +27,10 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo and Magazine")]
     public int currentAmmo;
-  
-   // public int reserveAmmo = 30;
 
+    // public int reserveAmmo = 30;
+    //Animation event
+  
 
     private void Awake()
     {
@@ -129,14 +130,15 @@ public class Gun : MonoBehaviour
             if (damageable != null)
             {
                 ragDollable.DamagePos(hit.transform);
-                damageable.TakeDamage(gunData.damage);
-                Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
+                damageable.TakeDamage(damage);
+                //Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
             }
         }
 
     }
     public void Reload()
     {
+
         if (currentAmmo == gunData.maxMagazineSize)
         {
             Debug.Log("gun full ammo ,you do not need reload");

@@ -60,7 +60,23 @@ public class PlayerUpgrade : MonoBehaviour
 
         foreach (var m in profile.equippedUpgrades)
         {
+            if (m.stats.SanityBonus != 1)
+            {
+                totalHealthBonus = m.stats.DamageBonus;
+                playerHealth.SetBonusHealth(totalHealthBonus);
+            }
+            if (m.stats.MoveSpeedBonus != 1)
+            {
+                totalMoveSpeedBonus = m.stats.MoveSpeedBonus;
+                playerHealth.SetBonusHealth(totalReloadSpeedBonus);
+            }
             //guns
+            if (m.stats.MagazineBonus != 1)
+            {
+                totalMagzineBonus = m.stats.MagazineBonus;
+                currentGun.SetGunUpgradeMagazine(totalMagzineBonus);
+            }
+          
             if (m.stats.DamageBonus != 1)
             {
                 totalDamageBonus = m.stats.DamageBonus;
@@ -104,8 +120,8 @@ public class PlayerUpgrade : MonoBehaviour
             }
         }
 
-        playerHealth.SetBonusHealth(totalHealthBonus);
-        playerMovement.SetBonusSpeed(totalMoveSpeedBonus);
+        
+       
 
        // currentGun.SetGunBonus(currentGun.gunData.type, gunBonus);
 

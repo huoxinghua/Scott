@@ -8,9 +8,11 @@ public class Shoot : MonoBehaviour
 
     private Coroutine gunShakeCoroutine;
     private Coroutine continuousShootingCoroutine;
+    private Animator[] animators;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
+        animators = GetComponentsInChildren<Animator>();
     }
     private void OnEnable()
     {
@@ -61,6 +63,7 @@ public class Shoot : MonoBehaviour
     {
         Gun gun = GetComponentInChildren<Gun>();
         gun.Reload();
+       
     }
     private void HandleShoot(bool isAuto)
     {
@@ -91,6 +94,11 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootCanceledInput()
     {
+        //animation
+        animators[0].SetBool("Automatic", false);
+        animators[1].SetBool("Automatic", false);
+
+
         if (continuousShootingCoroutine != null)
         {
             StopCoroutine(continuousShootingCoroutine);
@@ -110,6 +118,8 @@ public class Shoot : MonoBehaviour
             //isAutoShooting = true;
             while (true)
             {
+                animators[0].SetBool("Automatic",true);
+                animators[1].SetBool("Automatic", true);
                 HandleShoot(true);
                 yield return new WaitForSeconds(shootInterval);
             }
