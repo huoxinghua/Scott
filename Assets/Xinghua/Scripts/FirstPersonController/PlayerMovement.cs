@@ -140,6 +140,14 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = originalPos;
         }
+        //jump animation handle
+        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+    
+        if (rb.linearVelocity.y<-1f)
+        {
+            playerAnim.SetTrigger("Land");
+        }
     }
     Vector3 direction;
     public bool isMoving =false;
@@ -164,12 +172,11 @@ public class PlayerMovement : MonoBehaviour
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
             //Debug.Log("player jump");
             playerAnim.SetTrigger("Jump");
-            gunAnim.SetTrigger("Jump");
+            playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+           
         }
-        if(groundCheck && !groundCheck.isGrounded)
-        {
-            playerAnim.SetBool("InAir",true);
-        }
+       
+
     }
 
     public void SetBonusSpeed(float bonus)
