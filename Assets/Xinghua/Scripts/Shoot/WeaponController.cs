@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponController : MonoBehaviour
 {
@@ -10,12 +11,18 @@ public class WeaponController : MonoBehaviour
    // public Transform weaponContainer;
     public Gun currentGun;
    // private int currentIndex = 0;
-    [SerializeField] public GameObject crossHair;
+   // [SerializeField] public GameObject crossHair;
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+
+
+    private Vector3 idleScale;
+    private Vector3 moveScale;
+    private Image crosshairImage;
     private void Awake()
     {
+        
         // shootStartPoint = transform.GetChild(0);
     }
     private void Start()
@@ -30,6 +37,37 @@ public class WeaponController : MonoBehaviour
         another.transform.rotation = spawnRotation;
 
         guns.Enqueue(another);
+       
+        var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
+        crosshairImage = crosshair.GetComponentInChildren<Image>();
+
+       /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
+        moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
+    }
+
+    private void Update()
+    {
+        UpdateCrosshairColor();
+        //UpdateCrosshairScale();
+    }
+
+    private void UpdateCrosshairColor()
+    {
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        {
+            if (hit.collider.GetComponent<IDamageable>() != null)
+            {
+                crosshairImage.color = currentGun.gunData.crosshairEnemyColor;
+
+            }
+
+            else
+            {
+                crosshairImage.color = currentGun.gunData.crosshairNormalColor;
+            }
+        }
     }
     public void EquipWeapon()
     {

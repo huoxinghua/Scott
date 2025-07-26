@@ -18,10 +18,10 @@ MonoBehaviour:
     Description: 
     DamageBonus: 1.5
     MagazineBonus: 1.5
-    FireRateBonus: 0
-    SpreadAmountBonus: 0
-    RecoilBonus: 0
-    ReloadSpeedBonus: 0
-    MoveSpeedBonus: 0
-    SanityBonus: 0
-    ShotsPerShootBonus: 0
+    FireRateBonus: 1
+    SpreadAmountBonus: 1
+    RecoilBonus: 1
+    ReloadSpeedBonus: 1
+    MoveSpeedBonus: 1
+    SanityBonus: 1
+    ShotsPerShootBonus: 1

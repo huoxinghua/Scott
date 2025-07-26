@@ -10,6 +10,7 @@ public class PlayerUpgrade : MonoBehaviour
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
     private PlayerInputManager inputManager;
+    private Gun currentGun;
     public event Action OnUIInput;
 
     private void Awake()
@@ -17,6 +18,8 @@ public class PlayerUpgrade : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         playerMovement = GetComponent<PlayerMovement>();
         inputManager = GetComponent<PlayerInputManager>();
+        currentGun = GetComponentInChildren<Gun>(false);
+
         var profile = Resources.Load<PlayerUpgradeProfile>("Data/PlayerUpgradeProfile");
 
     }
@@ -26,7 +29,7 @@ public class PlayerUpgrade : MonoBehaviour
         {
             inputManager.OnInteractInput += HandleInteract;
         }
- 
+
     }
     private void OnDisable()
     {
@@ -42,15 +45,69 @@ public class PlayerUpgrade : MonoBehaviour
     }
     private void ApplyBonuses()
     {
+        Debug.Log("Apply bonuses");
         float totalHealthBonus = 1f;
         float totalMoveSpeedBonus = 1f;
+
+        float totalDamageBonus = 1f;
+        int totalMagzineBonus = 1;
+        float totalFireRateBonus = 1f;
+        float totalSpreadAmountBonus = 1f;
+        float totalRecoilBonus = 1f;
+        float totalReloadSpeedBonus = 1f;
+        int totalShotsPerShootBonus = 1;
+       
+
         foreach (var m in profile.equippedUpgrades)
         {
-            totalHealthBonus = m.stats.SanityBonus;
-            totalMoveSpeedBonus = m.stats.MoveSpeedBonus;
+            //guns
+            if (m.stats.DamageBonus != 1)
+            {
+                totalDamageBonus = m.stats.DamageBonus;
+                currentGun.SetGunUpgradeDamage(totalDamageBonus);
+            }
+
+            if (m.stats.MagazineBonus != 1)
+            {
+                totalMagzineBonus = m.stats.MagazineBonus;
+                currentGun.SetGunUpgradeMagazine(totalMagzineBonus);
+            }
+
+            if (m.stats.FireRateBonus != 1)
+            {
+                totalFireRateBonus = m.stats.FireRateBonus;
+                currentGun.SetGunUpgradeFireRate(totalFireRateBonus);
+            }
+
+            if (m.stats.SpreadAmountBonus != 1)
+            {
+                totalSpreadAmountBonus = m.stats.SpreadAmountBonus;
+                currentGun.SetGunUpgradeSpreadAmount(totalSpreadAmountBonus);
+            }
+
+            if (m.stats.RecoilBonus != 1)
+            {
+                totalRecoilBonus = m.stats.RecoilBonus;
+                currentGun.SetGunUpgradeRecoil(totalRecoilBonus);
+            }
+
+            if (m.stats.ReloadSpeedBonus != 1)
+            {
+                totalReloadSpeedBonus = m.stats.ReloadSpeedBonus;
+                currentGun.SetGunUpgradeReloadSpeed(totalReloadSpeedBonus);
+            }
+
+            if (m.stats.ShotsPerShootBonus != 1)
+            {
+                totalShotsPerShootBonus = m.stats.ShotsPerShootBonus;
+                currentGun.SetGunUpgradeShotsPerShoot(totalShotsPerShootBonus);
+            }
         }
+
         playerHealth.SetBonusHealth(totalHealthBonus);
         playerMovement.SetBonusSpeed(totalMoveSpeedBonus);
+
+       // currentGun.SetGunBonus(currentGun.gunData.type, gunBonus);
 
     }
     public bool isInteract = false;
@@ -59,7 +116,7 @@ public class PlayerUpgrade : MonoBehaviour
         Debug.Log("get interact input");
         TryInteractPodium();
     }
-   private bool isInRange =false ;
+    private bool isInRange = false;
     private void OnTriggerEnter(Collider other)
     {
         UpgradePodium upgradePodium = other.GetComponent<UpgradePodium>();
@@ -69,7 +126,7 @@ public class PlayerUpgrade : MonoBehaviour
             upgradePodium.ShowPanel();
             isInRange = true;
             PodiumManager.Instance.SetCurrentUpgradeOptinon(upgradePodium.config);
-        
+
         }
     }
     private void TryInteractPodium()
@@ -90,7 +147,7 @@ public class PlayerUpgrade : MonoBehaviour
             upgradePodium.HidePanel();
             PodiumManager.Instance.HideInteractE();
             PodiumManager.Instance.HideButton();
-            isInRange=false;
+            isInRange = false;
         }
     }
     public void EquipModule(ModuleConfig module)
@@ -98,5 +155,5 @@ public class PlayerUpgrade : MonoBehaviour
 
         inputManager.OnUIClose();
     }
- 
+
 }

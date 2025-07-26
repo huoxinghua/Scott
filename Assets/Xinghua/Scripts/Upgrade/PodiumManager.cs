@@ -39,7 +39,6 @@ public class PodiumManager : MonoBehaviour
         {
             Debug.Log("playerUpgrade null" );
         }
-        
         HideOption();
     }
     public void ShowInteractE()

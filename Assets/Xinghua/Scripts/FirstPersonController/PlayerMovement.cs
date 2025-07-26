@@ -128,11 +128,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    internal void SetBonusSpeed(float bonus)
+    public void SetBonusSpeed(float bonus)
     {
-        Debug.Log("before upgrade speed:" + moveSpeed + "bonus:" + bonus);
-       
-      
+       if(bonus == 1)return;
         moveSpeed = moveSpeed * bonus;
         Debug.Log("after upgrade speed:" + moveSpeed);
     }

@@ -35,10 +35,9 @@ public class SceneSwitch : MonoBehaviour
             SceneManager.LoadScene("XHProtoGym");
         }
     }
-    public void LoadSceneByName(string name)
+    public void LoadSceneByName(string name)//just for main menu to level 
     {
         upgradeProfile.ResetProfile();
-        Debug.Log("scene name:" + name);
         SceneManager.LoadScene(name);
 
     }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,26 +17,32 @@ public class Gun : MonoBehaviour
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private LayerMask lm;
-    private CrosshairController crosshairController;
+    // private CrosshairController crosshairController;
 
     public float spreadAmount = 0.02f;
     private int bulletsPerShot = 5;
+    private float damage = 10f;
+    private int magzaineSize = 2;
     public event Action OnShoot;
 
     [Header("Ammo and Magazine")]
     public int currentAmmo;
-    public int reserveAmmo = 30;
+  
+   // public int reserveAmmo = 30;
 
 
     private void Awake()
     {
-        crosshairController = GetComponent<CrosshairController>();
+        //   crosshairController = GetComponent<CrosshairController>();
     }
     private void Start()
     {
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
         currentAmmo = gunData.maxMagazineSize;
+        magzaineSize = gunData.maxMagazineSize;//for upgrade
+        damage = gunData.damage;
+        magzaineSize = gunData.maxMagazineSize;
     }
     private void StartGunShake()
     {
@@ -45,7 +50,7 @@ public class Gun : MonoBehaviour
             StopCoroutine(shakeCoroutine);
 
         shakeCoroutine = StartCoroutine(GunShakeOnce());
-        
+
     }
 
     public void Shoot()
@@ -61,8 +66,8 @@ public class Gun : MonoBehaviour
 
         if (shoot > 0)
         {
-             offsetX = Random.Range(-spreadAmount, spreadAmount);
-             offsetY = Random.Range(-spreadAmount, spreadAmount);
+            offsetX = Random.Range(-spreadAmount, spreadAmount);
+            offsetY = Random.Range(-spreadAmount, spreadAmount);
         }
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f + offsetX, 0.5f + offsetY, 0));
 
@@ -88,7 +93,7 @@ public class Gun : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
             Camera.main.GetComponent<CameraShake>().Shake();
-            if (hit.collider.GetComponent<IDamageable>() == null )
+            if (hit.collider.GetComponent<IDamageable>() == null)
             {
                 var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
                 OnShoot?.Invoke();
@@ -101,9 +106,9 @@ public class Gun : MonoBehaviour
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
                 shoot++;
-               /* CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.Shake();*/
-               
+                /* CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                 camShake.Shake();*/
+
 
                 currentAmmo--;
                 // crosshairController.PlayShootAnimation();
@@ -135,20 +140,20 @@ public class Gun : MonoBehaviour
             Debug.Log("gun full ammo ,you do not need reload");
             return;
         }
-        currentAmmo =gunData.maxMagazineSize;
-      
-/*        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
+        currentAmmo = gunData.maxMagazineSize;
 
-        if (reserveAmmo <= 0)
-        {
-            Debug.Log("no ammo to reload");
-            return;
-        }
+        /*        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
 
-        int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
-        currentAmmo += ammoToLoad;
-        reserveAmmo -= ammoToLoad;
-        Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);*/
+                if (reserveAmmo <= 0)
+                {
+                    Debug.Log("no ammo to reload");
+                    return;
+                }
+
+                int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
+                currentAmmo += ammoToLoad;
+                reserveAmmo -= ammoToLoad;
+                Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);*/
     }
     public void FireMultiRayShot()
     {
@@ -188,18 +193,18 @@ public class Gun : MonoBehaviour
         }
     }
 
-/*    bool TooCloseToOtherHoles(Vector3 pos)
-    {
-        Collider[] nearby = Physics.OverlapSphere(pos, 0.05f);
-        foreach (var c in nearby)
+    /*    bool TooCloseToOtherHoles(Vector3 pos)
         {
-            if (c.CompareTag("BulletHole"))
+            Collider[] nearby = Physics.OverlapSphere(pos, 0.05f);
+            foreach (var c in nearby)
             {
-                return true;
+                if (c.CompareTag("BulletHole"))
+                {
+                    return true;
+                }
             }
-        }
-        return false;
-    }*/
+            return false;
+        }*/
 
     private IEnumerator GunShakeOnce()
     {
@@ -231,5 +236,47 @@ public class Gun : MonoBehaviour
     {
         SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
     }
+    public void SetGunUpgradeDamage(float bonus)
+    {
+        damage = damage * bonus;
+    }
+
+    public void SetGunUpgradeMagazine(int bonus)
+    {
+        magzaineSize = magzaineSize * bonus;
+    }
+
+
+    public void SetGunUpgradeFireRate(float bonus)
+    {
+
+    }
+    public void SetGunUpgradeSpreadAmount(float bonus)
+    {
+        spreadAmount = spreadAmount * bonus;
+    }
+    public void SetGunUpgradeRecoil(float bonus)
+    {
+
+    }
+    public void SetGunUpgradeReloadSpeed(float bonus)
+    {
+        //animation
+    }
+    public void SetGunUpgradeShotsPerShoot(int bonus)
+    {
+        bulletsPerShot += bonus;
+    }
+    /* public void SetGunBonus(GunType type,  Dictionary<string,float> values)
+     {
+
+         foreach (var (key,value) in values)
+         {
+             if(value == 1)continue;
+
+             Debug.Log("key:"+ key +"value"  + value);
+         }
+
+     }*/
 }
 

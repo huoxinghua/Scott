@@ -19,13 +19,13 @@ public class ModuleStats
     public string Name;
     public string Description;
 
-    public float DamageBonus;
-    public float MagazineBonus;
-    public float FireRateBonus;
-    public float SpreadAmountBonus;
-    public float RecoilBonus;
-    public float ReloadSpeedBonus;
-    public float MoveSpeedBonus;
-    public float SanityBonus;
-    public int ShotsPerShootBonus;
+    public float DamageBonus = 1f;
+    public int MagazineBonus =1;
+    public float FireRateBonus =1f;
+    public float SpreadAmountBonus =1f;
+    public float RecoilBonus =1f;
+    public float ReloadSpeedBonus = 1f;
+    public float MoveSpeedBonus =1f;
+    public float SanityBonus = 1f;
+    public int  ShotsPerShootBonus = 1;
 }
