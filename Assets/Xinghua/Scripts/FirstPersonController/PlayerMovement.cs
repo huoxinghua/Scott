@@ -141,12 +141,12 @@ public class PlayerMovement : MonoBehaviour
             transform.position = originalPos;
         }
         //jump animation handle
-        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
-        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+      /*  playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);*/
     
         if (rb.linearVelocity.y<-1f)
         {
-            playerAnim.SetTrigger("Land");
+            playerAnim.SetBool("isLand",true);
         }
     }
     Vector3 direction;
@@ -171,9 +171,16 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
             //Debug.Log("player jump");
-            playerAnim.SetTrigger("Jump");
+            playerAnim.SetBool("isJump",true);
             playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
            
+        }
+        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+        if (rb.linearVelocity.y>0.1f)
+        {
+            playerAnim.SetBool("isJump", true);
+
         }
        
 
