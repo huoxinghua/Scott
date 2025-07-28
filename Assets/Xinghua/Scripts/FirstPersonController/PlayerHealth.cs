@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour,IDamageable
@@ -24,4 +25,17 @@ public class PlayerHealth : MonoBehaviour,IDamageable
         }
     }
 
+
+    #region upgrade
+    private float bonusHealth = 0;
+    public void SetBonusHealth(float bonus)
+    {
+        if (bonus == 1) return;
+        Debug.Log("before upgrade health:" + currentHealth +"bonus:" +bonus);
+        currentHealth = currentHealth * bonus;
+        Debug.Log("after upgrade health:" + currentHealth);
+    }
+
+
+    #endregion
 }

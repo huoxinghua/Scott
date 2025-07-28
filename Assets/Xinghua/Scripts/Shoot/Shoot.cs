@@ -1,18 +1,18 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Shoot : MonoBehaviour
 {
     private PlayerInputManager inputManager;
     public float shootInterval = 5f;
-    
+
     private Coroutine gunShakeCoroutine;
     private Coroutine continuousShootingCoroutine;
+    private Animator[] animators;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
+        animators = GetComponentsInChildren<Animator>();
     }
     private void OnEnable()
     {
@@ -22,13 +22,15 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootStarted += HandleShootStartedInput;
             inputManager.OnShootCanceled += HandleShootCanceledInput;
 
-           // inputManager.OnChangeWeaponInput += ChangeWeapon;
+            inputManager.OnChangeWeaponInput += ChangeWeapon;
+            inputManager.OnGunReloadInput += GunReload;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
+
     private void OnDisable()
     {
         if (inputManager != null)
@@ -36,17 +38,18 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootStarted -= HandleShootStartedInput;
             inputManager.OnShootCanceled -= HandleShootCanceledInput;
 
-           // inputManager.OnChangeWeaponInput += ChangeWeapon;
+            inputManager.OnChangeWeaponInput -= ChangeWeapon;
+            inputManager.OnGunReloadInput -= GunReload;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
-    Weapon weapon;
+    WeaponController weapon;
     private void ChangeWeapon()
     {
-         weapon = GetComponentInChildren<Weapon>();
+        weapon = GetComponentInChildren<WeaponController>();
         if (weapon != null)
         {
             weapon.EquipWeapon();
@@ -56,19 +59,27 @@ public class Shoot : MonoBehaviour
             Debug.Log("weapon is null");
         }
     }
-
-    private void HandleShoot()
+    private void GunReload()
     {
         Gun gun = GetComponentInChildren<Gun>();
-        if (gun != null)
+        gun.Reload();
+       
+    }
+    private void HandleShoot(bool isAuto)
+    {
+        Gun gun = GetComponentInChildren<Gun>();
+        if (gun != null && isAuto == true)
         {
             gun.Shoot();
+        }
+        else if (gun != null && isAuto == false)
+        {
+            gun.FireMultiRayShot();
         }
         else
         {
             Debug.Log("gun is null");
         }
-
     }
 
     private void HandleShootStartedInput()
@@ -76,37 +87,48 @@ public class Shoot : MonoBehaviour
         isAutoShooting = false;
         if (continuousShootingCoroutine != null)
         {
-            StopCoroutine(continuousShootingCoroutine); 
+            StopCoroutine(continuousShootingCoroutine);
         }
         continuousShootingCoroutine = StartCoroutine(ContinuousShootingRoutine());
     }
 
     private void HandleShootCanceledInput()
     {
-      
+        //animation
+        animators[0].SetBool("Automatic", false);
+        animators[1].SetBool("Automatic", false);
+
+
         if (continuousShootingCoroutine != null)
         {
             StopCoroutine(continuousShootingCoroutine);
-            continuousShootingCoroutine = null; 
+            continuousShootingCoroutine = null;
         }
         isAutoShooting = false;
+        Gun gun = GetComponentInChildren<Gun>(false);
+        gun.shoot = 0;
     }
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
-
-        isAutoShooting = true;
-        while (true)
+        Gun gun = GetComponentInChildren<Gun>(false);
+        var type = gun.gunData.type;
+        if (gun != null && type == GunType.Automatic)
         {
-
-            HandleShoot();
-            CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-            camShake.Shake();
-            yield return new WaitForSeconds(shootInterval);
+            //isAutoShooting = true;
+            while (true)
+            {
+                animators[0].SetBool("Automatic",true);
+                animators[1].SetBool("Automatic", true);
+                HandleShoot(true);
+                yield return new WaitForSeconds(shootInterval);
+            }
         }
-
-        /*HandleShoot();
-        yield return new WaitForSeconds(shootInterval); */// this is for single shoot
+        else
+        {
+            HandleShoot(false);
+            yield return new WaitForSeconds(shootInterval); // this is for single shoot
+        }
 
     }
 }

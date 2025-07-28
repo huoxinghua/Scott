@@ -8,7 +8,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("move")]
     [SerializeField] private float moveSpeed = 5f;
     private Vector2 moveDirection;
-    private bool isSprinting = false;
+   // [HideInInspector]
+    public bool isSprinting = false;
 
     [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
@@ -18,16 +19,30 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 originalPos;
     private int safePosition = -7;
+    private Animator[]animators;
+    public Animator playerAnim;
+    public Animator gunAnim;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = GetComponentInChildren<GroundCheck>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        animators = GetComponentsInChildren<Animator>();
+        playerAnim =animators[0];
+       gunAnim = animators[1];
+
+
     }
+    private bool isIdle = true;
     private void Start()
     {
         originalPos = transform.position;
+        
+        playerAnim.SetFloat("Speed", 0f);
+ 
+
     }
 
     private void OnEnable()
@@ -38,12 +53,19 @@ public class PlayerMovement : MonoBehaviour
         {
             inputManager.OnMoveInput += Move;
             inputManager.OnJumpInput += Jump;
+            inputManager.OnSprintInputStart += SprintStart;
+            inputManager.OnSprintInputCancel += SprintCancel;
+            inputManager.OnGunReloadInput += ReloadAnimation;
+            
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
+
+  
+
     private void OnDisable()
     {
         inputManager = GetComponent<PlayerInputManager>();
@@ -51,20 +73,53 @@ public class PlayerMovement : MonoBehaviour
         {
             inputManager.OnMoveInput -= Move;
             inputManager.OnJumpInput -= Jump;
+            inputManager.OnSprintInputStart -= SprintStart;
+            inputManager.OnSprintInputCancel -= SprintCancel;
+            inputManager.OnGunReloadInput -= ReloadAnimation;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
+
+    private void ReloadAnimation()
+    {
+        Debug.Log("Handle reload animation");
+        playerAnim.SetBool("isReload", true);
+        gunAnim.SetBool("isReload", true);
+        // gunAnim.SetBool("isReload",true);
+    }
+
+    private void SprintStart()
+    {
+        isSprinting = true;
+        playerAnim.SetFloat("Speed", 1);
+    }
+    private void SprintCancel()
+    {
+        isSprinting = false;
+        if(isMoving)
+        {
+            isIdle = false;
+            playerAnim.SetFloat("Speed", 0.5f);
+        }
+        else
+        {
+            isIdle = true;
+            playerAnim.SetFloat("Speed", 0f);
+        }
+       
+    }
     private void FixedUpdate()
     {
         //move
         Vector3 velocity = rb.linearVelocity;
         var currentSpeed = moveSpeed;
-        if(isSprinting)
+        PlayerLook camera = Camera.main.GetComponent<PlayerLook>();
+        if(isSprinting )
         {
-            currentSpeed =moveSpeed * sprintMultiplier;
+            currentSpeed = moveSpeed * sprintMultiplier;
         }
         else
         {
@@ -85,14 +140,22 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = originalPos;
         }
+        //jump animation handle
+      /*  playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);*/
+    
+        if (rb.linearVelocity.y<-1f)
+        {
+            playerAnim.SetBool("isLand",true);
+        }
     }
     Vector3 direction;
     public bool isMoving =false;
-    public void Move(Vector2 dir,bool spriting)
+    public void Move(Vector2 dir)
     {
-
         moveDirection = dir;
-        isSprinting = spriting;
+     
+      
         if (dir != Vector2.zero)
         {
             isMoving = true;
@@ -108,7 +171,25 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
             //Debug.Log("player jump");
+            playerAnim.SetBool("isJump",true);
+            playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+           
         }
+        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+        if (rb.linearVelocity.y>0.1f)
+        {
+            playerAnim.SetBool("isJump", true);
+
+        }
+       
+
     }
 
+    public void SetBonusSpeed(float bonus)
+    {
+       if(bonus == 1)return;
+        moveSpeed = moveSpeed * bonus;
+        Debug.Log("after upgrade speed:" + moveSpeed);
+    }
 }

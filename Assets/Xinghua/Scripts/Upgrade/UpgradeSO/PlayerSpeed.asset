@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af7f65847e56b79449f66d20d7c3f444, type: 3}
+  m_Name: PlayerSpeed
+  m_EditorClassIdentifier: 
+  stats:
+    Type: 0
+    Name: 
+    Description: 
+    DamageBonus: 1
+    MagazineBonus: 2
+    FireRateBonus: 1
+    SpreadAmountBonus: 1
+    RecoilBonus: 1
+    ReloadSpeedBonus: 1
+    MoveSpeedBonus: 1.2
+    SanityBonus: 1.3
+    ShotsPerShootBonus: 1
