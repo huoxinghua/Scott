@@ -17,7 +17,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private LayerMask lm;
-    private Animator animator;
+    private Animator gunAnimator;
     private Animator playerAnimator;
     // private CrosshairController crosshairController;
 
@@ -26,6 +26,7 @@ public class Gun : MonoBehaviour
     private float damage = 10f;
     private int magzaineSize = 2;
     public event Action OnShoot;
+    public event Action OnReload;
 
     [Header("Ammo and Magazine")]
     public int currentAmmo;
@@ -37,8 +38,9 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         //   crosshairController = GetComponent<CrosshairController>();
-        animator = GetComponent<Animator>();
+        gunAnimator = GetComponent<Animator>();
         playerAnimator = GetComponentInParent<Animator>();
+        Debug.Log("start gun animation" + gunAnimator);
     }
     private void Start()
     {
@@ -60,11 +62,6 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
-        if (currentAmmo <= 0)
-        {
-            Debug.Log("no ammo");
-            return;
-        }
         StartGunShake();
         float offsetX = 0f;
         float offsetY = 0f;
@@ -140,14 +137,19 @@ public class Gun : MonoBehaviour
         }
 
     }
-    public void Reload()
+   
+    public bool CheckAmmo()
     {
-
         if (currentAmmo == gunData.maxMagazineSize)
         {
-            Debug.Log("gun full ammo ,you do not need reload");
-            return;
+             return true;
+            
         }
+        return false;
+    }
+    public void Reload()
+    {
+       
         ReloadAnimation();
         currentAmmo = gunData.maxMagazineSize;
 
@@ -166,25 +168,16 @@ public class Gun : MonoBehaviour
     }
     private void ReloadAnimation()
     {
-        Debug.Log("Handle reload animation");
-        if(playerAnimator != null)
+       if(gunAnimator != null)
         {
-            playerAnimator.SetBool("isReload", true);
-        }
-        else
-        {
-            Debug.Log("player anima null");
-        }
-       if(animator != null)
-        {
-            animator.SetBool("isReload", true);
+            gunAnimator.SetBool("isReload", true);
         }
        else
         {
             Debug.Log("gun anim null");
         }
-       
-        // gunAnim.SetBool("isReload",true);
+
+        
     }
     public void FireMultiRayShot()
     {

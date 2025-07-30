@@ -8,11 +8,14 @@ public class Shoot : MonoBehaviour
 
     private Coroutine gunShakeCoroutine;
     private Coroutine continuousShootingCoroutine;
-    private Animator[] animators;
+    private Animator playerAnimator;
+    private Gun gun;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
-        animators = GetComponentsInChildren<Animator>();
+        playerAnimator = GetComponentInChildren<Animator>();
+        gun = GetComponentInChildren<Gun>();
+
     }
     private void OnEnable()
     {
@@ -24,10 +27,15 @@ public class Shoot : MonoBehaviour
 
             inputManager.OnChangeWeaponInput += ChangeWeapon;
             inputManager.OnGunReloadInput += GunReload;
+           
         }
         else
         {
             Debug.Log("input manager is null ");
+        }
+        if (gun != null)
+        {
+            gun.OnReload += GunReload;
         }
     }
 
@@ -39,11 +47,15 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootCanceled -= HandleShootCanceledInput;
 
             inputManager.OnChangeWeaponInput -= ChangeWeapon;
-            inputManager.OnGunReloadInput -= GunReload;
+            inputManager.OnGunReloadInput += GunReload;
         }
         else
         {
             Debug.Log("input manager is null ");
+        }
+        if (gun != null)
+        {
+            gun.OnReload -= GunReload;
         }
     }
     WeaponController weapon;
@@ -61,9 +73,11 @@ public class Shoot : MonoBehaviour
     }
     private void GunReload()
     {
-        Gun gun = GetComponentInChildren<Gun>();
-        gun.Reload();
-       
+        if (!gun.CheckAmmo())
+        {
+            playerAnimator.SetBool("isReload", true);
+            gun.Reload();
+        }
     }
     private void HandleShoot(bool isAuto)
     {
@@ -95,8 +109,8 @@ public class Shoot : MonoBehaviour
     private void HandleShootCanceledInput()
     {
         //animation
-        animators[0].SetBool("Automatic", false);
-        animators[1].SetBool("Automatic", false);
+
+        playerAnimator.SetBool("Automatic", false);
 
 
         if (continuousShootingCoroutine != null)
@@ -118,8 +132,7 @@ public class Shoot : MonoBehaviour
             //isAutoShooting = true;
             while (true)
             {
-                animators[0].SetBool("Automatic",true);
-                animators[1].SetBool("Automatic", true);
+                playerAnimator.SetBool("Automatic", true);
                 HandleShoot(true);
                 yield return new WaitForSeconds(shootInterval);
             }

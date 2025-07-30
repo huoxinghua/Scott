@@ -55,8 +55,6 @@ public class PlayerMovement : MonoBehaviour
             inputManager.OnJumpInput += Jump;
             inputManager.OnSprintInputStart += SprintStart;
             inputManager.OnSprintInputCancel += SprintCancel;
-           // inputManager.OnGunReloadInput += ReloadAnimation;
-            
         }
         else
         {
@@ -75,21 +73,12 @@ public class PlayerMovement : MonoBehaviour
             inputManager.OnJumpInput -= Jump;
             inputManager.OnSprintInputStart -= SprintStart;
             inputManager.OnSprintInputCancel -= SprintCancel;
-          //  inputManager.OnGunReloadInput -= ReloadAnimation;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
-
-   /* private void ReloadAnimation()
-    {
-        Debug.Log("Handle reload animation");
-        playerAnim.SetBool("isReload", true);
-       // gunAnim.SetBool("isReload", true);
-        // gunAnim.SetBool("isReload",true);
-    }*/
 
     private void SprintStart()
     {
@@ -173,7 +162,6 @@ public class PlayerMovement : MonoBehaviour
             //Debug.Log("player jump");
             playerAnim.SetBool("isJump",true);
             playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
-           
         }
         playerAnim.SetBool("InAir", !groundCheck.isGrounded);
         playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
@@ -182,10 +170,7 @@ public class PlayerMovement : MonoBehaviour
             playerAnim.SetBool("isJump", true);
 
         }
-       
-
     }
-
     public void SetBonusSpeed(float bonus)
     {
        if(bonus == 1)return;
