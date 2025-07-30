@@ -55,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
             inputManager.OnJumpInput += Jump;
             inputManager.OnSprintInputStart += SprintStart;
             inputManager.OnSprintInputCancel += SprintCancel;
-            inputManager.OnGunReloadInput += ReloadAnimation;
+           // inputManager.OnGunReloadInput += ReloadAnimation;
             
         }
         else
@@ -75,7 +75,7 @@ public class PlayerMovement : MonoBehaviour
             inputManager.OnJumpInput -= Jump;
             inputManager.OnSprintInputStart -= SprintStart;
             inputManager.OnSprintInputCancel -= SprintCancel;
-            inputManager.OnGunReloadInput -= ReloadAnimation;
+          //  inputManager.OnGunReloadInput -= ReloadAnimation;
         }
         else
         {
@@ -83,13 +83,13 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void ReloadAnimation()
+   /* private void ReloadAnimation()
     {
         Debug.Log("Handle reload animation");
         playerAnim.SetBool("isReload", true);
-        gunAnim.SetBool("isReload", true);
+       // gunAnim.SetBool("isReload", true);
         // gunAnim.SetBool("isReload",true);
-    }
+    }*/
 
     private void SprintStart()
     {

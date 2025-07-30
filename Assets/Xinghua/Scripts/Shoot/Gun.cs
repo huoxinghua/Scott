@@ -17,6 +17,8 @@ public class Gun : MonoBehaviour
     [SerializeField] private float shakePositionAmount = 0.05f;
     [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private LayerMask lm;
+    private Animator animator;
+    private Animator playerAnimator;
     // private CrosshairController crosshairController;
 
     public float spreadAmount = 0.02f;
@@ -35,6 +37,8 @@ public class Gun : MonoBehaviour
     private void Awake()
     {
         //   crosshairController = GetComponent<CrosshairController>();
+        animator = GetComponent<Animator>();
+        playerAnimator = GetComponentInParent<Animator>();
     }
     private void Start()
     {
@@ -144,6 +148,7 @@ public class Gun : MonoBehaviour
             Debug.Log("gun full ammo ,you do not need reload");
             return;
         }
+        ReloadAnimation();
         currentAmmo = gunData.maxMagazineSize;
 
         /*        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
@@ -158,6 +163,28 @@ public class Gun : MonoBehaviour
                 currentAmmo += ammoToLoad;
                 reserveAmmo -= ammoToLoad;
                 Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);*/
+    }
+    private void ReloadAnimation()
+    {
+        Debug.Log("Handle reload animation");
+        if(playerAnimator != null)
+        {
+            playerAnimator.SetBool("isReload", true);
+        }
+        else
+        {
+            Debug.Log("player anima null");
+        }
+       if(animator != null)
+        {
+            animator.SetBool("isReload", true);
+        }
+       else
+        {
+            Debug.Log("gun anim null");
+        }
+       
+        // gunAnim.SetBool("isReload",true);
     }
     public void FireMultiRayShot()
     {
