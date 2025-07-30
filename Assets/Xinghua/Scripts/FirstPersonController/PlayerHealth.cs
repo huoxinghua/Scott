@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour,IDamageable
 
 
     #region upgrade
-    private float bonusHealth = 0;
+
     public void SetBonusHealth(float bonus)
     {
         if (bonus == 0) return;

@@ -33,7 +33,7 @@ public class Gun : MonoBehaviour
 
     // public int reserveAmmo = 30;
     //Animation event
-  
+
 
     private void Awake()
     {
@@ -62,6 +62,8 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
+        if(isReload)return;
+        Debug.Log("gun shake");
         StartGunShake();
         float offsetX = 0f;
         float offsetY = 0f;
@@ -79,7 +81,6 @@ public class Gun : MonoBehaviour
         muzzleFlash = GetComponentInChildren<ParticleSystem>();
         {
             muzzleFlash.Play();
-            //  Debug.Log("shoot effect: " + muzzleFlash);
         }
 
 
@@ -137,19 +138,19 @@ public class Gun : MonoBehaviour
         }
 
     }
-   
+    public bool isReload = false;
     public bool CheckAmmo()
     {
         if (currentAmmo == gunData.maxMagazineSize)
         {
-             return true;
-            
+
+            return true;
+
         }
         return false;
     }
     public void Reload()
     {
-       
         ReloadAnimation();
         currentAmmo = gunData.maxMagazineSize;
 
@@ -168,17 +169,17 @@ public class Gun : MonoBehaviour
     }
     private void ReloadAnimation()
     {
-       if(gunAnimator != null)
+        if (gunAnimator != null)
         {
             gunAnimator.SetBool("isReload", true);
+            isReload = true;
         }
-       else
+        else
         {
             Debug.Log("gun anim null");
         }
-
-        
     }
+
     public void FireMultiRayShot()
     {
 
@@ -267,19 +268,19 @@ public class Gun : MonoBehaviour
         float totalBonus = 0f;
         totalBonus += bonus;
     }
-    private float bonusCount = 0f;
+  
     public void SetGunUpgradeDamage(float bonus)
     {
         float totalBonus = 0f;
         totalBonus += bonus;
-        damage = damage * (1+ totalBonus);
+        damage = damage * (1 + totalBonus);
     }
 
     public void SetGunUpgradeMagazine(float bonus)
     {
         float totalBonus = 0f;
         totalBonus += bonus;
-       var temp =magzaineSize * (1 + totalBonus);
+        var temp = magzaineSize * (1 + totalBonus);
         magzaineSize = (int)temp;
     }
 

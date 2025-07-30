@@ -137,12 +137,12 @@ public class PlayerMovement : MonoBehaviour
         if (groundCheck.isGrounded &&!wasGrounded  )
         {
             playerAnim.SetBool("isJump", false);
-            playerAnim.SetBool("isGrounded", true);
+          //  playerAnim.SetBool("isGrounded", true);
         }
-        else//in air
+      /*  else//in air
         {
             playerAnim.SetBool("isGrounded", false);
-        }
+        }*/
         wasGrounded = groundCheck.isGrounded;
     }
     Vector3 direction;

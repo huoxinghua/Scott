@@ -92,6 +92,8 @@ public class WeaponController : MonoBehaviour
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
         playerMovement.playerAnim.SetBool("isReload",false);
         playerMovement.gunAnim.SetBool("isReload", false);
+        currentGun.isReload = false;
+        Debug.Log("gun is reload?"+currentGun.isReload);
     }
 
 }
