@@ -100,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         }
        
     }
+    private bool wasGrounded;
     private void FixedUpdate()
     {
         //move
@@ -129,22 +130,26 @@ public class PlayerMovement : MonoBehaviour
         {
             transform.position = originalPos;
         }
-        //jump animation handle
-      /*  playerAnim.SetBool("InAir", !groundCheck.isGrounded);
-        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);*/
-    
-        if (rb.linearVelocity.y<-1f)
+
+
+        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+        if (groundCheck.isGrounded &&!wasGrounded  )
         {
-            playerAnim.SetBool("isLand",true);
+            playerAnim.SetBool("isJump", false);
+            playerAnim.SetBool("isGrounded", true);
         }
+        else//in air
+        {
+            playerAnim.SetBool("isGrounded", false);
+        }
+        wasGrounded = groundCheck.isGrounded;
     }
     Vector3 direction;
     public bool isMoving =false;
     public void Move(Vector2 dir)
     {
         moveDirection = dir;
-     
-      
         if (dir != Vector2.zero)
         {
             isMoving = true;
@@ -159,17 +164,12 @@ public class PlayerMovement : MonoBehaviour
         if (groundCheck && groundCheck.isGrounded)
         {
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
-            //Debug.Log("player jump");
             playerAnim.SetBool("isJump",true);
-            playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+           // playerAnim.SetBool("InAir", false);
+            //playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
         }
-        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
-        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
-        if (rb.linearVelocity.y>0.1f)
-        {
-            playerAnim.SetBool("isJump", true);
-
-        }
+ 
+      
     }
     public void SetBonusSpeed(float bonus)
     {
