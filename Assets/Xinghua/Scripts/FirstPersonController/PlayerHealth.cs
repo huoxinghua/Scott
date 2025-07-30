@@ -1,43 +1,46 @@
-using System;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour,IDamageable
-{
-   [SerializeField]private float maxHealth = 100;
-   private float currentHealth;
+public class PlayerHealth : MonoBehaviour, IDamageable
+{  
+    private float health;
+    private void OnEnable()
+    {
+        if(UpgradeManager.Instance!=null)
+        {
+            UpgradeManager.Instance.OnPlayerDataUpgradeConfirm += SetHealth;
+        }
+    }
+    private void OnDisable()
+    {
+        if (UpgradeManager.Instance != null)
+        {
+            UpgradeManager.Instance.OnPlayerDataUpgradeConfirm -= SetHealth;
+        }
+    }
     private void Start()
     {
-        currentHealth = maxHealth;
+        health = UpgradeManager.Instance.newHealth;
+        Debug.Log("player start health:" + health);
     }
-
+    public void SetHealth(float value)
+    {
+        health = value;
+        Debug.Log("player set new health to:" + health);
+    }
     public void TakeDamage(float a)
     {
-       // Debug.Log("player take damage");
-        if (currentHealth > a)
+        // Debug.Log("player take damage");
+        if (health > a)
         {
-            currentHealth -= a;
-            Debug.Log("player current health:"+ currentHealth);
+            health -= a;
+            Debug.Log("player current health:" + health);
         }
         else
         {
-            currentHealth = 0;
-           // Debug.Log("player die");
+            health = 0;
+            // Debug.Log("player die");
         }
     }
 
 
-    #region upgrade
-
-    public void SetBonusHealth(float bonus)
-    {
-        if (bonus == 0) return;
-        Debug.Log("before upgrade health:" + currentHealth +"bonus:" +bonus);
-        float totalbonus = 0f;
-        totalbonus += bonus;
-        currentHealth = currentHealth * (1+totalbonus);
-        Debug.Log("after upgrade health:" + currentHealth);
-    }
-
-
-    #endregion
 }

@@ -16,12 +16,12 @@ MonoBehaviour:
     Type: 0
     Name: 
     Description: 
-    DamageBonus: 1
-    MagazineBonus: 2
-    FireRateBonus: 1
-    SpreadAmountBonus: 1
-    RecoilBonus: 1
-    ReloadSpeedBonus: 1
-    MoveSpeedBonus: 1.2
-    SanityBonus: 1.3
-    ShotsPerShootBonus: 1
+    SanityBonus: 0.2
+    MoveSpeedBonus: 0.4
+    DamageBonus: 0
+    FireRateBonus: 0
+    SpreadAmountBonus: 0
+    RecoilBonus: 0
+    ReloadSpeedBonus: 0
+    MagazineBonus: 0
+    ShotsPerShootBonus: 0

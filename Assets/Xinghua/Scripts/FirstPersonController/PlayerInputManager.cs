@@ -191,7 +191,6 @@ public class PlayerInputManager : MonoBehaviour
     }
     private void Interact(InputAction.CallbackContext context)
     {
-        Debug.Log("get interact input");
         OnInteractInput?.Invoke();
     }
 

@@ -14,6 +14,7 @@ public class PodiumManager : MonoBehaviour
     public GameObject cvonfirmButton;
     public GameObject cancelButton;
     PlayerUpgrade playerUpgrade;
+   // public event Action OnUpgradeConfirm;
     private void Awake()
     {
         Instance = this;
@@ -33,7 +34,10 @@ public class PodiumManager : MonoBehaviour
         if (currentUpgradeOptinon != null)
         {
             playerUpgrade.profile.AddUpgrade(currentUpgradeOptinon);
+           
+           // OnUpgradeConfirm?.Invoke();
             Debug.Log("ConfirmUpgrade" + currentUpgradeOptinon.name);
+            UpgradeManager.Instance.ApplyUpgrade(currentUpgradeOptinon);
         }
         else
         {

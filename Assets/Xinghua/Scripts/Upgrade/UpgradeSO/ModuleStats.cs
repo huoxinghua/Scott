@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public enum ModuleType
 {
     Stock,        
@@ -18,14 +20,19 @@ public class ModuleStats
     public ModuleType Type;
     public string Name;
     public string Description;
+    public GameObject sprite;
+    [Header("Player")]
+   
+    public float SanityBonus;
+    public float MoveSpeedBonus;
+    [Header("Weapon")]
+    public float DamageBonus ;
+   
+    public float FireRateBonus ;
+    public float SpreadAmountBonus ;
+    public float RecoilBonus ;
+    public float ReloadSpeedBonus;
 
-    public float DamageBonus = 1f;
-    public int MagazineBonus =1;
-    public float FireRateBonus =1f;
-    public float SpreadAmountBonus =1f;
-    public float RecoilBonus =1f;
-    public float ReloadSpeedBonus = 1f;
-    public float MoveSpeedBonus =1f;
-    public float SanityBonus = 1f;
-    public int  ShotsPerShootBonus = 1;
+    public int MagazineBonus;
+    public int  ShotsPerShootBonus ;
 }

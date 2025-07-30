@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af7f65847e56b79449f66d20d7c3f444, type: 3}
-  m_Name: PlayerSanity
+  m_Name: Gun
   m_EditorClassIdentifier: 
   stats:
-    Type: 7
+    Type: 1
     Name: 
     Description: 
-    DamageBonus: 2
-    MagazineBonus: 1
-    FireRateBonus: 2
-    SpreadAmountBonus: 1
-    RecoilBonus: 1
-    ReloadSpeedBonus: 1
-    MoveSpeedBonus: 1.2
-    SanityBonus: 1.2
-    ShotsPerShootBonus: 1
+    SanityBonus: 0
+    MoveSpeedBonus: 0
+    DamageBonus: 0
+    FireRateBonus: 0
+    SpreadAmountBonus: 0
+    RecoilBonus: 0
+    ReloadSpeedBonus: 0
+    MagazineBonus: 0
+    ShotsPerShootBonus: 0

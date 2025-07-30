@@ -40,7 +40,7 @@ public class Gun : MonoBehaviour
         //   crosshairController = GetComponent<CrosshairController>();
         gunAnimator = GetComponent<Animator>();
         playerAnimator = GetComponentInParent<Animator>();
-        Debug.Log("start gun animation" + gunAnimator);
+       
     }
     private void Start()
     {
@@ -273,14 +273,14 @@ public class Gun : MonoBehaviour
     {
         float totalBonus = 0f;
         totalBonus += bonus;
-        damage = damage * (1 + totalBonus);
+        damage = damage *  totalBonus;
     }
 
     public void SetGunUpgradeMagazine(float bonus)
     {
         float totalBonus = 0f;
         totalBonus += bonus;
-        var temp = magzaineSize * (1 + totalBonus);
+        var temp = magzaineSize *totalBonus;
         magzaineSize = (int)temp;
     }
 
@@ -293,8 +293,8 @@ public class Gun : MonoBehaviour
     {
         float totalBonus = 0f;
         totalBonus += bonus;
-        var temp = spreadAmount * (1 + totalBonus);
-        spreadAmount = (int)temp;
+         
+        spreadAmount = spreadAmount * + totalBonus;
     }
     public void SetGunUpgradeRecoil(float bonus)
     {
@@ -308,7 +308,7 @@ public class Gun : MonoBehaviour
     {
         float totalBonus = 0f;
         totalBonus += bonus;
-        var temp = bulletsPerShot * (1 + totalBonus);
+        var temp = bulletsPerShot * totalBonus;
         bulletsPerShot = (int)temp;
     }
 
