@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerUpgrade : MonoBehaviour
@@ -10,7 +9,7 @@ public class PlayerUpgrade : MonoBehaviour
     private PlayerHealth playerHealth;
     private PlayerMovement playerMovement;
     private PlayerInputManager inputManager;
-    private Gun currentGun;
+    private Gun[] guns;
     public event Action OnUIInput;
 
     private void Awake()
@@ -18,8 +17,8 @@ public class PlayerUpgrade : MonoBehaviour
         playerHealth = GetComponent<PlayerHealth>();
         playerMovement = GetComponent<PlayerMovement>();
         inputManager = GetComponent<PlayerInputManager>();
-        currentGun = GetComponentInChildren<Gun>(false);
-
+        guns = GetComponentsInChildren<Gun>();
+        Debug.Log("gun number:" + guns.Length);
         var profile = Resources.Load<PlayerUpgradeProfile>("Data/PlayerUpgradeProfile");
 
     }
@@ -46,86 +45,100 @@ public class PlayerUpgrade : MonoBehaviour
     private void ApplyBonuses()
     {
         Debug.Log("Apply bonuses");
-        float totalHealthBonus = 1f;
-        float totalMoveSpeedBonus = 1f;
+        float totalHealthBonus = 0f;
+        float totalMoveSpeedBonus = 0f;
 
-        float totalDamageBonus = 1f;
-        int totalMagzineBonus = 1;
-        float totalFireRateBonus = 1f;
-        float totalSpreadAmountBonus = 1f;
-        float totalRecoilBonus = 1f;
-        float totalReloadSpeedBonus = 1f;
-        int totalShotsPerShootBonus = 1;
-       
+        float totalDamageBonus = 0f;
+        int totalMagzineBonus = 0;
+        float totalFireRateBonus = 0f;
+        float totalSpreadAmountBonus = 0f;
+        float totalRecoilBonus = 0f;
+        float totalReloadSpeedBonus = 0f;
+        int totalShotsPerShootBonus = 0;
+
+
 
         foreach (var m in profile.equippedUpgrades)
         {
-            if (m.stats.SanityBonus != 1)
+            if (m.stats.SanityBonus != 0)
             {
                 totalHealthBonus = m.stats.DamageBonus;
                 playerHealth.SetBonusHealth(totalHealthBonus);
             }
-            if (m.stats.MoveSpeedBonus != 1)
+            if (m.stats.MoveSpeedBonus != 0)
             {
                 totalMoveSpeedBonus = m.stats.MoveSpeedBonus;
-                playerHealth.SetBonusHealth(totalReloadSpeedBonus);
+
+                playerMovement.SetBonusSpeed(totalMoveSpeedBonus);
             }
             //guns
-            if (m.stats.MagazineBonus != 1)
+            if (m.stats.MagazineBonus != 0)
             {
                 totalMagzineBonus = m.stats.MagazineBonus;
-                currentGun.SetGunUpgradeMagazine(totalMagzineBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeMagazine(totalMagzineBonus);
+                }
             }
-          
-            if (m.stats.DamageBonus != 1)
+
+            if (m.stats.DamageBonus != 0)
             {
                 totalDamageBonus = m.stats.DamageBonus;
-                currentGun.SetGunUpgradeDamage(totalDamageBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeDamage(totalDamageBonus);
+                }
             }
 
-            if (m.stats.MagazineBonus != 1)
-            {
-                totalMagzineBonus = m.stats.MagazineBonus;
-                currentGun.SetGunUpgradeMagazine(totalMagzineBonus);
-            }
-
-            if (m.stats.FireRateBonus != 1)
+            if (m.stats.FireRateBonus != 0)
             {
                 totalFireRateBonus = m.stats.FireRateBonus;
-                currentGun.SetGunUpgradeFireRate(totalFireRateBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeFireRate(totalFireRateBonus);
+                }
             }
 
-            if (m.stats.SpreadAmountBonus != 1)
+            if (m.stats.SpreadAmountBonus != 0)
             {
                 totalSpreadAmountBonus = m.stats.SpreadAmountBonus;
-                currentGun.SetGunUpgradeSpreadAmount(totalSpreadAmountBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeSpreadAmount(totalSpreadAmountBonus);
+                }
             }
 
-            if (m.stats.RecoilBonus != 1)
+            if (m.stats.RecoilBonus != 0)
             {
                 totalRecoilBonus = m.stats.RecoilBonus;
-                currentGun.SetGunUpgradeRecoil(totalRecoilBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeRecoil(totalRecoilBonus);
+                }
             }
 
-            if (m.stats.ReloadSpeedBonus != 1)
+            if (m.stats.ReloadSpeedBonus != 0)
             {
                 totalReloadSpeedBonus = m.stats.ReloadSpeedBonus;
-                currentGun.SetGunUpgradeReloadSpeed(totalReloadSpeedBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeReloadSpeed(totalReloadSpeedBonus);
+                }
             }
 
-            if (m.stats.ShotsPerShootBonus != 1)
+            if (m.stats.ShotsPerShootBonus != 0)
             {
                 totalShotsPerShootBonus = m.stats.ShotsPerShootBonus;
-                currentGun.SetGunUpgradeShotsPerShoot(totalShotsPerShootBonus);
+                foreach (var gun in guns)
+                {
+                    gun.SetGunUpgradeShotsPerShoot(totalShotsPerShootBonus);
+                }
+
             }
         }
 
-        
-       
-
-       // currentGun.SetGunBonus(currentGun.gunData.type, gunBonus);
-
     }
+
     public bool isInteract = false;
     private void HandleInteract()
     {

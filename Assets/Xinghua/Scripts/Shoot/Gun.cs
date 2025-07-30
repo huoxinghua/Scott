@@ -260,14 +260,27 @@ public class Gun : MonoBehaviour
     {
         SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
     }
+
+
+    public void SetGunUpgradeBonus(float bonus)
+    {
+        float totalBonus = 0f;
+        totalBonus += bonus;
+    }
+    private float bonusCount = 0f;
     public void SetGunUpgradeDamage(float bonus)
     {
-        damage = damage * bonus;
+        float totalBonus = 0f;
+        totalBonus += bonus;
+        damage = damage * (1+ totalBonus);
     }
 
-    public void SetGunUpgradeMagazine(int bonus)
+    public void SetGunUpgradeMagazine(float bonus)
     {
-        magzaineSize = magzaineSize * bonus;
+        float totalBonus = 0f;
+        totalBonus += bonus;
+       var temp =magzaineSize * (1 + totalBonus);
+        magzaineSize = (int)temp;
     }
 
 
@@ -277,7 +290,10 @@ public class Gun : MonoBehaviour
     }
     public void SetGunUpgradeSpreadAmount(float bonus)
     {
-        spreadAmount = spreadAmount * bonus;
+        float totalBonus = 0f;
+        totalBonus += bonus;
+        var temp = spreadAmount * (1 + totalBonus);
+        spreadAmount = (int)temp;
     }
     public void SetGunUpgradeRecoil(float bonus)
     {
@@ -289,8 +305,12 @@ public class Gun : MonoBehaviour
     }
     public void SetGunUpgradeShotsPerShoot(int bonus)
     {
-        bulletsPerShot += bonus;
+        float totalBonus = 0f;
+        totalBonus += bonus;
+        var temp = bulletsPerShot * (1 + totalBonus);
+        bulletsPerShot = (int)temp;
     }
+
     /* public void SetGunBonus(GunType type,  Dictionary<string,float> values)
      {
 

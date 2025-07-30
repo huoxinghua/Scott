@@ -173,8 +173,12 @@ public class PlayerMovement : MonoBehaviour
     }
     public void SetBonusSpeed(float bonus)
     {
-       if(bonus == 1)return;
-        moveSpeed = moveSpeed * bonus;
+       if(bonus == 0)return;
+     
+        Debug.Log("before upgrade speed:" + moveSpeed + "bonus:" + bonus);
+        float totalbonus = 0f;
+        totalbonus += bonus;
+        moveSpeed = moveSpeed * (1+ totalbonus);
         Debug.Log("after upgrade speed:" + moveSpeed);
     }
 }

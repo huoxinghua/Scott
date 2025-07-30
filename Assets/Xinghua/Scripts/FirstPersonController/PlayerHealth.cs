@@ -30,9 +30,11 @@ public class PlayerHealth : MonoBehaviour,IDamageable
     private float bonusHealth = 0;
     public void SetBonusHealth(float bonus)
     {
-        if (bonus == 1) return;
+        if (bonus == 0) return;
         Debug.Log("before upgrade health:" + currentHealth +"bonus:" +bonus);
-        currentHealth = currentHealth * bonus;
+        float totalbonus = 0f;
+        totalbonus += bonus;
+        currentHealth = currentHealth * (1+totalbonus);
         Debug.Log("after upgrade health:" + currentHealth);
     }
 
