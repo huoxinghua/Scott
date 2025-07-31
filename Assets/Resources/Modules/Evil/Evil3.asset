@@ -15,7 +15,7 @@ MonoBehaviour:
   stats:
     Type: 0
     name: c
-    sprite: {fileID: 21300000, guid: 28d2c2677149d45e290e8fa042b1b80f, type: 3}
+    sprite: {fileID: 21300000, guid: 6dfd67e3fbc0341349e142f024efc882, type: 3}
     panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
     Description: 
     SanityBonus: 0.2

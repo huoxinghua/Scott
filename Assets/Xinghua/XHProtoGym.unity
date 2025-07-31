@@ -75630,9 +75630,9 @@ MonoBehaviour:
   BaseEnemy: {fileID: 6318170868623974246, guid: a3775da327d87ae43969748c9e1ab690, type: 3}
   RangedEnemy: {fileID: 0}
   TankEnemy: {fileID: 0}
-  maxZombiesInScene: 20
-  spawnSpeed: 0.2
-  firstWaveEnemyAmount: 7
+  maxZombiesInScene: 50
+  spawnSpeed: 0.5
+  firstWaveEnemyAmount: 70
   waveData: {fileID: 11400000, guid: 25edbb28dfcdf1b4b829b1b4398909ba, type: 2}
 --- !u!1 &1882850177
 GameObject:
@@ -88788,8 +88788,8 @@ SceneRoots:
   - {fileID: 410087041}
   - {fileID: 832575519}
   - {fileID: 634425397}
-  - {fileID: 2004634292734248324}
   - {fileID: 1135584892}
+  - {fileID: 2004634292734248324}
   - {fileID: 2080428906}
   - {fileID: 122189310}
   - {fileID: 14873407}

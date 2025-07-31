@@ -25,7 +25,7 @@ public class PlayerLook : MonoBehaviour
     [HideInInspector]
     public bool isAiming = false;
     [SerializeField]private float aimSensitivityMultiplier = 0.0005f;
-    private float normalFOV = 100f; 
+    private float normalFOV = 60f; 
     private float aimFOV = 40f;     
     private float fovTransitionSpeed = 10f; 
     [SerializeField] float fovTransitionTime = 0.2f;

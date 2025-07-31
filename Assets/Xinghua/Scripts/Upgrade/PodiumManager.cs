@@ -109,13 +109,13 @@ public class PodiumManager : MonoBehaviour
        
 
         var neutralPanel = Instantiate(randomNeutral.stats.panel, neutralUpgradeParent);
-        //neutralPanel.GetComponent<UpgradePanelUI>().Set(randomNeutral);
+       // neutralPanel.GetComponent<UpgradePanelUI>().SetPanel(randomNeutral);
 
         var goodPanel = Instantiate(randomGood.stats.panel, goodUpgradeParent);
-        //goodPanel.GetComponent<UpgradePanelUI>().Set(randomGood);
+       // goodPanel.GetComponent<UpgradePanelUI>().SetPanel(randomGood);
 
         var evilPanel = Instantiate(randomEvil.stats.panel,evilUpgradeParent);
-       // evilPanel.GetComponent<UpgradePanelUI>().Set(randomEvil);
+       // evilPanel.GetComponent<UpgradePanelUI>().SetPanel(randomEvil);
     }
 
    /* public void GenerateRandomUpgradeOption()
