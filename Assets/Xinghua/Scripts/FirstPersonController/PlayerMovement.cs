@@ -40,10 +40,11 @@ public class PlayerMovement : MonoBehaviour
         originalPos = transform.position;
         if (UpgradeManager.Instance != null )
         {
+            Debug.Log("UpgradeManager player speed:" + UpgradeManager.Instance.newSpeed);
             moveSpeed = UpgradeManager.Instance.newSpeed;
         }
+        
 
-       
         Debug.Log("player start speed:" + moveSpeed);
         playerAnim.SetFloat("Speed", 0f);
 

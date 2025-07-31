@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class UpgradePanelUI : MonoBehaviour
 {
     public Image icon;
-    public TextMeshProUGUI titleText;
-    public TextMeshProUGUI descriptionText;
+    public TMP_Text titleText;
+    public TMP_Text descriptionText;
     private void Start()
     {
         icon = GetComponentInChildren<Image>();
@@ -15,7 +15,7 @@ public class UpgradePanelUI : MonoBehaviour
     {
         Debug.Log("set panel");
 //        icon.sprite = config.stats.sprite;
-        titleText.text = config.stats.name;
-        descriptionText.text = config.stats.Description;
+        titleText.SetText(config.stats.name);
+        descriptionText.SetText(config.stats.Description);
     }
 }

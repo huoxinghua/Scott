@@ -46,6 +46,7 @@ public class UpgradeManager : MonoBehaviour
     private void Start()
     {
         newHealth = originalHealth;
+        
         newSpeed = originalSpeed;
 
         totalHealthBonus = 0f;
@@ -58,7 +59,7 @@ public class UpgradeManager : MonoBehaviour
         totalRecoilBonus = 0f;
         totalReloadSpeedBonus = 0f;
         totalShotsPerShootBonus = 0;
-        Debug.Log("upgrade manager start");
+        
     }
 
     public void ApplyUpgrade(ModuleConfig config)
@@ -78,44 +79,81 @@ public class UpgradeManager : MonoBehaviour
         //guns
         if (config.stats.MagazineBonus != 0)
         {
-            totalMagzineBonus = config.stats.MagazineBonus;
-
+            totalMagzineBonus += config.stats.MagazineBonus;
+            SetBonusMagzine();
         }
 
         if (config.stats.DamageBonus != 0)
         {
-            totalDamageBonus = config.stats.DamageBonus;
-
+            totalDamageBonus += config.stats.DamageBonus;
+            SetBonusDamage();
         }
 
         if (config.stats.FireRateBonus != 0)
         {
-            totalFireRateBonus = config.stats.FireRateBonus;
-
+            totalFireRateBonus += config.stats.FireRateBonus;
+            SetBonusFireRateBonus();
         }
 
         if (config.stats.SpreadAmountBonus != 0)
         {
-            totalSpreadAmountBonus = config.stats.SpreadAmountBonus;
-
+            totalSpreadAmountBonus += config.stats.SpreadAmountBonus;
+            SetBonusSpreadAmount();
         }
 
         if (config.stats.RecoilBonus != 0)
         {
-            totalRecoilBonus = config.stats.RecoilBonus;
-
+            totalRecoilBonus += config.stats.RecoilBonus;
+            SetBonusRecoilBonus();
         }
         if (config.stats.ReloadSpeedBonus != 0)
         {
-            totalReloadSpeedBonus = config.stats.ReloadSpeedBonus;
-
+            totalReloadSpeedBonus += config.stats.ReloadSpeedBonus;
+            SetBonusReloadSpeed();
         }
         if (config.stats.ShotsPerShootBonus != 0)
         {
-            totalShotsPerShootBonus = config.stats.ShotsPerShootBonus;
+            totalShotsPerShootBonus += config.stats.ShotsPerShootBonus;
+            SetBonusShotsCount();
         }
 
     }
+    //gun
+    private void SetBonusShotsCount()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetBonusReloadSpeed()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetBonusRecoilBonus()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetBonusSpreadAmount()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetBonusFireRateBonus()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetBonusDamage()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void SetBonusMagzine()
+    {
+        throw new NotImplementedException();
+    }
+    //player
     public void SetBonusHealth()
     {
         newHealth = originalHealth * (1 + totalHealthBonus);
@@ -207,39 +245,7 @@ public class UpgradeManager : MonoBehaviour
 
         }
 
-
     }
 
-  /*  private List<ModuleConfig> GetRandomConfigs()
-    {
-       
-        var copyConfigs = configs;
-        var result = new List<ModuleConfig>();
-        for (int i = 0; i < 3; i++)
-        {
-            var index = Random.Range(0, configs.Count);
-            Debug.Log("i" + i + "Configs count:" + configs.Count + "index" + index);
-            var config = configs[index];
-            result.Add(config);
-            configs.Remove(config);
-        }
-       // Debug.Log("result" + result.Count);
-        configs = copyConfigs;
-        return result;
-    }
-    public void GenerateRandomUpgradeOption()
-    {
-        Debug.Log("GenerateRandomUpgradeOption");
-
-        var upgradeConfigs = GetRandomConfigs();
-        Debug.Log("upgradeConfigs count:" + upgradeConfigs.Count);
-        foreach (var config in upgradeConfigs)
-        {
-            var icon = Instantiate(config.stats.sprite, worldSpaceCanvas.transform);
-
-           
-            
-        }
-
-    }*/
+  
 }

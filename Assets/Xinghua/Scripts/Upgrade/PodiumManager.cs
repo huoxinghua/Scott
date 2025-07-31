@@ -44,29 +44,7 @@ public class PodiumManager : MonoBehaviour
          evilConfigs = Resources.LoadAll<ModuleConfig>("Modules/Evil").ToList();
        
     }
-    /* private void OnEnable()
-     {
-         if (sceneSwitch != null)
-         {
-             sceneSwitch.OnUpgradeSceneLoad += GenerateRandomUpgradeOption;
-         }
-         else
-         {
-             Debug.Log("sceneSwitch is null");
-         }
-
-     }
-     private void OnDisable()
-     {
-         if (sceneSwitch != null)
-         {
-             sceneSwitch.OnUpgradeSceneLoad -= GenerateRandomUpgradeOption;
-         }
-         else
-         {
-             Debug.Log("sceneSwitch is null");
-         }
-     }*/
+  
     private void Start()
     {
         podiums = transform.GetComponentsInChildren<UpgradePodium>();
@@ -77,23 +55,7 @@ public class PodiumManager : MonoBehaviour
         GenerateRandomUpgradeOption();
 
     }
-    /*   private List<ModuleConfig> GetRandomConfigs()
-       {
-           var copyConfigs = configs;
-           var result = new List<ModuleConfig>();
-           for (int i = 0; i < 3 && copyConfigs.Count > 0; i++)
-           {
-
-               var index = Random.Range(0, configs.Count);
-               Debug.Log("i" + i + "Configs count:" + configs.Count + "index" + index);
-               var config = configs[index];
-               result.Add(config);
-               configs.Remove(config);
-           }
-           Debug.Log("result" + result.Count);
-           configs = copyConfigs;
-           return result;
-       }*/
+ 
   
     private void GenerateRandomUpgradeOption()
     {
@@ -101,35 +63,21 @@ public class PodiumManager : MonoBehaviour
         ModuleConfig randomGood = goodConfigs[Random.Range(0, goodConfigs.Count)];
         ModuleConfig randomNeutral = neutralConfigs[Random.Range(0, neutralConfigs.Count)];
         ModuleConfig randomEvil = evilConfigs[Random.Range(0, evilConfigs.Count)];
-       /* Debug.Log("Good panel prefab: " + randomGood.stats.panel);
-        Debug.Log("Neutral panel prefab: " + randomNeutral.stats.panel);
-        Debug.Log("Evil panel prefab: " + randomEvil.stats.panel);*/
+    
 
         Debug.Log(randomGood.stats.name + randomEvil.stats.Type + randomNeutral.name);
        
 
         var neutralPanel = Instantiate(randomNeutral.stats.panel, neutralUpgradeParent);
-       // neutralPanel.GetComponent<UpgradePanelUI>().SetPanel(randomNeutral);
+        neutralPanel.GetComponent<UpgradePanelUI>().SetPanel(randomNeutral);
 
         var goodPanel = Instantiate(randomGood.stats.panel, goodUpgradeParent);
-       // goodPanel.GetComponent<UpgradePanelUI>().SetPanel(randomGood);
+        goodPanel.GetComponent<UpgradePanelUI>().SetPanel(randomGood);
 
         var evilPanel = Instantiate(randomEvil.stats.panel,evilUpgradeParent);
-       // evilPanel.GetComponent<UpgradePanelUI>().SetPanel(randomEvil);
+        evilPanel.GetComponent<UpgradePanelUI>().SetPanel(randomEvil);
     }
 
-   /* public void GenerateRandomUpgradeOption()
-    {
-        Debug.Log("GenerateRandomUpgradeOption");
-        var upgradeConfigs = GetRandomConfigs();
-        Debug.Log("upgradeConfigs count:" + upgradeConfigs.Count);
-        foreach (var config in upgradeConfigs)
-        {
-            Debug.Log("config.stats.sprite:" + config.stats.sprite.name);
-            Instantiate(config.stats.sprite);
-        }
-
-    }*/
     public void ConfirmUpgrade()
     {
         OnConfirmUpgradePodium?.Invoke(currentUpgradeOptinon);

@@ -75628,11 +75628,11 @@ MonoBehaviour:
   maxSpawnPoints: 100
   CurrentWave: 0
   BaseEnemy: {fileID: 6318170868623974246, guid: a3775da327d87ae43969748c9e1ab690, type: 3}
-  RangedEnemy: {fileID: 0}
+  RangedEnemy: {fileID: 8505041738050379476, guid: 06668ca4b21fda246a8ce838b1b93197, type: 3}
   TankEnemy: {fileID: 0}
-  maxZombiesInScene: 50
-  spawnSpeed: 0.5
-  firstWaveEnemyAmount: 70
+  maxZombiesInScene: 24
+  spawnSpeed: 1
+  firstWaveEnemyAmount: 7
   waveData: {fileID: 11400000, guid: 25edbb28dfcdf1b4b829b1b4398909ba, type: 2}
 --- !u!1 &1882850177
 GameObject:
