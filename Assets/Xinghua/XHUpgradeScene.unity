@@ -202,8 +202,8 @@ MonoBehaviour:
   cancelButton: {fileID: 1682860965}
   sceneSwitch: {fileID: 875800832}
   goodUpgradeParent: {fileID: 4991125611899629982}
-  neutralUpgradeParent: {fileID: 8461302112197528431}
-  evilUpgradeParent: {fileID: 3339009943199428270}
+  neutralUpgradeParent: {fileID: 3339009943199428270}
+  evilUpgradeParent: {fileID: 8461302112197528431}
 --- !u!1 &332615017
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +326,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f18ad393fef044a82bfad23f6490a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgardePanel: {fileID: 0}
   config: {fileID: 11400000, guid: 5353e5adb33fd924dbb4d4de2298ccbc, type: 2}
 --- !u!1 &334026066
 GameObject:
@@ -1123,7 +1122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f18ad393fef044a82bfad23f6490a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgardePanel: {fileID: 0}
   config: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
 --- !u!1 &1467343174
 GameObject:
@@ -1538,7 +1536,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0f18ad393fef044a82bfad23f6490a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  upgardePanel: {fileID: 0}
   config: {fileID: 11400000, guid: f8d7a28d039167145afd2333a25d2a33, type: 2}
 --- !u!1001 &1947406307
 PrefabInstance:
