@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangedEnemy : MonoBehaviour, IDamageable
+public class RangedEnemy : MonoBehaviour, IDamageable, IRagDollable
 { 
 [SerializeField]float moveSpeed;
 [SerializeField] float attackDistance;
@@ -31,7 +31,7 @@ GameObject playerObj;
 Transform playerTransform;
 List<int> agentTypeIdList = new List<int>();
 bool hasJumped = false;
-//[SerializeField] Ragdoll ragDollScript;
+[SerializeField] Ragdoll ragDollScript;
 Transform hitPoint;
     bool isAroundCorner = false;
 public enum EnemyState
@@ -61,7 +61,7 @@ public void TakeDamage(float damage)
         agent.ResetPath();
         agent.isStopped = true;
         // agent.enabled = false;
-    //    ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position), 1000f);
+      ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position), 10f);
     if(enemySpawn != null)
             {
                 enemySpawn.EnemyWasKilled();
@@ -79,7 +79,7 @@ IEnumerator DecayBody()
 }
 public void Awake()
 {
-  //  animator = transform.GetComponentInChildren<Animator>();
+    animator = transform.GetComponentInChildren<Animator>();
     currentHealth = maxHealth;
 
 }
@@ -136,7 +136,7 @@ public void Moving()
     {
         if (!hasJumped)
         {
-           // animator.SetTrigger("Jump");
+            animator.SetBool("isJump",true);
         }
 
         hasJumped = true;
@@ -144,6 +144,7 @@ public void Moving()
     else
     {
         hasJumped = false;
+            animator.SetBool("isJump", false);
     }
     if (currentState == EnemyState.Dead)
     {
@@ -153,24 +154,33 @@ public void Moving()
     if (isAttacking)
     {
         agent.speed = 0;
+            animator.SetBool("isMove", false);
     }
     else
     {
         agent.speed = moveSpeed;
-     //   animator.SetFloat("Speed", agent.velocity.magnitude / moveSpeed);
+        animator.SetBool("isMove", true);
     }
     // Debug.Log(agent.velocity.magnitude / moveSpeed);
 
 }
 public void Attacking()
 {
-    //animator.SetFloat("Speed", 0);
-    if (!isAttacking)
+        animator.SetBool("isMove", false);
+        if (!isAttacking)
     {
+            if (isHighArc)
+            {
+                animator.SetBool("isProjectile", true);
+            }
+            else
+            {
+                animator.SetBool("isShoot", true);
+            }
             //  animator.SetInteger("AtkNumber", Random.Range(0, 3));
             //     animator.SetTrigger("Attack");
-            // isAttacking = true;
-            StartCoroutine(ShootCor()); 
+            isAttacking = true;
+            //StartCoroutine(ShootCor()); 
     }
 }
 //likely needs a better way and or needs event from animator
@@ -182,8 +192,8 @@ public void Attacking()
  }*/
 public void OnAttemptHit()
 {
-    if (canAttack)
-    {
+    
+    
             GameObject tempBullet = Instantiate(projectilePrefab,bulletOrigin);
             tempBullet.GetComponent<REProjectile>().targetTransform = playerTransform;
             tempBullet.GetComponent<REProjectile>().shootHigh = isHighArc;
@@ -196,7 +206,7 @@ public void OnAttemptHit()
                 }*/
             //xh code end
 
-    }
+    
 }
 
     //temp solution while waiting for anim
@@ -208,9 +218,16 @@ public void OnAttemptHit()
         yield return new WaitForSeconds(Random.Range(.5f,3f));
         OnAttackFinish();
     }
+    IEnumerator ShootDelay()
+    {
+        yield return new WaitForSeconds(Random.Range(0.2f,2f));
+        isAttacking = false;
+    }
 public void OnAttackFinish()
 {
-    isAttacking = false;
+        animator.SetBool("isProjectile", false);
+        animator.SetBool("isShoot", false);
+    StartCoroutine(ShootDelay());
 }
 // Update is called once per frame
 IEnumerator GetAroundCorner()

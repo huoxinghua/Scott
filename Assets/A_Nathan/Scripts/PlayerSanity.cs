@@ -36,7 +36,7 @@ public class PlayerSanity : MonoBehaviour
         }
         else if(sanityData.currentSanity > sanityData.maxSanity / 5)
         {
-            ppVol.weight = Mathf.Lerp(0.2f, 0.5f, 1 - ((sanityData.currentSanity - (sanityData.maxSanity/5)) / (sanityData.maxSanity / (3 + 1 / 3)));
+            ppVol.weight = Mathf.Lerp(0.2f, 0.5f, 1 - ((sanityData.currentSanity - (sanityData.maxSanity/5))) / (sanityData.maxSanity / (3 + 1 / 3)));
         }
         else
         {
