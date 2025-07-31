@@ -19,8 +19,12 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     private void Start()
     {
-        health = UpgradeManager.Instance.newHealth;
-        Debug.Log("player start health:" + health);
+        if (UpgradeManager.Instance != null)
+        {
+            health = UpgradeManager.Instance.newHealth;
+        }
+       
+       // Debug.Log("player start health:" + health);
     }
     public void SetHealth(float value)
     {

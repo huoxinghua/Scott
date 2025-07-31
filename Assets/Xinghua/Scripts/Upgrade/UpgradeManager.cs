@@ -1,8 +1,9 @@
 using System;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.Rendering.STP;
-
+using Random = UnityEngine.Random;
 public class UpgradeManager : MonoBehaviour
 {
     public static UpgradeManager Instance;
@@ -20,9 +21,14 @@ public class UpgradeManager : MonoBehaviour
     float totalRecoilBonus;
     float totalReloadSpeedBonus;
     int totalShotsPerShootBonus;
-
-  public event Action<float> OnPlayerDataUpgradeConfirm;
+   
+    public event Action<float> OnPlayerDataUpgradeConfirm;
     public event Action<float> OnPlayerSpeedUpgradeConfirm;
+
+    [SerializeField] private List<ModuleConfig> configs = new List<ModuleConfig>();
+
+    public bool isUpgradeSceneStart =false;
+    
     private void Awake()
     {
         if (Instance == null)
@@ -36,8 +42,7 @@ public class UpgradeManager : MonoBehaviour
         }
 
     }
- 
-  
+
     private void Start()
     {
         newHealth = originalHealth;
@@ -204,4 +209,37 @@ public class UpgradeManager : MonoBehaviour
 
 
     }
+
+  /*  private List<ModuleConfig> GetRandomConfigs()
+    {
+       
+        var copyConfigs = configs;
+        var result = new List<ModuleConfig>();
+        for (int i = 0; i < 3; i++)
+        {
+            var index = Random.Range(0, configs.Count);
+            Debug.Log("i" + i + "Configs count:" + configs.Count + "index" + index);
+            var config = configs[index];
+            result.Add(config);
+            configs.Remove(config);
+        }
+       // Debug.Log("result" + result.Count);
+        configs = copyConfigs;
+        return result;
+    }
+    public void GenerateRandomUpgradeOption()
+    {
+        Debug.Log("GenerateRandomUpgradeOption");
+
+        var upgradeConfigs = GetRandomConfigs();
+        Debug.Log("upgradeConfigs count:" + upgradeConfigs.Count);
+        foreach (var config in upgradeConfigs)
+        {
+            var icon = Instantiate(config.stats.sprite, worldSpaceCanvas.transform);
+
+           
+            
+        }
+
+    }*/
 }

@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class UpgradePodium : MonoBehaviour
 {
-    public GameObject upgardePanel;
+    private GameObject upgardePanel;
     public ModuleConfig config;
 
     private void Awake()

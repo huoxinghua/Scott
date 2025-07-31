@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af7f65847e56b79449f66d20d7c3f444, type: 3}
-  m_Name: Gun
+  m_Name: Good2
   m_EditorClassIdentifier: 
   stats:
-    Type: 1
-    Name: 
+    Type: 0
+    name: f
+    sprite: {fileID: 21300000, guid: 635b607bca05b394dae0aa52d6d85e2e, type: 3}
+    panel: {fileID: 9123232687271131692, guid: 69875d762a92e684aaf5ae86e21e435b, type: 3}
     Description: 
     SanityBonus: 0
     MoveSpeedBonus: 0

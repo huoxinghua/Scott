@@ -2,25 +2,19 @@ using UnityEngine;
 
 public enum ModuleType
 {
-    Stock,        
-    Magazine,    
-    Barrel,    
-    Trigger,     
-    Receiver,    
-    Accessory,    
-    Armor,        
-    Boots,       
-    Medicine,     
-
+    Good,        
+    Evil,    
+    Neutral,    
 }
 
 [System.Serializable]
 public class ModuleStats
 {
     public ModuleType Type;
-    public string Name;
+    public string name;
+    public Sprite sprite;
+    public GameObject panel;
     public string Description;
-    public GameObject sprite;
     [Header("Player")]
    
     public float SanityBonus;

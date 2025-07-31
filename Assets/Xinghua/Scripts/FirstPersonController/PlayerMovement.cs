@@ -38,7 +38,11 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         originalPos = transform.position;
-        moveSpeed = UpgradeManager.Instance.newSpeed;
+        if (UpgradeManager.Instance != null )
+        {
+            moveSpeed = UpgradeManager.Instance.newSpeed;
+        }
+       
         Debug.Log("player start speed:" + moveSpeed);
         playerAnim.SetFloat("Speed", 0f);
 
