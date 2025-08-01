@@ -88699,26 +88699,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: UpGradeManager
       objectReference: {fileID: 0}
-    - target: {fileID: 3384034091345710606, guid: 15ed19e29283f894c944e880fe8b9928, type: 3}
-      propertyPath: originalHealth
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 3384034091345710606, guid: 15ed19e29283f894c944e880fe8b9928, type: 3}
-      propertyPath: configs.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3384034091345710606, guid: 15ed19e29283f894c944e880fe8b9928, type: 3}
-      propertyPath: 'configs.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: f8d7a28d039167145afd2333a25d2a33, type: 2}
-    - target: {fileID: 3384034091345710606, guid: 15ed19e29283f894c944e880fe8b9928, type: 3}
-      propertyPath: 'configs.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 5353e5adb33fd924dbb4d4de2298ccbc, type: 2}
-    - target: {fileID: 3384034091345710606, guid: 15ed19e29283f894c944e880fe8b9928, type: 3}
-      propertyPath: 'configs.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

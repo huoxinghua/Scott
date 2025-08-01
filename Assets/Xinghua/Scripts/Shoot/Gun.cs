@@ -15,16 +15,16 @@ public class Gun : MonoBehaviour
     private ParticleSystem muzzleFlash;
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
     [SerializeField] private float shakePositionAmount = 0.05f;
-    [SerializeField] private float shakeDuration = 0.1f;
+   // [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private LayerMask lm;
     private Animator gunAnimator;
     private Animator playerAnimator;
     // private CrosshairController crosshairController;
 
     public float spreadAmount = 0.02f;
-    private int bulletsPerShot = 5;
-    private float damage = 10f;
-    private int magzaineSize = 2;
+    private int bulletsPerShot;
+    private float damage;
+    private int magzaineSize;
     public event Action OnShoot;
     public event Action OnReload;
 
@@ -42,11 +42,37 @@ public class Gun : MonoBehaviour
     {
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
+        
+    }
+    private void SetOriginalData()
+    {
+       
         currentAmmo = gunData.maxMagazineSize;
-        magzaineSize = gunData.maxMagazineSize;//for upgrade
-        damage = gunData.damage;
+        magzaineSize = gunData.maxMagazineSize;
+        damage = this.gunData.damage;
+       // Debug.Log(this.gunData.type + "start damage:" + damage+"so damage"+gunData.damage);
         magzaineSize = gunData.maxMagazineSize;
     }
+    private void OnEnable()
+    {
+        SetOriginalData();
+        ApplyUpgradeBonuses();
+    }
+    private void ApplyUpgradeBonuses()
+    {
+        var upgrade = UpgradeManager.Instance;
+        if (upgrade == null) return;
+
+        SetGunUpgradeDamage(upgrade.GetBonus(BonusType.Damage));
+        SetGunUpgradeMagazine(upgrade.GetBonus(BonusType.Magazine));
+        SetGunUpgradeFireRate(upgrade.GetBonus(BonusType.FireRate));
+        SetGunUpgradeSpreadAmount(upgrade.GetBonus(BonusType.Spread));
+        SetGunUpgradeRecoil(upgrade.GetBonus(BonusType.Recoil));
+        SetGunUpgradeReloadSpeed(upgrade.GetBonus(BonusType.ReloadSpeed));
+        SetGunUpgradeShotsPerShoot(upgrade.GetBonus(BonusType.ShotsPerShoot));
+    }
+
+  
     private void StartGunShake()
     {
         if (shakeCoroutine != null)
@@ -55,10 +81,22 @@ public class Gun : MonoBehaviour
         shakeCoroutine = StartCoroutine(GunShakeOnce());
 
     }
-
     public void Shoot()
     {
-        if(isReload||currentAmmo <= 0)return;
+        switch(gunData.type)
+        {
+            case GunType.Automatic:
+                AutomaticShoot();
+                break;
+                case GunType.SpreadShot:
+                FireMultiRayShot();
+                break;
+        }
+    }
+    public void AutomaticShoot()
+    {
+       // Debug.Log("AutomaticShoot");
+        if (isReload||currentAmmo <= 0)return;
         Debug.Log("gun shake");
        // StartGunShake();
          gunAnimator.SetBool("Automatic", true);
@@ -193,7 +231,7 @@ public class Gun : MonoBehaviour
 
     public void FireMultiRayShot()
     {
-
+        //Debug.Log("FireMultiRayShot");
         for (int i = 0; i < bulletsPerShot; i++)
         {
             float offsetX = Random.Range(-gunData.spreadAmount, gunData.spreadAmount);
@@ -262,52 +300,38 @@ public class Gun : MonoBehaviour
     }
 
 
-    public void SetGunUpgradeBonus(float bonus)
-    {
-        float totalBonus = 0f;
-        totalBonus += bonus;
-    }
-  
+
     public void SetGunUpgradeDamage(float bonus)
     {
-        float totalBonus = 0f;
-        totalBonus += bonus;
-        damage = damage *  totalBonus;
+        //Debug.Log(this.gunData.type+" :gun before damage:" + damage +"bones"+bonus);
+        damage = damage *( 1+ bonus);
+        //Debug.Log(this.gunData.type + ":gun after damage:" + damage);
     }
 
     public void SetGunUpgradeMagazine(float bonus)
     {
-        float totalBonus = 0f;
-        totalBonus += bonus;
-        var temp = magzaineSize *totalBonus;
-        magzaineSize = (int)temp;
+        magzaineSize = (int)(magzaineSize * (1+bonus));
     }
 
     public void SetGunUpgradeFireRate(float bonus)
     {
-
+        
     }
     public void SetGunUpgradeSpreadAmount(float bonus)
     {
-        float totalBonus = 0f;
-        totalBonus += bonus;
-         
-        spreadAmount = spreadAmount * + totalBonus;
+        spreadAmount = spreadAmount * (1+ bonus);
     }
     public void SetGunUpgradeRecoil(float bonus)
     {
-
+        
     }
     public void SetGunUpgradeReloadSpeed(float bonus)
     {
-        //animation
+        
     }
-    public void SetGunUpgradeShotsPerShoot(int bonus)
+    public void SetGunUpgradeShotsPerShoot(float bonus)
     {
-        float totalBonus = 0f;
-        totalBonus += bonus;
-        var temp = bulletsPerShot * totalBonus;
-        bulletsPerShot = (int)temp;
+        bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
     }
 
  

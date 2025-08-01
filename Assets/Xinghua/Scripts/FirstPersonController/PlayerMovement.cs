@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputManager inputManager;
     private GroundCheck groundCheck;
     [Header("move")]
-    private float moveSpeed;
+    public float moveSpeed =5f;
     private Vector2 moveDirection;
     // [HideInInspector]
     public bool isSprinting = false;
@@ -38,16 +38,16 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         originalPos = transform.position;
-        if (UpgradeManager.Instance != null )
-        {
-            Debug.Log("UpgradeManager player speed:" + UpgradeManager.Instance.newSpeed);
-            moveSpeed = UpgradeManager.Instance.newSpeed;
-        }
-        
-
-        Debug.Log("player start speed:" + moveSpeed);
         playerAnim.SetFloat("Speed", 0f);
 
+        ApplyUpgrade();
+    }
+    private void ApplyUpgrade()
+    {
+        // Debug.Log("before speed:" + moveSpeed);
+        var bonus = UpgradeManager.Instance.GetBonus(BonusType.MoveSpeed);
+        moveSpeed = moveSpeed * (1 + bonus);
+        // Debug.Log("after speed:"+ moveSpeed);
     }
 
     private void OnEnable()
@@ -65,16 +65,6 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("input manager is null ");
         }
-        if (UpgradeManager.Instance != null)
-        {
-            UpgradeManager.Instance.OnPlayerDataUpgradeConfirm += SetSpeed;
-        }
-    }
-
-    private void SetSpeed(float value)
-    {
-       moveSpeed = value;
-        Debug.Log("set player speed to : "+moveSpeed);
     }
 
     private void OnDisable()
@@ -91,10 +81,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("input manager is null ");
         }
-        if (UpgradeManager.Instance != null)
-        {
-            UpgradeManager.Instance.OnPlayerDataUpgradeConfirm -= SetSpeed;
-        }
+     
     }
 
     private void SprintStart()

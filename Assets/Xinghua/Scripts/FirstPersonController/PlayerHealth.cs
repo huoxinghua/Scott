@@ -3,28 +3,19 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour, IDamageable
 {  
     private float health;
-    private void OnEnable()
-    {
-        if(UpgradeManager.Instance!=null)
-        {
-            UpgradeManager.Instance.OnPlayerDataUpgradeConfirm += SetHealth;
-        }
-    }
-    private void OnDisable()
-    {
-        if (UpgradeManager.Instance != null)
-        {
-            UpgradeManager.Instance.OnPlayerDataUpgradeConfirm -= SetHealth;
-        }
-    }
+    public float maxHealth=100f;
+ 
     private void Start()
     {
-        if (UpgradeManager.Instance != null)
-        {
-            health = UpgradeManager.Instance.newHealth;
-        }
-       
-       // Debug.Log("player start health:" + health);
+        health = maxHealth;
+        ApplyUpgrade();
+    }
+    private void ApplyUpgrade()
+    {
+      //  Debug.Log("before health:" + health);
+        var bonus = UpgradeManager.Instance.GetBonus(BonusType.Sanity);
+        health = health *(1+ bonus);
+       // Debug.Log("after health:"+ health);
     }
     public void SetHealth(float value)
     {

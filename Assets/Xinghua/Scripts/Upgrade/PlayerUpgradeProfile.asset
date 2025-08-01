@@ -14,4 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   equippedUpgrades:
   - {fileID: 11400000, guid: 8e92add88727d154a814d84697780c1b, type: 2}
-  - {fileID: 11400000, guid: 5353e5adb33fd924dbb4d4de2298ccbc, type: 2}

@@ -17,7 +17,7 @@ public class ModuleStats
     public Sprite sprite;
     public string Description;
     [Header("Player")]
-   
+   //bonus
     public float SanityBonus;
     public float MoveSpeedBonus;
     [Header("Weapon")]

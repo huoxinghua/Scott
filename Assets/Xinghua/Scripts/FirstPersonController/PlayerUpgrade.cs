@@ -77,10 +77,9 @@ public class PlayerUpgrade : MonoBehaviour
             isInRange = false;
         }
     }
-    public void EquipModule(ModuleConfig module)
+  /*  public void EquipModule(ModuleConfig module)
     {
-
         inputManager.OnUIClose();
-    }
+    }*/
 
 }

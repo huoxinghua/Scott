@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     Type: 1
+    panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
     name: Evil1
     sprite: {fileID: 21300000, guid: 0b72f1c458e884ff69d3ea5ae7e74dc4, type: 3}
-    panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
     Description: Big Bonus but big negative
-    SanityBonus: 0
+    SanityBonus: -0.4
     MoveSpeedBonus: 0
-    DamageBonus: 0
+    DamageBonus: 0.4
     FireRateBonus: 0
     SpreadAmountBonus: 0
     RecoilBonus: 0

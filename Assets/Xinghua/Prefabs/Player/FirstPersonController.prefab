@@ -3265,7 +3265,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e8e688c5e077d4ea111befaf427141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 1000
+  maxHealth: 100
 --- !u!136 &6912802623870004504
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -10641,7 +10641,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 1d26c6a15a5c8834bac874b7d4db3624, type: 2}
   shakeRotationAmount: {x: 2, y: 2, z: 1}
   shakePositionAmount: 0.05
-  shakeDuration: 0.1
   lm:
     serializedVersion: 2
     m_Bits: 448

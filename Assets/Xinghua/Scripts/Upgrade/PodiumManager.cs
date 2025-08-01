@@ -82,7 +82,7 @@ public class PodiumManager : MonoBehaviour
 
             // OnUpgradeConfirm?.Invoke();
             Debug.Log("ConfirmUpgrade" + currentUpgradeOptinon.name);
-            UpgradeManager.Instance.ApplyUpgrade(currentUpgradeOptinon);
+            UpgradeManager.Instance.ApplyUpgradeBonus(currentUpgradeOptinon);
         }
         else
         {
@@ -115,7 +115,7 @@ public class PodiumManager : MonoBehaviour
         HideButton();
     }
     private ModuleConfig currentUpgradeOptinon = null;
-    private UpgradePodium currentPanel = null;
+
     public void SetCurrentUpgradeOptinon(ModuleConfig config)
     {
         currentUpgradeOptinon = config;
