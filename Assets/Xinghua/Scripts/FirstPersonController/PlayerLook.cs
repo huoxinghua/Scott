@@ -161,12 +161,10 @@ public class PlayerLook : MonoBehaviour
         velocity += frameVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -90, 90);
 
-        // Rotate camera up-down 
-        /*   transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
-           character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);*/
+   
         Shoot shoot = character.GetComponent<Shoot>();
 
-        float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -180f, 180f);
+        float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -90f, 90f);
         transform.localRotation = Quaternion.AngleAxis(-finalY, Vector3.right);
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }

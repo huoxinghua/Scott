@@ -11,9 +11,10 @@ public enum ModuleType
 public class ModuleStats
 {
     public ModuleType Type;
+    [Header("Random Panel")]
+    public GameObject panel;
     public string name;
     public Sprite sprite;
-    public GameObject panel;
     public string Description;
     [Header("Player")]
    

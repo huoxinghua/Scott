@@ -31,10 +31,6 @@ public class Gun : MonoBehaviour
     [Header("Ammo and Magazine")]
     public int currentAmmo;
 
-    // public int reserveAmmo = 30;
-    //Animation event
-
-
     private void Awake()
     {
         //   crosshairController = GetComponent<CrosshairController>();
@@ -62,9 +58,11 @@ public class Gun : MonoBehaviour
 
     public void Shoot()
     {
-        if(isReload)return;
+        if(isReload||currentAmmo <= 0)return;
         Debug.Log("gun shake");
-        StartGunShake();
+       // StartGunShake();
+         gunAnimator.SetBool("Automatic", true);
+       // playerAnimator.SetBool("Automatic", true);
         float offsetX = 0f;
         float offsetY = 0f;
 
@@ -114,10 +112,13 @@ public class Gun : MonoBehaviour
 
 
                 currentAmmo--;
-                // crosshairController.PlayShootAnimation();
-
-
-
+                if (currentAmmo <= 0)
+                {
+                    gunAnimator.SetBool("Automatic", false);
+                    playerAnimator.SetBool("Automatic", false);
+                }
+                    
+                //  crosshairController.PlayShootAnimation();
 
                 // var objFX = Instantiate(gunData.cube, offsetPos, rotation);
 
@@ -139,9 +140,19 @@ public class Gun : MonoBehaviour
 
     }
     public bool isReload = false;
-    public bool CheckAmmo()
+    public bool CheckFullAmmo()
     {
         if (currentAmmo == gunData.maxMagazineSize)
+        {
+
+            return true;
+
+        }
+        return false;
+    }
+    public bool CheckEmptyAmmo()
+    {
+        if (currentAmmo <= 0)
         {
 
             return true;
@@ -218,18 +229,6 @@ public class Gun : MonoBehaviour
         }
     }
 
-    /*    bool TooCloseToOtherHoles(Vector3 pos)
-        {
-            Collider[] nearby = Physics.OverlapSphere(pos, 0.05f);
-            foreach (var c in nearby)
-            {
-                if (c.CompareTag("BulletHole"))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }*/
 
     private IEnumerator GunShakeOnce()
     {
@@ -284,7 +283,6 @@ public class Gun : MonoBehaviour
         magzaineSize = (int)temp;
     }
 
-
     public void SetGunUpgradeFireRate(float bonus)
     {
 
@@ -312,16 +310,6 @@ public class Gun : MonoBehaviour
         bulletsPerShot = (int)temp;
     }
 
-    /* public void SetGunBonus(GunType type,  Dictionary<string,float> values)
-     {
-
-         foreach (var (key,value) in values)
-         {
-             if(value == 1)continue;
-
-             Debug.Log("key:"+ key +"value"  + value);
-         }
-
-     }*/
+ 
 }
 

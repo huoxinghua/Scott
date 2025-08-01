@@ -59,15 +59,10 @@ public class PodiumManager : MonoBehaviour
   
     private void GenerateRandomUpgradeOption()
     {
-        Debug.Log("GenerateRandomUpgradeOption"+ goodConfigs.Count+neutralConfigs.Count+evilConfigs.Count);
         ModuleConfig randomGood = goodConfigs[Random.Range(0, goodConfigs.Count)];
         ModuleConfig randomNeutral = neutralConfigs[Random.Range(0, neutralConfigs.Count)];
         ModuleConfig randomEvil = evilConfigs[Random.Range(0, evilConfigs.Count)];
-    
-
-        Debug.Log(randomGood.stats.name + randomEvil.stats.Type + randomNeutral.name);
-       
-
+ 
         var neutralPanel = Instantiate(randomNeutral.stats.panel, neutralUpgradeParent);
         neutralPanel.GetComponent<UpgradePanelUI>().SetPanel(randomNeutral);
 

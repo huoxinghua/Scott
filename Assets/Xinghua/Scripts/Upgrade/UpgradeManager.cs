@@ -40,18 +40,17 @@ public class UpgradeManager : MonoBehaviour
         {
             Destroy(gameObject); 
         }
-
+        newHealth = originalHealth;
+        newSpeed = originalSpeed;
+        Debug.Log("player start speed:" + newSpeed + "originalSpeed" + originalHealth);
     }
 
     private void Start()
     {
-        newHealth = originalHealth;
-        
-        newSpeed = originalSpeed;
-
+        //player
         totalHealthBonus = 0f;
         totalMoveSpeedBonus = 0f;
-
+        //gun
         totalDamageBonus = 0f;
         totalMagzineBonus = 0;
         totalFireRateBonus = 0f;
@@ -59,9 +58,7 @@ public class UpgradeManager : MonoBehaviour
         totalRecoilBonus = 0f;
         totalReloadSpeedBonus = 0f;
         totalShotsPerShootBonus = 0;
-        
     }
-
     public void ApplyUpgrade(ModuleConfig config)
     {
       

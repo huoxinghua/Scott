@@ -27,7 +27,7 @@ public class Shoot : MonoBehaviour
 
             inputManager.OnChangeWeaponInput += ChangeWeapon;
             inputManager.OnGunReloadInput += GunReload;
-           
+
         }
         else
         {
@@ -73,7 +73,7 @@ public class Shoot : MonoBehaviour
     }
     private void GunReload()
     {
-        if (!gun.CheckAmmo())
+        if (!gun.CheckFullAmmo())
         {
             playerAnimator.SetBool("isReload", true);
             gun.Reload();
@@ -98,6 +98,8 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
+        if (gun.CheckEmptyAmmo()) return;
+       
         isAutoShooting = false;
         if (continuousShootingCoroutine != null)
         {
@@ -109,9 +111,10 @@ public class Shoot : MonoBehaviour
     private void HandleShootCanceledInput()
     {
         //animation
-
         playerAnimator.SetBool("Automatic", false);
-
+        Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
+            GetComponent<Animator>();
+        gunAnimator.SetBool("Automatic", false);
 
         if (continuousShootingCoroutine != null)
         {
@@ -119,7 +122,7 @@ public class Shoot : MonoBehaviour
             continuousShootingCoroutine = null;
         }
         isAutoShooting = false;
-        Gun gun = GetComponentInChildren<Gun>(false);
+     
         gun.shoot = 0;
     }
     public bool isAutoShooting = false;
@@ -129,13 +132,22 @@ public class Shoot : MonoBehaviour
         var type = gun.gunData.type;
         if (gun != null && type == GunType.Automatic)
         {
+          
+                playerAnimator.SetBool("Automatic", true);
+         
             //isAutoShooting = true;
             while (true)
             {
-                playerAnimator.SetBool("Automatic", true);
+                if (gun.CheckEmptyAmmo())
+                {
+                    playerAnimator.SetBool("Automatic", false);
+                    break;
+                }
+                
                 HandleShoot(true);
                 yield return new WaitForSeconds(shootInterval);
             }
+            
         }
         else
         {
