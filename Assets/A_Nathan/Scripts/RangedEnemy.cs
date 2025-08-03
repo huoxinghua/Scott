@@ -197,6 +197,7 @@ public void OnAttemptHit()
             GameObject tempBullet = Instantiate(projectilePrefab,bulletOrigin);
             tempBullet.GetComponent<REProjectile>().targetTransform = playerTransform;
             tempBullet.GetComponent<REProjectile>().shootHigh = isHighArc;
+        tempBullet.GetComponent<REProjectile>().damage = attackDamage;
        // Debug.Log("hitPlayer");
        //xh code this can been used already
             /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
