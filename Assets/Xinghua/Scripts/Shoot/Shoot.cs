@@ -61,6 +61,7 @@ public class Shoot : MonoBehaviour
     WeaponController weapon;
     private void ChangeWeapon()
     {
+        
         weapon = GetComponentInChildren<WeaponController>();
         if (weapon != null)
         {

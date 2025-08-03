@@ -7,11 +7,13 @@ public class WeaponController : MonoBehaviour
     private Transform shootStartPoint;//fx
     [SerializeField] public WeaponSO[] weapons;
     private Queue<GameObject> guns = new Queue<GameObject>();
-  //  private GameObject currentWeapon;
-   // public Transform weaponContainer;
-    public Gun currentGun;
-   // private int currentIndex = 0;
-   // [SerializeField] public GameObject crossHair;
+    //  private GameObject currentWeapon;
+    // public Transform weaponContainer;
+    private Gun currentGun;
+    [SerializeField] private Gun startingGun;
+    [SerializeField] Transform gunParent;
+    // private int currentIndex = 0;
+    // [SerializeField] public GameObject crossHair;
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
@@ -20,29 +22,37 @@ public class WeaponController : MonoBehaviour
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Image crosshairImage;
+  
+
     private void Awake()
     {
-        
+
         // shootStartPoint = transform.GetChild(0);
     }
     private void Start()
     {
-        currentGun = GetComponentInChildren<Gun>();
+        currentGun = startingGun;
+        guns.Enqueue(currentGun.gameObject);
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
         var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
+        another.transform.SetParent(gunParent);
+
         another.gameObject.SetActive(false);
-        another.transform.SetParent(transform);
+   
         another.transform.position = spawnPosition;
         another.transform.rotation = spawnRotation;
 
         guns.Enqueue(another);
-       
+        foreach (var gun in guns)
+        {
+            Debug.Log("start" + gun.name);
+        }
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-
-       /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
-        moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
+        Debug.Log("start gun have:" + guns.Count);
+        /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
+         moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
     }
 
     private void Update()
@@ -63,26 +73,37 @@ public class WeaponController : MonoBehaviour
 
             }
 
-            else
+          /*  else
             {
                 crosshairImage.color = currentGun.gunData.crosshairNormalColor;
-            }
+            }*/
         }
     }
     public void EquipWeapon()
     {
-        if (currentGun != null)
+        foreach (var gun in guns)
         {
-            currentGun.gameObject.SetActive(false);
-
-            if (!guns.Contains(currentGun.gameObject))
+            if (gun.gameObject.activeSelf == true)
+            { gun.gameObject.SetActive(false); }
+            else
             {
-                guns.Enqueue(currentGun.gameObject);
+                gun.gameObject.SetActive(true);
             }
         }
-        var newWeapon = guns.Dequeue();
-        newWeapon.SetActive(true);
-        currentGun = newWeapon.GetComponent<Gun>();
+       /*  if (guns.Count <= 1)
+             return;
+        Debug.Log("EquipWeapon"+guns.Count);
+        foreach (var gun in guns)
+        {
+            Debug.Log("EquipWeapon:" + gun.name);
+        }
+         currentGun.gameObject.SetActive(false);
+         guns.Enqueue(currentGun.gameObject);
+
+
+         var next = guns.Dequeue();
+         next.SetActive(true);
+         currentGun = next.GetComponent<Gun>();*/
     }
 
     //animation
@@ -90,10 +111,10 @@ public class WeaponController : MonoBehaviour
     {
         Debug.Log("OnReLoadFinish");
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
-        playerMovement.playerAnim.SetBool("isReload",false);
+        playerMovement.playerAnim.SetBool("isReload", false);
         playerMovement.gunAnim.SetBool("isReload", false);
         currentGun.isReload = false;
-        Debug.Log("gun is reload?"+currentGun.isReload);
+        Debug.Log("gun is reload?" + currentGun.isReload);
     }
 
 }
