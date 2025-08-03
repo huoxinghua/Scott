@@ -184,4 +184,5 @@ public class PlayerMovement : MonoBehaviour
         moveSpeed = moveSpeed * totalBonus;
         Debug.Log("after upgrade speed:" + moveSpeed);
     }
+    
 }

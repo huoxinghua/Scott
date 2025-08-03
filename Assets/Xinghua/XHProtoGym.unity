@@ -75634,6 +75634,7 @@ MonoBehaviour:
   spawnSpeed: 1
   firstWaveEnemyAmount: 7
   waveData: {fileID: 11400000, guid: 25edbb28dfcdf1b4b829b1b4398909ba, type: 2}
+  playerHealth: {fileID: 0}
 --- !u!1 &1882850177
 GameObject:
   m_ObjectHideFlags: 0
@@ -85937,6 +85938,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7399189470166605176, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: ppVol
+      value: 
+      objectReference: {fileID: 832575518}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

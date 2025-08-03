@@ -6,43 +6,54 @@ public class WeaponController : MonoBehaviour
 {
     private Transform shootStartPoint;//fx
     [SerializeField] public WeaponSO[] weapons;
-    private Queue<GameObject> guns = new Queue<GameObject>();
-  //  private GameObject currentWeapon;
-   // public Transform weaponContainer;
+    public List<GameObject> guns = new List<GameObject>();
+    //  private GameObject currentWeapon;
+    // public Transform weaponContainer;
     public Gun currentGun;
-   // private int currentIndex = 0;
-   // [SerializeField] public GameObject crossHair;
+    [SerializeField] private Gun startingGun;
+    [SerializeField] Transform gunParent;
+    private Animator playerAnim;
+    // private int currentIndex = 0;
+    // [SerializeField] public GameObject crossHair;
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
 
-
+    public bool isShotGun ;
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Image crosshairImage;
+
+
     private void Awake()
     {
-        
-        // shootStartPoint = transform.GetChild(0);
+
+        shootStartPoint = transform.GetChild(0);
+        playerAnim = GetComponent<Animator>();
     }
     private void Start()
     {
-        currentGun = GetComponentInChildren<Gun>();
+        currentGun = startingGun;
+        isShotGun = false;
+        playerAnim.SetBool("isShotgun", false);
+        // guns.Enqueue(currentGun.gameObject);
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-        var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
-        another.gameObject.SetActive(false);
-        another.transform.SetParent(transform);
-        another.transform.position = spawnPosition;
-        another.transform.rotation = spawnRotation;
+        //var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
+        //  another.transform.SetParent(gunParent);
 
-        guns.Enqueue(another);
-       
+        /* another.gameObject.SetActive(false);
+
+         another.transform.position = spawnPosition;
+         another.transform.rotation = spawnRotation;
+
+         guns.Enqueue(another);*/
+    
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-
-       /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
-        moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
+        Debug.Log("start gun have:" + guns.Count);
+        /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
+         moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
     }
 
     private void Update()
@@ -63,26 +74,64 @@ public class WeaponController : MonoBehaviour
 
             }
 
-            else
-            {
-                crosshairImage.color = currentGun.gunData.crosshairNormalColor;
-            }
+            /*  else
+              {
+                  crosshairImage.color = currentGun.gunData.crosshairNormalColor;
+              }*/
         }
+    }
+  
+    private void HandGunSwitchAnimation()
+    {
+        Debug.Log("player animation :"+ playerAnim);
+        if (isShotGun == false)
+        {
+            isShotGun = true;
+            playerAnim.SetBool("isShotgun", true);
+        }
+        else
+        {
+            isShotGun = false;
+            playerAnim.SetBool("isShotgun", false);
+        }
+    }
+
+    public Gun GetCurrentGun()
+    {
+        return currentGun;
     }
     public void EquipWeapon()
     {
-        if (currentGun != null)
+        
+        foreach (var gun in guns)
         {
-            currentGun.gameObject.SetActive(false);
-
-            if (!guns.Contains(currentGun.gameObject))
+            if (gun.gameObject.activeSelf == true)
             {
-                guns.Enqueue(currentGun.gameObject);
+                gun.gameObject.SetActive(false);
+
+            }
+            else
+            {
+                 gun.SetActive(true);
+                currentGun = gun.GetComponent<Gun>();
+                HandGunSwitchAnimation();
             }
         }
-        var newWeapon = guns.Dequeue();
-        newWeapon.SetActive(true);
-        currentGun = newWeapon.GetComponent<Gun>();
+    
+        /*  if (guns.Count <= 1)
+              return;
+         Debug.Log("EquipWeapon"+guns.Count);
+         foreach (var gun in guns)
+         {
+             Debug.Log("EquipWeapon:" + gun.name);
+         }
+          currentGun.gameObject.SetActive(false);
+          guns.Enqueue(currentGun.gameObject);
+
+
+          var next = guns.Dequeue();
+          next.SetActive(true);
+          currentGun = next.GetComponent<Gun>();*/
     }
 
     //animation
@@ -90,10 +139,10 @@ public class WeaponController : MonoBehaviour
     {
         Debug.Log("OnReLoadFinish");
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
-        playerMovement.playerAnim.SetBool("isReload",false);
+        playerMovement.playerAnim.SetBool("isReload", false);
         playerMovement.gunAnim.SetBool("isReload", false);
         currentGun.isReload = false;
-        Debug.Log("gun is reload?"+currentGun.isReload);
+        Debug.Log("gun is reload?" + currentGun.isReload);
     }
 
 }

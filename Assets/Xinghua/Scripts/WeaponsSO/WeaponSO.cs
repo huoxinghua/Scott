@@ -29,7 +29,7 @@ public class WeaponSO : ScriptableObject
     public GameObject crosshairCanves;
 
     public float spreadAmount;
-
+    public int bulletPerShot;
     public int maxMagazineSize = 30;
     //public int ammoStore = 120;
 }
