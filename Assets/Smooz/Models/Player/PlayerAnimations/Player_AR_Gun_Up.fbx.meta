@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 22fbcac6273e1a4479a11cd872a52fe2
+guid: 61892880bb115b44c8a848b80139ce3c
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -31,11 +31,11 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Player_Reload
+      name: Player_AR_Gun_Up
       takeName: Take 001
       internalID: 1827226128182048838
       firstFrame: 0
-      lastFrame: 70
+      lastFrame: 15
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
