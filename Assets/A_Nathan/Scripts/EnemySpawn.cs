@@ -1,6 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
+using System;
+using Random = UnityEngine.Random;
 
 public class EnemySpawn : MonoBehaviour
 {
@@ -23,7 +25,8 @@ public class EnemySpawn : MonoBehaviour
     int EnemiesToSpawn;
     int EnemiesSpawned;
     int EnemiesKilled;
-    
+
+    public event Action WaveEnd;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     { 
@@ -118,7 +121,8 @@ public class EnemySpawn : MonoBehaviour
         EnemiesKilled++;
         if(EnemiesKilled >= EnemiesToSpawn)
         {
-            NextWave();
+            WaveEnd.Invoke();
+         //   NextWave();
         }
         else
         {

@@ -20910,6 +20910,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6303442485376750692, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
+      propertyPath: eSpawn
+      value: 
+      objectReference: {fileID: 1881069874}
+    - target: {fileID: 6303442485376750692, guid: 876d653e76e9852448cbbdec5943b03e, type: 3}
       propertyPath: upgradeProfile
       value: 
       objectReference: {fileID: 11400000, guid: 1cf86818586abce44ae284f4774e1cc7, type: 2}
@@ -33381,6 +33385,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &835340775 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7399189470166605176, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+  m_PrefabInstance: {fileID: 2080428906}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90e8e688c5e077d4ea111befaf427141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &839150460
 GameObject:
   m_ObjectHideFlags: 0
@@ -75634,7 +75649,7 @@ MonoBehaviour:
   spawnSpeed: 1
   firstWaveEnemyAmount: 7
   waveData: {fileID: 11400000, guid: 25edbb28dfcdf1b4b829b1b4398909ba, type: 2}
-  playerHealth: {fileID: 0}
+  playerHealth: {fileID: 835340775}
 --- !u!1 &1882850177
 GameObject:
   m_ObjectHideFlags: 0

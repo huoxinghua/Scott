@@ -7,7 +7,7 @@ public class SceneSwitch : MonoBehaviour
 {
     PlayerInputManager player;
     public PlayerUpgradeProfile upgradeProfile;
-
+    [SerializeField] EnemySpawn eSpawn;
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class SceneSwitch : MonoBehaviour
         {
             player.OnUpgradeInput += LoadScene;
         }
- 
+        eSpawn.WaveEnd += LoadScene;
     }
     private void OnDisable()
     {
@@ -27,7 +27,7 @@ public class SceneSwitch : MonoBehaviour
         {
             player.OnUpgradeInput -= LoadScene;
         }
-
+        eSpawn.WaveEnd -= LoadScene;
     }
     public void LoadScene()
     {
