@@ -73,11 +73,19 @@ public class Shoot : MonoBehaviour
         }
     }
     private void GunReload()
-    {
+    {  Debug.Log("GunReload");
+        Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
+     
         if (!gun.CheckFullAmmo())
         {
             playerAnimator.SetBool("isReload", true);
+            gunAnimator.SetBool("isReLoad", true);
+
             gun.Reload();
+        }
+        else
+        {
+            Debug.Log("full amm0");
         }
     }
     private void HandleShoot(bool isAuto)
@@ -100,6 +108,8 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
+        Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
+        gunAnimator.SetBool("Automatic", true);
         if (gun.CheckEmptyAmmo()) return;
        
         isAutoShooting = false;

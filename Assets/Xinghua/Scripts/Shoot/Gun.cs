@@ -15,7 +15,7 @@ public class Gun : MonoBehaviour
     private ParticleSystem muzzleFlash;
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
     [SerializeField] private float shakePositionAmount = 0.05f;
-   // [SerializeField] private float shakeDuration = 0.1f;
+    // [SerializeField] private float shakeDuration = 0.1f;
     [SerializeField] private LayerMask lm;
     private Animator gunAnimator;
     private Animator playerAnimator;
@@ -36,23 +36,23 @@ public class Gun : MonoBehaviour
         //   crosshairController = GetComponent<CrosshairController>();
         gunAnimator = GetComponent<Animator>();
         playerAnimator = GetComponentInParent<Animator>();
-       
+
     }
     private void Start()
     {
         originalPosition = transform.localPosition;
         originalRotation = transform.localRotation;
-        
+
     }
     private void SetOriginalData()
     {
-       
+
         currentAmmo = gunData.maxMagazineSize;
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
-       // Debug.Log(this.gunData.type + "start damage:" + damage+"so damage"+gunData.damage);
-       bulletsPerShot =gunData.bulletPerShot;
-      
+        // Debug.Log(this.gunData.type + "start damage:" + damage+"so damage"+gunData.damage);
+        bulletsPerShot = gunData.bulletPerShot;
+
     }
     private void OnEnable()
     {
@@ -73,7 +73,7 @@ public class Gun : MonoBehaviour
         SetGunUpgradeShotsPerShoot(upgrade.GetBonus(BonusType.ShotsPerShoot));
     }
 
-  
+
     private void StartGunShake()
     {
         if (shakeCoroutine != null)
@@ -84,24 +84,24 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
-        switch(gunData.type)
+        switch (gunData.type)
         {
             case GunType.Automatic:
                 AutomaticShoot();
                 break;
-                case GunType.SpreadShot:
+            case GunType.SpreadShot:
                 FireMultiRayShot();
                 break;
         }
     }
     public void AutomaticShoot()
     {
-       // Debug.Log("AutomaticShoot");
-        if (isReload||currentAmmo <= 0)return;
+        // Debug.Log("AutomaticShoot");
+        if (isReload || currentAmmo <= 0) return;
         Debug.Log("gun shake");
-       // StartGunShake();
-         gunAnimator.SetBool("Automatic", true);
-       // playerAnimator.SetBool("Automatic", true);
+        // StartGunShake();
+       // gunAnimator.SetBool("Automatic", true);
+        // playerAnimator.SetBool("Automatic", true);
         float offsetX = 0f;
         float offsetY = 0f;
 
@@ -156,7 +156,7 @@ public class Gun : MonoBehaviour
                     gunAnimator.SetBool("Automatic", false);
                     playerAnimator.SetBool("Automatic", false);
                 }
-                    
+
                 //  crosshairController.PlayShootAnimation();
 
                 // var objFX = Instantiate(gunData.cube, offsetPos, rotation);
@@ -179,9 +179,10 @@ public class Gun : MonoBehaviour
 
     }
     public bool isReload = false;
+    public bool isShoot = false;
     public bool CheckFullAmmo()
     {
-        if (currentAmmo == gunData.maxMagazineSize)
+        if (currentAmmo == magzaineSize)
         {
 
             return true;
@@ -201,9 +202,12 @@ public class Gun : MonoBehaviour
     }
     public void Reload()
     {
-        ReloadAnimation();
-        currentAmmo = gunData.maxMagazineSize;
-
+        if (isShoot)return;
+        Debug.Log(this.name + "reload ");
+        isReload = true;
+        //  ReloadAnimation();
+        currentAmmo = magzaineSize;
+        Debug.Log("after reload ammo:"+currentAmmo);
         /*        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
 
                 if (reserveAmmo <= 0)
@@ -217,8 +221,9 @@ public class Gun : MonoBehaviour
                 reserveAmmo -= ammoToLoad;
                 Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);*/
     }
-    private void ReloadAnimation()
+   /* private void ReloadAnimation()
     {
+        Debug.Log("handle ReloadAnimation");
         if (gunAnimator != null)
         {
             gunAnimator.SetBool("isReload", true);
@@ -228,7 +233,7 @@ public class Gun : MonoBehaviour
         {
             Debug.Log("gun anim null");
         }
-    }
+    }*/
 
     public void FireMultiRayShot()
     {
@@ -251,11 +256,13 @@ public class Gun : MonoBehaviour
 
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
-
+                currentAmmo-= bulletsPerShot;
+                isShoot = true;
                 if (hit.collider.GetComponent<IDamageable>() == null)
                 {
-                    Debug.Log("FireMultiRayShot + hole");
+
                     var hole = GameObject.Instantiate(gunData.holeFX, hitPos, rotation);
+                    gunAnimator.SetBool("isShoot", true);
                     hole.transform.SetParent(hit.collider.transform);
                     GameObject.Destroy(hole, 5f);
                 }
@@ -307,36 +314,47 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeDamage(float bonus)
     {
         //Debug.Log(this.gunData.type+" :gun before damage:" + damage +"bones"+bonus);
-        damage = damage *( 1+ bonus);
+        damage = damage * (1 + bonus);
         //Debug.Log(this.gunData.type + ":gun after damage:" + damage);
     }
 
     public void SetGunUpgradeMagazine(float bonus)
     {
-        magzaineSize = (int)(magzaineSize * (1+bonus));
+        magzaineSize = (int)(magzaineSize * (1 + bonus));
     }
 
     public void SetGunUpgradeFireRate(float bonus)
     {
-        
+
     }
     public void SetGunUpgradeSpreadAmount(float bonus)
     {
-        spreadAmount = spreadAmount * (1+ bonus);
+        spreadAmount = spreadAmount * (1 + bonus);
     }
     public void SetGunUpgradeRecoil(float bonus)
     {
-        
+
     }
     public void SetGunUpgradeReloadSpeed(float bonus)
     {
-        
+
     }
     public void SetGunUpgradeShotsPerShoot(float bonus)
     {
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
     }
 
- 
+    public void OnReloadFinish()
+    {
+        Debug.Log("reload finish");
+        gunAnimator.SetBool("isReload", false);
+        currentAmmo = magzaineSize;
+    }
+    public void OnShootFinish()
+    {
+        gunAnimator.SetBool("isShoot", false);
+        isShoot = false;
+    }
+
 }
 
