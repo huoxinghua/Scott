@@ -30,6 +30,7 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo and Magazine")]
     public int currentAmmo;
+    [SerializeField] GameObject bloodPrefab;
 
     private void Awake()
     {
@@ -141,6 +142,7 @@ public class Gun : MonoBehaviour
                 objHole.tag = "BulletHole";
                 Destroy(objHole, 5f);
             }
+         
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
 
             if (Time.time - lastShootTime > gunData.shootCooldown)
@@ -159,10 +161,7 @@ public class Gun : MonoBehaviour
 
                 //  crosshairController.PlayShootAnimation();
 
-                // var objFX = Instantiate(gunData.cube, offsetPos, rotation);
-
-                //  Destroy(objFX, 0.5f);
-                //  Debug.Log("Hit " + hit.collider.name + shoot + "times");
+               
                 lastShootTime = Time.time;
             }
 
@@ -172,6 +171,9 @@ public class Gun : MonoBehaviour
             if (damageable != null)
             {
                 ragDollable.DamagePos(hit.transform);
+                var bloodFX = Instantiate(bloodPrefab, hit.transform.position, rotation);
+                Debug.Log("play blood fx:"+ bloodFX.name);
+                Destroy(bloodFX, 0.5f);
                 damageable.TakeDamage(damage);
                 //Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
             }
