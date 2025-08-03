@@ -10,11 +10,15 @@ public class Shoot : MonoBehaviour
     private Coroutine continuousShootingCoroutine;
     private Animator playerAnimator;
     private Gun gun;
+    private Gun currentGun;
+    private WeaponController weaponController;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
         playerAnimator = GetComponentInChildren<Animator>();
+        weaponController = GetComponentInChildren<WeaponController>();
         gun = GetComponentInChildren<Gun>();
+        currentGun = gun;
 
     }
     private void OnEnable()
@@ -73,13 +77,14 @@ public class Shoot : MonoBehaviour
         }
     }
     private void GunReload()
-    {  Debug.Log("GunReload");
-        Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
-     
+    { 
+        currentGun = weaponController.currentGun;
+        Animator gunAnimator = currentGun.GetComponent<Animator>();
+        Debug.Log(  gunAnimator.name + " :" + "reload");
         if (!gun.CheckFullAmmo())
         {
             playerAnimator.SetBool("isReload", true);
-            gunAnimator.SetBool("isReLoad", true);
+            gunAnimator.SetBool("isReload", true);
 
             gun.Reload();
         }
