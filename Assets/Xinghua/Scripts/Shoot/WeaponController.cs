@@ -12,13 +12,14 @@ public class WeaponController : MonoBehaviour
     public Gun currentGun;
     [SerializeField] private Gun startingGun;
     [SerializeField] Transform gunParent;
+    private Animator playerAnim;
     // private int currentIndex = 0;
     // [SerializeField] public GameObject crossHair;
 
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
 
-
+    public bool isShotGun ;
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Image crosshairImage;
@@ -28,10 +29,13 @@ public class WeaponController : MonoBehaviour
     {
 
         shootStartPoint = transform.GetChild(0);
+        playerAnim = GetComponent<Animator>();
     }
     private void Start()
     {
         currentGun = startingGun;
+        isShotGun = false;
+        playerAnim.SetBool("isShotgun", false);
         // guns.Enqueue(currentGun.gameObject);
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
@@ -76,20 +80,19 @@ public class WeaponController : MonoBehaviour
               }*/
         }
     }
-    public bool isShotGun = true;
+  
     private void HandGunSwitchAnimation()
     {
-        Animator playerAnim = GetComponent<Animator>();
-   
+        Debug.Log("player animation :"+ playerAnim);
         if (isShotGun == false)
         {
-            playerAnim.SetBool("isShotgun", true);
             isShotGun = true;
+            playerAnim.SetBool("isShotgun", true);
         }
         else
         {
-            playerAnim.SetBool("isShotgun", false);
             isShotGun = false;
+            playerAnim.SetBool("isShotgun", false);
         }
     }
 

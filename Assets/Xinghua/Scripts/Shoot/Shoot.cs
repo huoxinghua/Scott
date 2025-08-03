@@ -77,22 +77,22 @@ public class Shoot : MonoBehaviour
         }
     }
     private void GunReload()
-    { 
+    {
         currentGun = weaponController.currentGun;
-        Debug.Log("currentGun in gunRoload :" + currentGun.name);
+        //Debug.Log("currentGun in gunRoload :" + currentGun.name);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
-        Debug.Log(  gunAnimator.name + " :" + "reload");
-        if (!gun.CheckFullAmmo())
-        {
+       // Debug.Log(gunAnimator.name + " :" + "reload");
+       // if (!gun.CheckFullAmmo())
+      //  {
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
 
             gun.Reload();
-        }
-        else
+      // }
+     /*   else
         {
             Debug.Log("full amm0");
-        }
+        }*/
     }
     private void HandleShoot(bool isAuto)
     {
@@ -101,6 +101,8 @@ public class Shoot : MonoBehaviour
         Debug.Log("gunAnimation in Handle shoot:"+ gunAnimator.name);
         gunAnimator.SetBool("Automatic", true);
         Debug.Log("Handle shoot :"+ isAuto);
+
+        playerAnimator.SetBool("Automatic", true);
         if (currentGun !=null&&!currentGun.CheckEmptyAmmo())
         {
             currentGun.Shoot();
@@ -123,19 +125,7 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
-        if (weaponController.isShotGun)
-        {
-            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("ShotGun"), 1f);
-            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("AR"), 0f);
-        }
-        else
-        {
-            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("ShotGun"), 0f);
-            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("AR"), 1f);
-        }
 
-        Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
-        gunAnimator.SetBool("Automatic", true);
         if (gun.CheckEmptyAmmo()) return;
        
         isAutoShooting = false;
@@ -195,5 +185,10 @@ public class Shoot : MonoBehaviour
             yield return new WaitForSeconds(shootInterval); // this is for single shoot
         }
 
+    }
+    //player !!!!animation event
+    public void OnLoadFinish()
+    {
+        playerAnimator.SetBool("isReload",false);
     }
 }
