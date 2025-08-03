@@ -30,7 +30,7 @@ public class Gun : MonoBehaviour
 
     [Header("Ammo and Magazine")]
     public int currentAmmo;
-    [SerializeField] GameObject bloodPrefab;
+
 
     private void Awake()
     {
@@ -171,7 +171,7 @@ public class Gun : MonoBehaviour
             if (damageable != null)
             {
                 ragDollable.DamagePos(hit.transform);
-                var bloodFX = Instantiate(bloodPrefab, hit.transform.position, rotation);
+                var bloodFX = Instantiate(gunData.bloodPrefab, hit.transform.position, rotation);
                 Debug.Log("play blood fx:"+ bloodFX.name);
                 Destroy(bloodFX, 0.5f);
                 damageable.TakeDamage(damage);

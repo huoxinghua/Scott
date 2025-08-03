@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   gunPrefab: {fileID: 5617306848609608939, guid: 6a0cbbcb3cea30f49a423b0cef7948f6, type: 3}
+  bloodPrefab: {fileID: 5685843620557978232, guid: 39d131298c18072499369ce22d8e379b, type: 3}
   ammoCapacity: 0
   fireRate: 0
   damage: 15

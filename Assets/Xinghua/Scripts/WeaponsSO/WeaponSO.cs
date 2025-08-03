@@ -12,6 +12,7 @@ public class WeaponSO : ScriptableObject
 {
     public GunType type;
     public GameObject gunPrefab;
+    public GameObject bloodPrefab;
     public int ammoCapacity;
     public float fireRate;
     public float damage;
