@@ -82,6 +82,7 @@ public class Shoot : MonoBehaviour
     }
     private void HandleShoot(bool isAuto)
     {
+        Debug.Log("Handle shoot :"+ isAuto);
         Gun gun = GetComponentInChildren<Gun>(false);
         if (gun != null && isAuto == true)
         {

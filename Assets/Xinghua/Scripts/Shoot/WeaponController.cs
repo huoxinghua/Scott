@@ -6,7 +6,7 @@ public class WeaponController : MonoBehaviour
 {
     private Transform shootStartPoint;//fx
     [SerializeField] public WeaponSO[] weapons;
-    private Queue<GameObject> guns = new Queue<GameObject>();
+    public List<GameObject> guns = new List<GameObject>();
     //  private GameObject currentWeapon;
     // public Transform weaponContainer;
     private Gun currentGun;
@@ -27,23 +27,23 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
 
-        // shootStartPoint = transform.GetChild(0);
+         shootStartPoint = transform.GetChild(0);
     }
     private void Start()
     {
         currentGun = startingGun;
-        guns.Enqueue(currentGun.gameObject);
+       // guns.Enqueue(currentGun.gameObject);
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-        var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
-        another.transform.SetParent(gunParent);
+        //var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
+      //  another.transform.SetParent(gunParent);
 
-        another.gameObject.SetActive(false);
+       /* another.gameObject.SetActive(false);
    
         another.transform.position = spawnPosition;
         another.transform.rotation = spawnRotation;
 
-        guns.Enqueue(another);
+        guns.Enqueue(another);*/
         foreach (var gun in guns)
         {
             Debug.Log("start" + gun.name);

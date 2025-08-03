@@ -51,7 +51,8 @@ public class Gun : MonoBehaviour
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
        // Debug.Log(this.gunData.type + "start damage:" + damage+"so damage"+gunData.damage);
-        magzaineSize = gunData.maxMagazineSize;
+       bulletsPerShot =gunData.bulletPerShot;
+      
     }
     private void OnEnable()
     {
@@ -231,7 +232,8 @@ public class Gun : MonoBehaviour
 
     public void FireMultiRayShot()
     {
-        //Debug.Log("FireMultiRayShot");
+        Debug.Log("FireMultiRayShot");
+
         for (int i = 0; i < bulletsPerShot; i++)
         {
             float offsetX = Random.Range(-gunData.spreadAmount, gunData.spreadAmount);
@@ -252,6 +254,7 @@ public class Gun : MonoBehaviour
 
                 if (hit.collider.GetComponent<IDamageable>() == null)
                 {
+                    Debug.Log("FireMultiRayShot + hole");
                     var hole = GameObject.Instantiate(gunData.holeFX, hitPos, rotation);
                     hole.transform.SetParent(hit.collider.transform);
                     GameObject.Destroy(hole, 5f);
