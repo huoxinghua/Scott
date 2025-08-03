@@ -19,6 +19,7 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] float spawnSpeed = 4;
     [SerializeField] int firstWaveEnemyAmount;
     [SerializeField] SOWave waveData;
+    [SerializeField] PlayerHealth playerHealth;
     int EnemiesToSpawn;
     int EnemiesSpawned;
     int EnemiesKilled;
@@ -113,6 +114,7 @@ public class EnemySpawn : MonoBehaviour
     //called if enemyDies. Is not implemented as enemies cannot die. Is needed
     public void EnemyWasKilled()
     {
+        playerHealth.SanityOnKill();
         EnemiesKilled++;
         if(EnemiesKilled >= EnemiesToSpawn)
         {

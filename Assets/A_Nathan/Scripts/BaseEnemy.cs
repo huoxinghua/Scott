@@ -173,7 +173,10 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
                 playerHealth.TakeDamage(attackDamage);
             }*/
             //xh code end
-
+            if(playerObj.GetComponent<IDamageable>()!=null)
+            {
+                playerObj.GetComponent<IDamageable>().TakeDamage(attackDamage);
+            }
         }
     }
     public void OnAttackFinish()
