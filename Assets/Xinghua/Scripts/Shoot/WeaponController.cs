@@ -44,10 +44,7 @@ public class WeaponController : MonoBehaviour
          another.transform.rotation = spawnRotation;
 
          guns.Enqueue(another);*/
-        foreach (var gun in guns)
-        {
-            Debug.Log("start" + gun.name);
-        }
+    
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
         Debug.Log("start gun have:" + guns.Count);
@@ -79,27 +76,30 @@ public class WeaponController : MonoBehaviour
               }*/
         }
     }
-    private bool isShootGun = true;
+    public bool isShotGun = true;
     private void HandGunSwitchAnimation()
     {
-        Animator playerAnim = currentGun.GetComponentInParent<Animator>();
-        if (playerAnim != null && isShootGun == false)
+        Animator playerAnim = GetComponent<Animator>();
+   
+        if (isShotGun == false)
         {
             playerAnim.SetBool("isShotgun", true);
-            isShootGun = true;
+            isShotGun = true;
         }
         else
         {
             playerAnim.SetBool("isShotgun", false);
-            isShootGun = false;
+            isShotGun = false;
         }
     }
 
-  
+    public Gun GetCurrentGun()
+    {
+        return currentGun;
+    }
     public void EquipWeapon()
     {
-       
-    
+        
         foreach (var gun in guns)
         {
             if (gun.gameObject.activeSelf == true)
@@ -110,27 +110,9 @@ public class WeaponController : MonoBehaviour
             else
             {
                  gun.SetActive(true);
-                
+                currentGun = gun.GetComponent<Gun>();
+                HandGunSwitchAnimation();
             }
-            HandGunSwitchAnimation();
-            /*if (currentGun.gunData.type == GunType.Automatic)
-            {
-               
-
-                playerAnim.SetLayerWeight(playerAnim.GetLayerIndex("AR"), 0f);
-                playerAnim.SetLayerWeight(playerAnim.GetLayerIndex("Shotgun"), 1f);
-                playerAnim.SetBool("isShotgun", true);
-            }
-            if(currentGun.gunData.type == GunType.SpreadShot)
-            {
-                 playerAnim = currentGun.GetComponentInParent<Animator>();
-
-                playerAnim.SetLayerWeight(playerAnim.GetLayerIndex("AR"), 1f);
-                playerAnim.SetLayerWeight(playerAnim.GetLayerIndex("Shotgun"), 0f);
-                playerAnim.SetBool("isShotgun", false);
-
-            }*/
-
         }
     
         /*  if (guns.Count <= 1)

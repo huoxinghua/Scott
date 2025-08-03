@@ -79,6 +79,7 @@ public class Shoot : MonoBehaviour
     private void GunReload()
     { 
         currentGun = weaponController.currentGun;
+        Debug.Log("currentGun in gunRoload :" + currentGun.name);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         Debug.Log(  gunAnimator.name + " :" + "reload");
         if (!gun.CheckFullAmmo())
@@ -95,8 +96,16 @@ public class Shoot : MonoBehaviour
     }
     private void HandleShoot(bool isAuto)
     {
+        var currentGun = weaponController.GetCurrentGun();
+        Animator gunAnimator = currentGun.GetComponent<Animator>();
+        Debug.Log("gunAnimation in Handle shoot:"+ gunAnimator.name);
+        gunAnimator.SetBool("Automatic", true);
         Debug.Log("Handle shoot :"+ isAuto);
-        Gun gun = GetComponentInChildren<Gun>(false);
+        if (currentGun !=null&&!currentGun.CheckEmptyAmmo())
+        {
+            currentGun.Shoot();
+        }
+      /*  Gun gun = GetComponentInChildren<Gun>(false);
         if (gun != null && isAuto == true)
         {
             gun.Shoot();
@@ -104,15 +113,27 @@ public class Shoot : MonoBehaviour
         else if (gun != null && isAuto == false)
         {
             gun.FireMultiRayShot();
+           
         }
         else
         {
             Debug.Log("gun is null");
-        }
+        }*/
     }
 
     private void HandleShootStartedInput()
     {
+        if (weaponController.isShotGun)
+        {
+            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("ShotGun"), 1f);
+            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("AR"), 0f);
+        }
+        else
+        {
+            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("ShotGun"), 0f);
+            playerAnimator.SetLayerWeight(playerAnimator.GetLayerIndex("AR"), 1f);
+        }
+
         Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
         gunAnimator.SetBool("Automatic", true);
         if (gun.CheckEmptyAmmo()) return;
@@ -128,6 +149,8 @@ public class Shoot : MonoBehaviour
     private void HandleShootCanceledInput()
     {
         //animation
+      
+      
         playerAnimator.SetBool("Automatic", false);
         Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
             GetComponent<Animator>();
