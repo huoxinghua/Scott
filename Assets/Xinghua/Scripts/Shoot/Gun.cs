@@ -40,8 +40,8 @@ public class Gun : MonoBehaviour
     }
     private void Start()
     {
-        originalPosition = transform.localPosition;
-        originalRotation = transform.localRotation;
+     /*   originalPosition = transform.localPosition;
+        originalRotation = transform.localRotation;*/
 
     }
     private void SetOriginalData()

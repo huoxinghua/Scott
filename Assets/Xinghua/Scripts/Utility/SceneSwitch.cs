@@ -19,7 +19,12 @@ public class SceneSwitch : MonoBehaviour
         {
             player.OnUpgradeInput += LoadScene;
         }
-        eSpawn.WaveEnd += LoadScene;
+        if (eSpawn != null)
+        {
+            eSpawn.WaveEnd += LoadScene;
+        }
+
+       
     }
     private void OnDisable()
     {
@@ -27,7 +32,12 @@ public class SceneSwitch : MonoBehaviour
         {
             player.OnUpgradeInput -= LoadScene;
         }
-        eSpawn.WaveEnd -= LoadScene;
+        if(eSpawn !=null)
+        {
+            eSpawn.WaveEnd -= LoadScene;
+        }
+
+      
     }
     public void LoadScene()
     {
