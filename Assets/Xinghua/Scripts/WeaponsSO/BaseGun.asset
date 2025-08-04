@@ -28,4 +28,4 @@ MonoBehaviour:
   crosshairCanves: {fileID: 7223813662040375847, guid: 2cf6ea7ae36d5544ba8a81025dca424e, type: 3}
   spreadAmount: 0.06
   bulletPerShot: 1
-  maxMagazineSize: 100
+  maxMagazineSize: 50

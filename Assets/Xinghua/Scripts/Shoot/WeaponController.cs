@@ -51,7 +51,7 @@ public class WeaponController : MonoBehaviour
     
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-        Debug.Log("start gun have:" + guns.Count);
+      
         /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
          moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
     }

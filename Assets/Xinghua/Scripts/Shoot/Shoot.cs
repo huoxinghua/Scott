@@ -51,7 +51,7 @@ public class Shoot : MonoBehaviour
         {
             Debug.Log("input manager is null ");
         }
- 
+
     }
     WeaponController weapon;
     private void ChangeWeapon()
@@ -73,13 +73,13 @@ public class Shoot : MonoBehaviour
         //Debug.Log("currentGun in gunRoload :" + currentGun.name);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         // Debug.Log(gunAnimator.name + " :" + "reload");
-        // if (!gun.CheckFullAmmo())
-        //  {
-        playerAnimator.SetBool("isReload", true);
-        gunAnimator.SetBool("isReload", true);
+        if (!gun.CheckFullAmmo())
+        {
+            playerAnimator.SetBool("isReload", true);
+            gunAnimator.SetBool("isReload", true);
 
-        gun.Reload();
-        // }
+            gun.Reload();
+        }
         /*   else
            {
                Debug.Log("full amm0");
@@ -91,7 +91,7 @@ public class Shoot : MonoBehaviour
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         if (currentGun != null && !currentGun.CheckEmptyAmmo())
         {
-           
+
             // Debug.Log("gunAnimation in Handle shoot:" + gunAnimator.name);
             if (gunAnimator != null)
             {

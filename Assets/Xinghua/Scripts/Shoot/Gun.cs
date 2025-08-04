@@ -29,7 +29,7 @@ public class Gun : MonoBehaviour
     public event Action OnShoot;
     public event Action OnReload;
 
-    [Header("Ammo and Magazine")]
+   // [Header("Ammo and Magazine")]
     public int currentAmmo;
 
 
@@ -52,7 +52,7 @@ public class Gun : MonoBehaviour
        transform.localRotation = originalRotation ;*/
 
         currentAmmo = gunData.maxMagazineSize;
-         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
+        Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
        
@@ -304,6 +304,7 @@ public class Gun : MonoBehaviour
 
     public void SetGunUpgradeDamage(float bonus)
     {
+        if (bonus == 0) return;
         //Debug.Log(this.gunData.type+" :gun before damage:" + damage +"bones"+bonus);
         damage = damage * (1 + bonus);
         //Debug.Log(this.gunData.type + ":gun after damage:" + damage);
@@ -311,35 +312,40 @@ public class Gun : MonoBehaviour
 
     public void SetGunUpgradeMagazine(float bonus)
     {
+        if (bonus == 0) return;
         magzaineSize = (int)(magzaineSize * (1 + bonus));
     }
 
     public void SetGunUpgradeFireRate(float bonus)
     {
+        if (bonus == 0) return;
 
     }
     public void SetGunUpgradeSpreadAmount(float bonus)
     {
+        if (bonus == 0) return;
         spreadAmount = spreadAmount * (1 + bonus);
     }
     public void SetGunUpgradeRecoil(float bonus)
     {
-
+        if (bonus == 0) return;
     }
     public void SetGunUpgradeReloadSpeed(float bonus)
     {
+        if (bonus == 0) return;
 
     }
     public int shotTimes = 2;
     public void SetGunUpgradeBulletsPerShot(float bonus)
     {
-        Debug.Log(this.gunData.type+" :gun before bullets per shot:" + bulletsPerShot +"bones"+bonus);
-       
-       
+        if(bonus == 0)return;
+     
+       // Debug.Log(this.gunData.type+" :gun before bullets per shot:" + bulletsPerShot +"bones"+bonus);
+      
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
         magzaineSize = bulletsPerShot * shotTimes;
         currentAmmo = magzaineSize;
-        Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
+       // Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
     }
 
     public void OnReloadFinish()
