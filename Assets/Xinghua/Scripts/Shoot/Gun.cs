@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private LayerMask lm;
     private Animator gunAnimator;
     private Animator playerAnimator;
+    private WeaponController weaponController;
 
 
     public float spreadAmount = 0.02f;
@@ -37,6 +38,7 @@ public class Gun : MonoBehaviour
 
         gunAnimator = GetComponent<Animator>();
         playerAnimator = GetComponentInParent<Animator>();
+        weaponController = GetComponentInParent<WeaponController>();
     }
     private void Start()
     {
@@ -136,15 +138,9 @@ public class Gun : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
             Camera.main.GetComponent<CameraShake>().Shake();
-            if (hit.collider.GetComponent<IDamageable>() == null)
-            {
-                var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-                OnShoot?.Invoke();
-                objHole.transform.SetParent(hit.collider.transform);
-                objHole.tag = "BulletHole";
-                Destroy(objHole, 5f);
-            }
-         
+            FilterBulletHole(offsetPos,rotation,hit);
+
+
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
 
             if (Time.time - lastShootTime > gunData.shootCooldown)
@@ -167,7 +163,7 @@ public class Gun : MonoBehaviour
                 lastShootTime = Time.time;
             }
 
-
+         
             var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
             var ragDollable = hit.collider.gameObject.GetComponent<IRagDollable>();
             if (damageable != null)
@@ -181,6 +177,17 @@ public class Gun : MonoBehaviour
             }
         }
 
+    }
+    private void FilterBulletHole(Vector3 offsetPos, Quaternion rotation,RaycastHit hit)
+    {
+        if (!weaponController.isCrossHairActive)
+        {
+            var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
+            OnShoot?.Invoke();
+            objHole.transform.SetParent(hit.collider.transform);
+            objHole.tag = "BulletHole";
+            Destroy(objHole, 0.2f);
+        }
     }
     public bool isReload = false;
     public bool isShoot = false;

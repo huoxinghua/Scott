@@ -61,7 +61,7 @@ public class WeaponController : MonoBehaviour
         UpdateCrosshairColor();
         //UpdateCrosshairScale();
     }
-
+    public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
     {
 
@@ -71,13 +71,14 @@ public class WeaponController : MonoBehaviour
             if (hit.collider.GetComponent<IDamageable>() != null)
             {
                 crosshairImage.color = currentGun.gunData.crosshairEnemyColor;
-
+                isCrossHairActive = true;
             }
 
-            /*  else
-              {
-                  crosshairImage.color = currentGun.gunData.crosshairNormalColor;
-              }*/
+            else
+            {
+                crosshairImage.color = currentGun.gunData.crosshairNormalColor;
+                isCrossHairActive = false;  
+            }
         }
     }
   

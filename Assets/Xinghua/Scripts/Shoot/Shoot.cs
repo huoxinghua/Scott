@@ -19,7 +19,6 @@ public class Shoot : MonoBehaviour
         weaponController = GetComponentInChildren<WeaponController>();
         gun = GetComponentInChildren<Gun>();
         currentGun = gun;
-
     }
     private void OnEnable()
     {
@@ -31,13 +30,11 @@ public class Shoot : MonoBehaviour
 
             inputManager.OnChangeWeaponInput += ChangeWeapon;
             inputManager.OnGunReloadInput += GunReload;
-
         }
         else
         {
             Debug.Log("input manager is null ");
         }
- 
     }
 
     private void OnDisable()
@@ -104,8 +101,6 @@ public class Shoot : MonoBehaviour
             currentGun.Shoot();
             playerAnimator.SetBool("Automatic", true);
         }
-
-
     }
 
     private void HandleShootStartedInput()
