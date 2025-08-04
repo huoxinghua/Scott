@@ -19,7 +19,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private LayerMask lm;
     private Animator gunAnimator;
     private Animator playerAnimator;
-    // private CrosshairController crosshairController;
+
 
     public float spreadAmount = 0.02f;
     private int bulletsPerShot;
@@ -34,10 +34,9 @@ public class Gun : MonoBehaviour
 
     private void Awake()
     {
-        //   crosshairController = GetComponent<CrosshairController>();
+
         gunAnimator = GetComponent<Animator>();
         playerAnimator = GetComponentInParent<Animator>();
-
     }
     private void Start()
     {
@@ -47,11 +46,14 @@ public class Gun : MonoBehaviour
     }
     private void SetOriginalData()
     {
+  /*     transform.localPosition = originalPosition;
+       transform.localRotation = originalRotation ;*/
 
         currentAmmo = gunData.maxMagazineSize;
+         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
-        // Debug.Log(this.gunData.type + "start damage:" + damage+"so damage"+gunData.damage);
+       
         bulletsPerShot = gunData.bulletPerShot;
 
     }
@@ -85,6 +87,7 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
+      
         switch (gunData.type)
         {
             case GunType.Automatic:
@@ -101,8 +104,7 @@ public class Gun : MonoBehaviour
         if (isReload || currentAmmo <= 0) return;
         Debug.Log("gun shake");
         // StartGunShake();
-       // gunAnimator.SetBool("Automatic", true);
-        // playerAnimator.SetBool("Automatic", true);
+
         float offsetX = 0f;
         float offsetY = 0f;
 
@@ -148,8 +150,8 @@ public class Gun : MonoBehaviour
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
                 shoot++;
-                /* CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                 camShake.Shake();*/
+                CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                camShake.Shake();
 
 
                 currentAmmo--;
@@ -210,37 +212,16 @@ public class Gun : MonoBehaviour
         //  ReloadAnimation();
         currentAmmo = magzaineSize;
         Debug.Log("after reload ammo:"+currentAmmo);
-        /*        int neededAmmo = gunData.maxMagazineSize - currentAmmo;
-
-                if (reserveAmmo <= 0)
-                {
-                    Debug.Log("no ammo to reload");
-                    return;
-                }
-
-                int ammoToLoad = Mathf.Min(neededAmmo, reserveAmmo);
-                currentAmmo += ammoToLoad;
-                reserveAmmo -= ammoToLoad;
-                Debug.Log("reload finish：" + currentAmmo + "/" + reserveAmmo);*/
+   
     }
-   /* private void ReloadAnimation()
-    {
-        Debug.Log("handle ReloadAnimation");
-        if (gunAnimator != null)
-        {
-            gunAnimator.SetBool("isReload", true);
-            isReload = true;
-        }
-        else
-        {
-            Debug.Log("gun anim null");
-        }
-    }*/
+
 
     public void FireMultiRayShot()
     {
         Debug.Log("FireMultiRayShot");
 
+        currentAmmo -= bulletsPerShot;
+        Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
             float offsetX = Random.Range(-gunData.spreadAmount, gunData.spreadAmount);
@@ -258,7 +239,9 @@ public class Gun : MonoBehaviour
 
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
-                currentAmmo-= bulletsPerShot;
+               
+                
+                CheckEmptyAmmo();
                 isShoot = true;
                 if (hit.collider.GetComponent<IDamageable>() == null)
                 {

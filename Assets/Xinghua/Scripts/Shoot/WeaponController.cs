@@ -102,7 +102,7 @@ public class WeaponController : MonoBehaviour
     }
     public void EquipWeapon()
     {
-        
+        HandGunSwitchAnimation();
         foreach (var gun in guns)
         {
             if (gun.gameObject.activeSelf == true)
@@ -112,9 +112,10 @@ public class WeaponController : MonoBehaviour
             }
             else
             {
-                 gun.SetActive(true);
+                gun.SetActive(true);
+               
                 currentGun = gun.GetComponent<Gun>();
-                HandGunSwitchAnimation();
+
             }
         }
     
@@ -142,7 +143,7 @@ public class WeaponController : MonoBehaviour
         playerMovement.playerAnim.SetBool("isReload", false);
         playerMovement.gunAnim.SetBool("isReload", false);
         currentGun.isReload = false;
-        Debug.Log("gun is reload?" + currentGun.isReload);
+
     }
 
 }
