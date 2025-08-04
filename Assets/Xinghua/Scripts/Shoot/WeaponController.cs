@@ -89,51 +89,48 @@ public class WeaponController : MonoBehaviour
         {
             isShotGun = true;
             playerAnim.SetBool("isShotgun", true);
+            playerAnim.SetBool("isSwitch", true);
         }
         else
         {
             isShotGun = false;
             playerAnim.SetBool("isShotgun", false);
+            playerAnim.SetBool("isSwitch", true);
         }
     }
 
     public Gun GetCurrentGun()
     {
-        return currentGun;
+        return currentGun = gameObject.GetComponentInChildren<Gun>(false);
     }
-    public void EquipWeapon()
+    public void OnSwitchEnd()//anim event
     {
-       HandGunSwitchAnimation();
-        foreach (var gun in guns)
+        foreach (var weapon in guns)
         {
-            if (gun.gameObject.activeSelf == true)
+            Gun gun = weapon.GetComponent<Gun>();
+            if (gun != null && gun.gunData.type == GunType.SpreadShot && isShotGun)
             {
-                gun.gameObject.SetActive(false);
+                weapon.SetActive(true);
+
+            }
+            else if (gun != null && gun.gunData.type == GunType.Automatic && !isShotGun)
+            {
+                weapon.SetActive(true);
 
             }
             else
             {
-                gun.SetActive(true);
-               
-                currentGun = gun.GetComponent<Gun>();
-
+                weapon.SetActive(false);
             }
+          
         }
-    
-        /*  if (guns.Count <= 1)
-              return;
-         Debug.Log("EquipWeapon"+guns.Count);
-         foreach (var gun in guns)
-         {
-             Debug.Log("EquipWeapon:" + gun.name);
-         }
-          currentGun.gameObject.SetActive(false);
-          guns.Enqueue(currentGun.gameObject);
+    }
 
 
-          var next = guns.Dequeue();
-          next.SetActive(true);
-          currentGun = next.GetComponent<Gun>();*/
+    public void EquipWeapon()
+    {
+       HandGunSwitchAnimation();
+ 
     }
 
     //animation

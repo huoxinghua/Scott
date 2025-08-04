@@ -172,6 +172,14 @@ PrefabInstance:
       value: SoundManager
       objectReference: {fileID: 0}
     - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: bgmVolume
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: bgm.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -187,6 +195,10 @@ PrefabInstance:
       propertyPath: sfx.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 03a73f8644c6cec459ee058c24b13c61, type: 3}
+    - target: {fileID: 8694485563534770201, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: m_Volume
+      value: 0.013
+      objectReference: {fileID: 0}
     - target: {fileID: 8694485563534770201, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: m_Resource
       value: 
