@@ -250,8 +250,9 @@ void Update()
             Attacking();
             //  Debug.Log("EnemyIsAttacking");
             break;
-
-        default:
+            case EnemyState.Dead:
+                break;
+            default:
             Debug.Log("Unknown state.");
             break;
     }
