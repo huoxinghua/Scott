@@ -28,12 +28,20 @@ Material:
         m_Texture: {fileID: 2800000, guid: 230c8621ebef33640a4cadd443f015ec, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_0de1ff1323914a1fb1a3d7e47f71db92_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 2fc62ac3825414040bf6a17775968731, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_33739ceecb8d4f5aa5b1bccebec46301_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 259b30ceeb5187e4780fb88f19a8242c, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_4f8a20a23889418482f786c89520284d_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 2fc62ac3825414040bf6a17775968731, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_7e869fa21b044df68ca04f3b178eccd4_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 0a2895f8e5754db48980e8ddcd540303, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_85a2b44d99474e42a01e1af0597beff7_Texture_1_Texture2D:
@@ -44,12 +52,20 @@ Material:
         m_Texture: {fileID: 2800000, guid: 5dee640ddafa7b7499515474f438d050, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_a8030ce1dc33434cafd4898489bbb600_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: bd043e5295261d84fa9ce8f5dfd70df8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_cd6072e9891741cf8bcc2e6b73b1e6fd_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 55061917502b98f429c76ae15ec61e98, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_d32328ed2f2746c7a99b9144eb844760_Texture_1_Texture2D:
         m_Texture: {fileID: 2800000, guid: 5dee640ddafa7b7499515474f438d050, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_d8ef10d6b98c4cc6b77523c602685bac_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 8dbb48eb6797ed343abd764fccd7395d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SampleTexture2D_eb7bd663219f4663852100e42b144b62_Texture_1_Texture2D:
@@ -82,9 +98,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BloodContrast: 1
+    - _BloodScale: 91
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
+    - _BloodColor: {r: 0.5849056, g: 0.18430042, b: 0.18430042, a: 0}
     - _Color: {r: 0.4037736, g: 0.13425864, b: 0.035806317, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

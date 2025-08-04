@@ -1031,7 +1031,7 @@ PrefabInstance:
     - target: {fileID: -2016069551240722914, guid: a87c8200685ebb44c91ebe51282d42fd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 7dd8a9dc69174ec41a63a44714eb7b9f, type: 2}
+      objectReference: {fileID: 2100000, guid: 91d653bf0c1eb5a48952dcaceb700684, type: 2}
     - target: {fileID: 919132149155446097, guid: a87c8200685ebb44c91ebe51282d42fd, type: 3}
       propertyPath: m_Name
       value: Puppy_v01_Unwrap
