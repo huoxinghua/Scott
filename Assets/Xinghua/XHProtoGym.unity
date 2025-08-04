@@ -85909,6 +85909,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1162879067539085753, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: shotTimes
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 4143761731496887327, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_Name
       value: FirstPersonController
@@ -85952,6 +85956,22 @@ PrefabInstance:
     - target: {fileID: 4783338928778684534, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912802623870004504, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: m_Height
+      value: 0.55305266
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912802623870004504, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: m_Radius
+      value: 0.10466766
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912802623870004504, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: m_Center.x
+      value: 0.39533234
+      objectReference: {fileID: 0}
+    - target: {fileID: 6912802623870004504, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: m_Center.y
+      value: 0.20843935
       objectReference: {fileID: 0}
     - target: {fileID: 7399189470166605176, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: ppVol

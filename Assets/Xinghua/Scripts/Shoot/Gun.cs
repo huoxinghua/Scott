@@ -163,18 +163,8 @@ public class Gun : MonoBehaviour
                 lastShootTime = Time.time;
             }
 
+            HandleDamage(hit, rotation);
          
-            var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
-            var ragDollable = hit.collider.gameObject.GetComponent<IRagDollable>();
-            if (damageable != null)
-            {
-                ragDollable.DamagePos(hit.transform);
-                var bloodFX = Instantiate(gunData.bloodPrefab, hit.transform.position, rotation);
-                Debug.Log("play blood fx:"+ bloodFX.name);
-                Destroy(bloodFX, 0.5f);
-                damageable.TakeDamage(damage);
-                //Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
-            }
         }
 
     }
@@ -259,16 +249,24 @@ public class Gun : MonoBehaviour
                     GameObject.Destroy(hole, 5f);
                 }
 
-                var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
-                if (damageable != null)
-                {
-                    damageable.TakeDamage(gunData.damage);
-                    Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
-                }
+                HandleDamage( hit, rotation);
             }
         }
     }
-
+    private void HandleDamage(RaycastHit hit, Quaternion rotation)
+    {
+        var damageable = hit.collider.gameObject.GetComponent<IDamageable>();
+        var ragDollable = hit.collider.gameObject.GetComponent<IRagDollable>();
+        if (damageable != null)
+        {
+            ragDollable.DamagePos(hit.transform);
+            var bloodFX = Instantiate(gunData.bloodPrefab, hit.transform.position, rotation);
+            Debug.Log("play blood fx:" + bloodFX.name);
+            Destroy(bloodFX, 0.5f);
+            damageable.TakeDamage(damage);
+            //Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
+        }
+    }
 
     private IEnumerator GunShakeOnce()
     {
