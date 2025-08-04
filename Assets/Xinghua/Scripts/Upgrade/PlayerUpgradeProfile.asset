@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 477dc989d476bff438e6626080db2279, type: 3}
   m_Name: PlayerUpgradeProfile
   m_EditorClassIdentifier: 
-  equippedUpgrades: []
+  equippedUpgrades:
+  - {fileID: 11400000, guid: 5353e5adb33fd924dbb4d4de2298ccbc, type: 2}

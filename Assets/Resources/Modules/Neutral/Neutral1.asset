@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     Type: 2
+    panel: {fileID: 1457927524695103150, guid: 639cea59594c5e640a12601dbc9f35c5, type: 3}
     name: Neutral1
     sprite: {fileID: 21300000, guid: 956c1dec8b8b54189b322b002329af56, type: 3}
-    panel: {fileID: 1457927524695103150, guid: 639cea59594c5e640a12601dbc9f35c5, type: 3}
     Description: Decent good , decent negative
     SanityBonus: 0
     MoveSpeedBonus: 0
@@ -26,4 +26,4 @@ MonoBehaviour:
     RecoilBonus: 0
     ReloadSpeedBonus: 0
     MagazineBonus: 0
-    ShotsPerShootBonus: 0
+    ShotsPerShootBonus: 2

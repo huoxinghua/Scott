@@ -73,7 +73,7 @@ public class Gun : MonoBehaviour
         SetGunUpgradeSpreadAmount(upgrade.GetBonus(BonusType.Spread));
         SetGunUpgradeRecoil(upgrade.GetBonus(BonusType.Recoil));
         SetGunUpgradeReloadSpeed(upgrade.GetBonus(BonusType.ReloadSpeed));
-        SetGunUpgradeShotsPerShoot(upgrade.GetBonus(BonusType.ShotsPerShoot));
+        SetGunUpgradeBulletsPerShot(upgrade.GetBonus(BonusType.ShotsPerShoot));
     }
 
 
@@ -324,9 +324,16 @@ public class Gun : MonoBehaviour
     {
 
     }
-    public void SetGunUpgradeShotsPerShoot(float bonus)
+    public int shotTimes = 2;
+    public void SetGunUpgradeBulletsPerShot(float bonus)
     {
+        Debug.Log(this.gunData.type+" :gun before bullets per shot:" + bulletsPerShot +"bones"+bonus);
+       
+       
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
+        magzaineSize = bulletsPerShot * shotTimes;
+        currentAmmo = magzaineSize;
+        Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
     }
 
     public void OnReloadFinish()
