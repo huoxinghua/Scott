@@ -295,10 +295,10 @@ public class Gun : MonoBehaviour
         transform.localPosition = originalPosition;
 
     }
-    public void OnShootSoundPlay()
+ /*   public void OnShootSoundPlay()
     {
         SoundManager.Instance.PlaySFX("BaseGunShoot", 1f);
-    }
+    }*/
 
 
 

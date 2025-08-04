@@ -103,7 +103,7 @@ public class WeaponController : MonoBehaviour
     }
     public void EquipWeapon()
     {
-        HandGunSwitchAnimation();
+       HandGunSwitchAnimation();
         foreach (var gun in guns)
         {
             if (gun.gameObject.activeSelf == true)
