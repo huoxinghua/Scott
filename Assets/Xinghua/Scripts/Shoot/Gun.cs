@@ -137,7 +137,7 @@ public class Gun : MonoBehaviour
             }
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
-            Camera.main.GetComponent<CameraShake>().Shake();
+           // Camera.main.GetComponent<CameraShake>().Shake();
             FilterBulletHole(offsetPos,rotation,hit);
 
 
@@ -164,7 +164,8 @@ public class Gun : MonoBehaviour
             }
 
             HandleDamage(hit, rotation);
-         
+            OnShoot?.Invoke();
+
         }
 
     }
@@ -173,10 +174,10 @@ public class Gun : MonoBehaviour
         if (!weaponController.isCrossHairActive)
         {
             var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-            OnShoot?.Invoke();
+          
             objHole.transform.SetParent(hit.collider.transform);
             objHole.tag = "BulletHole";
-            Destroy(objHole, 0.2f);
+            Destroy(objHole, 1f);
         }
     }
     public bool isReload = false;

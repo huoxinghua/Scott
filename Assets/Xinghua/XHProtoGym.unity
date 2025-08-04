@@ -85973,6 +85973,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.20843935
       objectReference: {fileID: 0}
+    - target: {fileID: 7117063200113035615, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: recoilAmount
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 7399189470166605176, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: ppVol
       value: 
