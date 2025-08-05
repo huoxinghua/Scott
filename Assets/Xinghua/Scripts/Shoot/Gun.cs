@@ -184,17 +184,17 @@ public class Gun : MonoBehaviour
     public bool isShoot = false;
     public bool CheckFullAmmo()
     {
-        if (currentAmmo == magzaineSize)
+        if (this.currentAmmo == magzaineSize)
         {
-
             return true;
 
         }
         return false;
     }
+
     public bool CheckEmptyAmmo()
     {
-        if (currentAmmo <= 0)
+        if (this.currentAmmo <= 0)
         {
 
             return true;

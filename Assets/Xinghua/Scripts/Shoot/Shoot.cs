@@ -70,20 +70,20 @@ public class Shoot : MonoBehaviour
     private void GunReload()
     {
         currentGun = weaponController.currentGun;
-        //Debug.Log("currentGun in gunRoload :" + currentGun.name);
+        Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         // Debug.Log(gunAnimator.name + " :" + "reload");
-        if (!gun.CheckFullAmmo())
+        if (!currentGun.CheckFullAmmo())
         {
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
 
             gun.Reload();
         }
-        /*   else
-           {
-               Debug.Log("full amm0");
-           }*/
+        else
+        {
+            Debug.Log("full ammo");
+        }
     }
     private void HandleShoot(bool isAuto)
     {
@@ -172,5 +172,6 @@ public class Shoot : MonoBehaviour
     {
         playerAnimator.SetBool("isReload", false);
     }
+  
 
 }

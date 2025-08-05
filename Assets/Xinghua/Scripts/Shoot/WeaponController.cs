@@ -143,5 +143,8 @@ public class WeaponController : MonoBehaviour
         currentGun.isReload = false;
 
     }
-
+    public void OnPlayerShotGunReloadFinish()
+    {
+        playerAnim.SetBool("isReload", false);
+    }
 }
