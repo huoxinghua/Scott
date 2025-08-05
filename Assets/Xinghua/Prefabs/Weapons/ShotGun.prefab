@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba10ccb008af01747b93f73cdf21af8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gunData: {fileID: 11400000, guid: 1d26c6a15a5c8834bac874b7d4db3624, type: 2}
+  shoot: 0
+  gunData: {fileID: 11400000, guid: 8ccf4d836aa98c94eb5dda851bed8014, type: 2}
   shakeRotationAmount: {x: 1, y: 1, z: 1}
   shakePositionAmount: 1
   shakeDuration: 0.1
@@ -142,6 +143,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   spreadAmount: 0.02
+  currentAmmo: 0
+  reserveAmmo: 30
 --- !u!114 &-5386209654505411563
 MonoBehaviour:
   m_ObjectHideFlags: 0

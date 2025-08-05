@@ -1,51 +1,134 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class WeaponController : MonoBehaviour
 {
     private Transform shootStartPoint;//fx
     [SerializeField] public WeaponSO[] weapons;
-    private Queue<GameObject> guns = new Queue<GameObject>();
-  //  private GameObject currentWeapon;
-   // public Transform weaponContainer;
+    public List<GameObject> guns = new List<GameObject>();
     public Gun currentGun;
-   // private int currentIndex = 0;
-    [SerializeField] public GameObject crossHair;
-
+    [SerializeField] private Gun startingGun;
+    [SerializeField] Transform gunParent;
+    private Animator playerAnim;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
+    public bool isShotGun ;
+    private Vector3 idleScale;
+    private Vector3 moveScale;
+    private Image crosshairImage;
+
     private void Awake()
     {
-        // shootStartPoint = transform.GetChild(0);
+
+        shootStartPoint = transform.GetChild(0);
+        playerAnim = GetComponent<Animator>();
     }
     private void Start()
     {
-        currentGun = GetComponentInChildren<Gun>();
+        currentGun = startingGun;
+        isShotGun = false;
+        playerAnim.SetBool("isShotgun", false);
+ 
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-        guns.Enqueue(currentGun.gameObject);
-        var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
-        another.gameObject.SetActive(false);
-        another.transform.SetParent(transform);
-        another.transform.position = spawnPosition;
-        another.transform.rotation = spawnRotation;
-
-        guns.Enqueue(another);
+     
+    
+        var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
+        crosshairImage = crosshair.GetComponentInChildren<Image>();
+      
+     
     }
-    public void EquipWeapon()
-    {
-        if (currentGun != null)
-        {
-            currentGun.gameObject.SetActive(false);
 
-            if (!guns.Contains(currentGun.gameObject))
+    private void Update()
+    {
+        UpdateCrosshairColor();
+     
+    }
+    public bool isCrossHairActive = false;
+    private void UpdateCrosshairColor()
+    {
+
+        Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
+        {
+            if (hit.collider.GetComponent<IDamageable>() != null)
             {
-                guns.Enqueue(currentGun.gameObject);
+                crosshairImage.color = currentGun.gunData.crosshairEnemyColor;
+                isCrossHairActive = true;
+            }
+
+            else
+            {
+                crosshairImage.color = currentGun.gunData.crosshairNormalColor;
+                isCrossHairActive = false;  
             }
         }
-        var newWeapon = guns.Dequeue();
-        newWeapon.SetActive(true);
-        currentGun = newWeapon.GetComponent<Gun>();
+    }
+  
+    private void HandGunSwitchAnimation()
+    {
+        Debug.Log("player animation :"+ playerAnim);
+        if (isShotGun == false)
+        {
+            isShotGun = true;
+            playerAnim.SetBool("isShotgun", true);
+            playerAnim.SetBool("isSwitch", true);
+        }
+        else
+        {
+            isShotGun = false;
+            playerAnim.SetBool("isShotgun", false);
+            playerAnim.SetBool("isSwitch", true);
+        }
     }
 
+    public Gun GetCurrentGun()
+    {
+        return currentGun = gameObject.GetComponentInChildren<Gun>(false);
+    }
+    public void OnSwitchEnd()//anim event
+    {
+        foreach (var weapon in guns)
+        {
+            Gun gun = weapon.GetComponent<Gun>();
+            if (gun != null && gun.gunData.type == GunType.SpreadShot && isShotGun)
+            {
+                weapon.SetActive(true);
+
+            }
+            else if (gun != null && gun.gunData.type == GunType.Automatic && !isShotGun)
+            {
+                weapon.SetActive(true);
+
+            }
+            else
+            {
+                weapon.SetActive(false);
+            }
+          
+        }
+    }
+
+
+    public void EquipWeapon()
+    {
+       HandGunSwitchAnimation();
+ 
+    }
+
+    //animation
+    public void OnReLoadFinish()
+    {
+        Debug.Log("OnReLoadFinish");
+        PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
+        playerMovement.playerAnim.SetBool("isReload", false);
+        playerMovement.gunAnim.SetBool("isReload", false);
+        currentGun.isReload = false;
+
+    }
+    public void OnPlayerShotGunReloadFinish()
+    {
+        playerAnim.SetBool("isReload", false);
+    }
 }

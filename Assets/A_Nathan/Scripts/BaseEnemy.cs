@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Playables;
 
-public class BaseEnemy : MonoBehaviour , IDamageable
+public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
 {
     [SerializeField]float moveSpeed;
     [SerializeField] float attackDistance;
@@ -21,28 +21,51 @@ public class BaseEnemy : MonoBehaviour , IDamageable
    public bool canAttack = false;
     public bool isAttacking = false;
     public EnemyState currentState;
-    NavMeshAgent agent;
+    public NavMeshAgent agent;
     GameObject playerObj;
     Transform playerTransform;
     List<int> agentTypeIdList = new List<int>();
     bool hasJumped = false;
+    [SerializeField] Ragdoll ragDollScript;
+    Transform hitPoint;
     public enum EnemyState
     {
         Moving = 0,
-        Attacking = 1
+        Attacking = 1,
+        Dead = 2
     }
     public void OnDestroy()
     {
-        enemySpawn.EnemyWasKilled();
+       
+    }
+    public void DamagePos(Transform hitPos)
+    {
+        hitPoint = hitPos;
     }
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if(currentHealth <= 0)
+        if(currentHealth <= 0 && currentState != EnemyState.Dead)
         {
+            currentState = EnemyState.Dead;
+            
+            GetComponent<CapsuleCollider>().enabled = false;
+            agent.SetDestination(transform.position);
+            agent.ResetPath();
+            agent.isStopped = true;
+           // agent.enabled = false;
+            ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position   )  , 1000f);
+            enemySpawn.EnemyWasKilled();
+            StartCoroutine(DecayBody());
+            
             //proper death later
-            Destroy(gameObject);
+            //  Destroy(gameObject);
         }
+    }
+    IEnumerator DecayBody()
+    {
+        yield return new WaitForSeconds(15);
+        Destroy(gameObject);
     }
     public void Awake()
     {
@@ -51,7 +74,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable
        
     }
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+   virtual public void Start()
     {
         if (GameObject.Find("FirstPersonController") != null)
         {
@@ -74,7 +97,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable
        moveSpeed += (moveSpeed * SpeedChange);
         }
         agent.speed = moveSpeed;
-        Debug.Log(agent.agentTypeID);
+     //   Debug.Log(agent.agentTypeID);
         GenerateAgentIdList();
         agent.agentTypeID = agentTypeIdList[Random.Range(0,agentTypeIdList.Count)];
         agent.stoppingDistance = attackDistance;
@@ -102,6 +125,10 @@ public class BaseEnemy : MonoBehaviour , IDamageable
         else
         {
             hasJumped = false;
+        }
+        if(currentState == EnemyState.Dead)
+        {
+            return;
         }
         agent.SetDestination(playerTransform.position);
         if (isAttacking)
@@ -138,7 +165,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable
     {
         if (canAttack)
         {
-            Debug.Log("hitPlayer");
+           // Debug.Log("hitPlayer");
             //xh code this can been used already
         /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
             if (playerHealth != null)
@@ -146,7 +173,10 @@ public class BaseEnemy : MonoBehaviour , IDamageable
                 playerHealth.TakeDamage(attackDamage);
             }*/
             //xh code end
-
+            if(playerObj.GetComponent<IDamageable>()!=null)
+            {
+                playerObj.GetComponent<IDamageable>().TakeDamage(attackDamage);
+            }
         }
     }
     public void OnAttackFinish()
@@ -167,20 +197,24 @@ public class BaseEnemy : MonoBehaviour , IDamageable
                 Attacking();
               //  Debug.Log("EnemyIsAttacking");
                 break;
-
+            case EnemyState.Dead:
+                break;
             default:
                 Debug.Log("Unknown state.");
                 break;
         }
-        if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+        if (currentState != EnemyState.Dead)
         {
-            currentState = EnemyState.Attacking;
-            canAttack = true;
-        }
-        else
-        {
-            currentState = EnemyState.Moving;
-            canAttack = false;
+            if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+            {
+                currentState = EnemyState.Attacking;
+                canAttack = true;
+            }
+            else
+            {
+                currentState = EnemyState.Moving;
+                canAttack = false;
+            }
         }
     }
 }

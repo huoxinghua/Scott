@@ -6,9 +6,10 @@ public class PlayerMovement : MonoBehaviour
     private PlayerInputManager inputManager;
     private GroundCheck groundCheck;
     [Header("move")]
-    [SerializeField] private float moveSpeed = 5f;
+    public float moveSpeed =5f;
     private Vector2 moveDirection;
-    private bool isSprinting = false;
+    // [HideInInspector]
+    public bool isSprinting = false;
 
     [SerializeField] private float sprintMultiplier = 1.5f;
     [Header("jump")]
@@ -18,16 +19,35 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 originalPos;
     private int safePosition = -7;
+    private Animator[] animators;
+    public Animator playerAnim;
+    public Animator gunAnim;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         groundCheck = GetComponentInChildren<GroundCheck>();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        animators = GetComponentsInChildren<Animator>();
+        playerAnim = animators[0];
+        gunAnim = animators[1];
+
     }
+    private bool isIdle = true;
     private void Start()
     {
         originalPos = transform.position;
+        playerAnim.SetFloat("Speed", 0f);
+
+        ApplyUpgrade();
+    }
+    private void ApplyUpgrade()
+    {
+        // Debug.Log("before speed:" + moveSpeed);
+        var bonus = UpgradeManager.Instance.GetBonus(BonusType.MoveSpeed);
+        moveSpeed = moveSpeed * (1 + bonus);
+        // Debug.Log("after speed:"+ moveSpeed);
     }
 
     private void OnEnable()
@@ -38,12 +58,15 @@ public class PlayerMovement : MonoBehaviour
         {
             inputManager.OnMoveInput += Move;
             inputManager.OnJumpInput += Jump;
+            inputManager.OnSprintInputStart += SprintStart;
+            inputManager.OnSprintInputCancel += SprintCancel;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
     }
+
     private void OnDisable()
     {
         inputManager = GetComponent<PlayerInputManager>();
@@ -51,20 +74,49 @@ public class PlayerMovement : MonoBehaviour
         {
             inputManager.OnMoveInput -= Move;
             inputManager.OnJumpInput -= Jump;
+            inputManager.OnSprintInputStart -= SprintStart;
+            inputManager.OnSprintInputCancel -= SprintCancel;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
+     
     }
+
+    private void SprintStart()
+    {
+        if (!groundCheck.isGrounded) return;//if jump in air can not sprint
+       
+        isSprinting = true;
+        playerAnim.SetFloat("Speed", 1);
+    }
+    private void SprintCancel()
+    {
+        isSprinting = false;
+        if (isMoving)
+        {
+            isIdle = false;
+            playerAnim.SetFloat("Speed", 0.5f);
+            Debug.Log("speed" + moveSpeed);
+        }
+        else
+        {
+            isIdle = true;
+            playerAnim.SetFloat("Speed", 0f);
+        }
+
+    }
+    private bool wasGrounded;
     private void FixedUpdate()
     {
         //move
         Vector3 velocity = rb.linearVelocity;
         var currentSpeed = moveSpeed;
-        if(isSprinting)
+        PlayerLook camera = Camera.main.GetComponent<PlayerLook>();
+        if (isSprinting)
         {
-            currentSpeed =moveSpeed * sprintMultiplier;
+            currentSpeed = moveSpeed * sprintMultiplier;
         }
         else
         {
@@ -77,22 +129,37 @@ public class PlayerMovement : MonoBehaviour
         // extra gravity when falling
         if (!groundCheck.isGrounded && rb.linearVelocity.y < 0)
         {
-          
+
             rb.AddForce(Vector3.down * fallMultiplier, ForceMode.Acceleration);
         }
 
-        if(transform.position.y <= safePosition)
+        if (transform.position.y <= safePosition)
         {
             transform.position = originalPos;
         }
+
+
+        playerAnim.SetBool("InAir", !groundCheck.isGrounded);
+        playerAnim.SetFloat("YVelocity", rb.linearVelocity.y);
+        if (groundCheck.isGrounded && !wasGrounded)
+        {
+            playerAnim.SetBool("isJump", false);
+            //  playerAnim.SetBool("isGrounded", true);
+        }
+        /*  else//in air
+          {
+              playerAnim.SetBool("isGrounded", false);
+          }*/
+        wasGrounded = groundCheck.isGrounded;
     }
     Vector3 direction;
-    public bool isMoving =false;
-    public void Move(Vector2 dir,bool spriting)
-    {
+    public bool isMoving = false;
 
+    public int UpdateData { get; private set; }
+
+    public void Move(Vector2 dir)
+    {
         moveDirection = dir;
-        isSprinting = spriting;
         if (dir != Vector2.zero)
         {
             isMoving = true;
@@ -107,8 +174,15 @@ public class PlayerMovement : MonoBehaviour
         if (groundCheck && groundCheck.isGrounded)
         {
             rb.AddForce(Vector3.up * jumpStrength, ForceMode.Impulse);
-            //Debug.Log("player jump");
+            playerAnim.SetBool("isJump", true);
         }
     }
-
+    public void SetBonusSpeed(float totalBonus)
+    {
+        if (totalBonus == 0) return;
+        Debug.Log("before upgrade speed:" + moveSpeed + "totalbonus:" + totalBonus);
+        moveSpeed = moveSpeed * totalBonus;
+        Debug.Log("after upgrade speed:" + moveSpeed);
+    }
+    
 }

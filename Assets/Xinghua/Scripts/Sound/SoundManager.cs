@@ -26,13 +26,15 @@ public class SoundManager : MonoBehaviour
     }
     private void Start()
     {
-        PlayBGM("BGM",1f);
+        
+        PlayBGM("BGM",0.3f);
     }
 
     public void PlayBGM(string name, float vol)
     {
+      
         Sound s = Array.Find(bgm, x => x.name == name);
-
+      
         if (s != null)
         {
             bgmSource.clip = s.clip;
@@ -56,8 +58,9 @@ public class SoundManager : MonoBehaviour
         {
             float originalBgmVolume = bgmSource.volume;
             //sfxSource.volume = sfxVolume;
-            sfxSource.PlayOneShot(s.clip);
+          
             sfxSource.volume = volume;
+            sfxSource.PlayOneShot(s.clip);
         }
         else
         {
