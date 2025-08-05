@@ -139,9 +139,9 @@ public class Shoot : MonoBehaviour
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
-        Gun gun = GetComponentInChildren<Gun>(false);
-        var type = gun.gunData.type;
-        if (gun != null && type == GunType.Automatic)
+        var currentGun = weaponController.GetCurrentGun();
+        var type = currentGun.gunData.type;
+        if (currentGun != null && type == GunType.Automatic)
         {
 
             playerAnimator.SetBool("Automatic", true);
@@ -156,14 +156,14 @@ public class Shoot : MonoBehaviour
                 }
 
                 HandleShoot(true);
-                yield return new WaitForSeconds(shootInterval);
+                yield return new WaitForSeconds(currentGun.shootCooldown);
             }
 
         }
         else
         {
             HandleShoot(false);
-            yield return new WaitForSeconds(shootInterval); // this is for single shoot
+            yield return new WaitForSeconds(currentGun.shootCooldown); // this is for single shoot
         }
 
     }

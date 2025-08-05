@@ -28,7 +28,7 @@ public class PlayerLook : MonoBehaviour
     private float fovTransitionSpeed = 10f;
     [SerializeField] float fovTransitionTime = 0.2f;
     private float targetFOV;
-
+    float originalY;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -90,13 +90,18 @@ public class PlayerLook : MonoBehaviour
         resetCoroutine = StartCoroutine(CameraPositonReset());
 
     }
-    float originalY;
+
+    public void UpgradeRecoilAmount(float value)
+    {
+        
+        recoilAmount = value;
+    }
     private void CameraUP()
     {
         isUp = true;
         recoilOffsetY += recoilAddSpeed * recoilSpeedMultiplay * recoilAmount;
-
     }
+
     private IEnumerator CameraPositonReset()
     {
         yield return new WaitForEndOfFrame();

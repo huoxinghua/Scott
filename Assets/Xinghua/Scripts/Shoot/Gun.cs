@@ -21,15 +21,19 @@ public class Gun : MonoBehaviour
     private Animator playerAnimator;
     private WeaponController weaponController;
 
-
-    public float spreadAmount = 0.02f;
+    //upgrade 
+    public float spreadAmount ;
     private int bulletsPerShot;
     private float damage;
     private int magzaineSize;
+    public float shootCooldown;//it is little different to fire rate, but this easy to set in logic
+    private float recoilAmount;
+    //event
     public event Action OnShoot;
     public event Action OnReload;
+   // public event Action<float> OnRecoilAmountUpgrade;
 
-   // [Header("Ammo and Magazine")]
+    // [Header("Ammo and Magazine")]
     public int currentAmmo;
 
 
@@ -40,24 +44,17 @@ public class Gun : MonoBehaviour
         playerAnimator = GetComponentInParent<Animator>();
         weaponController = GetComponentInParent<WeaponController>();
     }
-    private void Start()
-    {
-     /*   originalPosition = transform.localPosition;
-        originalRotation = transform.localRotation;*/
 
-    }
     private void SetOriginalData()
     {
-  /*     transform.localPosition = originalPosition;
-       transform.localRotation = originalRotation ;*/
-
         currentAmmo = gunData.maxMagazineSize;
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
-       
+        shootCooldown = this.gunData.shootCooldown;//this is not idea for upgrade 
         bulletsPerShot = gunData.bulletPerShot;
-
+        spreadAmount = gunData.spreadAmount;
+        recoilAmount = gunData.recoilAmount;
     }
     private void OnEnable()
     {
@@ -74,7 +71,7 @@ public class Gun : MonoBehaviour
         SetGunUpgradeFireRate(upgrade.GetBonus(BonusType.FireRate));
         SetGunUpgradeSpreadAmount(upgrade.GetBonus(BonusType.Spread));
         SetGunUpgradeRecoil(upgrade.GetBonus(BonusType.Recoil));
-        SetGunUpgradeReloadSpeed(upgrade.GetBonus(BonusType.ReloadSpeed));
+      //  SetGunUpgradeReloadSpeed(upgrade.GetBonus(BonusType.ReloadSpeed));
         SetGunUpgradeBulletsPerShot(upgrade.GetBonus(BonusType.ShotsPerShoot));
     }
 
@@ -222,8 +219,8 @@ public class Gun : MonoBehaviour
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
-            float offsetX = Random.Range(-gunData.spreadAmount, gunData.spreadAmount);
-            float offsetY = Random.Range(-gunData.spreadAmount, gunData.spreadAmount);
+            float offsetX = Random.Range(-spreadAmount,spreadAmount);
+            float offsetY = Random.Range(-spreadAmount,spreadAmount);
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f + offsetX, 0.5f + offsetY, 0));
             RaycastHit hit;
@@ -297,7 +294,7 @@ public class Gun : MonoBehaviour
     }
     public void OnShootSoundPlay()
     {
-        SoundManager.Instance.PlaySFX("BaseGunShoot", 0.5f);
+        SoundManager.Instance.PlaySFX("BaseGunShoot", 0.02f);
     }
 
 
@@ -319,7 +316,7 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeFireRate(float bonus)
     {
         if (bonus == 0) return;
-
+        shootCooldown = shootCooldown * (1 + bonus);
     }
     public void SetGunUpgradeSpreadAmount(float bonus)
     {
@@ -329,7 +326,12 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeRecoil(float bonus)
     {
         if (bonus == 0) return;
-    }
+        recoilAmount =recoilAmount * (1 + bonus);
+       // OnRecoilAmountUpgrade?.Invoke(recoilAmount);
+        var cam = Camera.main;
+        PlayerLook camSc = cam.GetComponent<PlayerLook>();
+        camSc.UpgradeRecoilAmount(recoilAmount);
+}
     public void SetGunUpgradeReloadSpeed(float bonus)
     {
         if (bonus == 0) return;
