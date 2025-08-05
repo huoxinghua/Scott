@@ -33,6 +33,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Aim",
+                    "type": "Button",
+                    "id": "55ceecfa-a532-4aa4-8ded-c545d1c0784e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Interact",
                     "type": "Button",
                     "id": "852140f2-7766-474d-8707-702459ba45f3",
@@ -99,6 +108,15 @@
                     "name": "GunReload",
                     "type": "Button",
                     "id": "605312f3-4610-44a3-967a-826f8c107cfd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Upgrade",
+                    "type": "Button",
+                    "id": "1b4ae329-3d46-448d-89dc-489bad7ad546",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -274,7 +292,7 @@
                 {
                     "name": "",
                     "id": "143bb1cd-cc10-4eca-a2f0-a3664166fe91",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Gamepad",
@@ -334,6 +352,28 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4a4e8134-775e-44ab-b207-c85891c7151e",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "Aim",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "439012ff-4d72-4545-866d-5f63bde19f3a",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Aim",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -505,11 +545,22 @@
                 {
                     "name": "",
                     "id": "20901e6d-512e-45c7-8c27-2fea0904f8e8",
-                    "path": "<Keyboard>/2",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "GunReload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "54ff6bf8-7bb6-4d4a-a807-e6e9e37091a2",
+                    "path": "<Keyboard>/u",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Upgrade",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

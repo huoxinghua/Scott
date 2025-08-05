@@ -8,9 +8,18 @@ public class Shoot : MonoBehaviour
 
     private Coroutine gunShakeCoroutine;
     private Coroutine continuousShootingCoroutine;
+    private Animator playerAnimator;
+    private Gun gun;
+    private Gun currentGun;
+    private WeaponController weaponController;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
+        playerAnimator = GetComponentInChildren<Animator>();
+        weaponController = GetComponentInChildren<WeaponController>();
+        gun = GetComponentInChildren<Gun>();
+        currentGun = gun;
+
     }
     private void OnEnable()
     {
@@ -22,10 +31,15 @@ public class Shoot : MonoBehaviour
 
             inputManager.OnChangeWeaponInput += ChangeWeapon;
             inputManager.OnGunReloadInput += GunReload;
+
         }
         else
         {
             Debug.Log("input manager is null ");
+        }
+        if (gun != null)
+        {
+            gun.OnReload += GunReload;
         }
     }
 
@@ -37,16 +51,21 @@ public class Shoot : MonoBehaviour
             inputManager.OnShootCanceled -= HandleShootCanceledInput;
 
             inputManager.OnChangeWeaponInput -= ChangeWeapon;
-            inputManager.OnGunReloadInput -= GunReload;
+            inputManager.OnGunReloadInput += GunReload;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
+        if (gun != null)
+        {
+            gun.OnReload -= GunReload;
+        }
     }
     WeaponController weapon;
     private void ChangeWeapon()
     {
+        
         weapon = GetComponentInChildren<WeaponController>();
         if (weapon != null)
         {
@@ -59,12 +78,36 @@ public class Shoot : MonoBehaviour
     }
     private void GunReload()
     {
-        Gun gun = GetComponentInChildren<Gun>();
-        gun.Reload();
+        currentGun = weaponController.currentGun;
+        //Debug.Log("currentGun in gunRoload :" + currentGun.name);
+        Animator gunAnimator = currentGun.GetComponent<Animator>();
+       // Debug.Log(gunAnimator.name + " :" + "reload");
+       // if (!gun.CheckFullAmmo())
+      //  {
+            playerAnimator.SetBool("isReload", true);
+            gunAnimator.SetBool("isReload", true);
+
+            gun.Reload();
+      // }
+     /*   else
+        {
+            Debug.Log("full amm0");
+        }*/
     }
     private void HandleShoot(bool isAuto)
     {
-        Gun gun = GetComponentInChildren<Gun>();
+        var currentGun = weaponController.GetCurrentGun();
+        Animator gunAnimator = currentGun.GetComponent<Animator>();
+        Debug.Log("gunAnimation in Handle shoot:"+ gunAnimator.name);
+        gunAnimator.SetBool("Automatic", true);
+        Debug.Log("Handle shoot :"+ isAuto);
+
+        playerAnimator.SetBool("Automatic", true);
+        if (currentGun !=null&&!currentGun.CheckEmptyAmmo())
+        {
+            currentGun.Shoot();
+        }
+      /*  Gun gun = GetComponentInChildren<Gun>(false);
         if (gun != null && isAuto == true)
         {
             gun.Shoot();
@@ -72,15 +115,19 @@ public class Shoot : MonoBehaviour
         else if (gun != null && isAuto == false)
         {
             gun.FireMultiRayShot();
+           
         }
         else
         {
             Debug.Log("gun is null");
-        }
+        }*/
     }
 
     private void HandleShootStartedInput()
     {
+
+        if (gun.CheckEmptyAmmo()) return;
+       
         isAutoShooting = false;
         if (continuousShootingCoroutine != null)
         {
@@ -91,6 +138,13 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootCanceledInput()
     {
+        //animation
+      
+      
+        playerAnimator.SetBool("Automatic", false);
+        Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
+            GetComponent<Animator>();
+        gunAnimator.SetBool("Automatic", false);
 
         if (continuousShootingCoroutine != null)
         {
@@ -98,23 +152,43 @@ public class Shoot : MonoBehaviour
             continuousShootingCoroutine = null;
         }
         isAutoShooting = false;
+     
+        gun.shoot = 0;
     }
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
-
-        isAutoShooting = true;
-        while (true)
+        Gun gun = GetComponentInChildren<Gun>(false);
+        var type = gun.gunData.type;
+        if (gun != null && type == GunType.Automatic)
         {
-
-            HandleShoot(true);
-
-            yield return new WaitForSeconds(shootInterval);
+          
+                playerAnimator.SetBool("Automatic", true);
+         
+            //isAutoShooting = true;
+            while (true)
+            {
+                if (gun.CheckEmptyAmmo())
+                {
+                    playerAnimator.SetBool("Automatic", false);
+                    break;
+                }
+                
+                HandleShoot(true);
+                yield return new WaitForSeconds(shootInterval);
+            }
+            
+        }
+        else
+        {
+            HandleShoot(false);
+            yield return new WaitForSeconds(shootInterval); // this is for single shoot
         }
 
-        /*  HandleShoot(false);
-
-          yield return new WaitForSeconds(shootInterval); // this is for single shoot*/
-
+    }
+    //player !!!!animation event
+    public void OnLoadFinish()
+    {
+        playerAnimator.SetBool("isReload",false);
     }
 }
