@@ -356,7 +356,11 @@ public class Gun : MonoBehaviour
         gunAnimator.SetBool("isShoot", false);
         isShoot = false;
     }
-  
+    public void OnPlayReloadSoundAR()
+    {
+        Debug.Log("reload sound play");
+        SoundManager.Instance.PlaySFX("ARReload",0.8f);
+    }
     public float GetReloadSpeed()
     {
         return reloadSpeed;

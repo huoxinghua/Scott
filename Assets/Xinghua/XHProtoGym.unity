@@ -184,6 +184,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: sfx.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: bgm.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 01e112b04f38bcb4ab7fe68477738673, type: 3}
@@ -192,9 +196,25 @@ PrefabInstance:
       value: BGM
       objectReference: {fileID: 0}
     - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: bgm.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ca6b584456e14646bad48cc0eede7aa, type: 3}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: bgm.Array.data[1].name
+      value: BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: sfx.Array.data[0].clip
       value: 
       objectReference: {fileID: 8300000, guid: 03a73f8644c6cec459ee058c24b13c61, type: 3}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: sfx.Array.data[1].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4ca6b584456e14646bad48cc0eede7aa, type: 3}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: sfx.Array.data[1].name
+      value: ARReload
+      objectReference: {fileID: 0}
     - target: {fileID: 8694485563534770201, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: m_Volume
       value: 0.013
