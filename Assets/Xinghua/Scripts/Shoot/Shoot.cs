@@ -114,7 +114,8 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
-        if (gun.CheckEmptyAmmo())
+        var currentGun = weaponController.GetCurrentGun();
+        if (currentGun.CheckEmptyAmmo())
         {
             Debug.Log("current ammo empty need reload");
             return;

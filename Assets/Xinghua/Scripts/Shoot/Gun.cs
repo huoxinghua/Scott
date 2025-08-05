@@ -43,7 +43,7 @@ public class Gun : MonoBehaviour
     private void SetOriginalData()
     {
         currentAmmo = gunData.maxMagazineSize;
-        Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
+        Debug.Log(this.gunData.type + "currentAmmo when enable:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
         shootCooldown = this.gunData.shootCooldown;//this is not idea for upgrade 
