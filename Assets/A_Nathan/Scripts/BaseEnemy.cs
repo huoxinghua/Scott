@@ -173,7 +173,10 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
                 playerHealth.TakeDamage(attackDamage);
             }*/
             //xh code end
-
+            if(playerObj.GetComponent<IDamageable>()!=null)
+            {
+                playerObj.GetComponent<IDamageable>().TakeDamage(attackDamage);
+            }
         }
     }
     public void OnAttackFinish()
@@ -194,20 +197,24 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
                 Attacking();
               //  Debug.Log("EnemyIsAttacking");
                 break;
-
+            case EnemyState.Dead:
+                break;
             default:
                 Debug.Log("Unknown state.");
                 break;
         }
-        if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+        if (currentState != EnemyState.Dead)
         {
-            currentState = EnemyState.Attacking;
-            canAttack = true;
-        }
-        else
-        {
-            currentState = EnemyState.Moving;
-            canAttack = false;
+            if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+            {
+                currentState = EnemyState.Attacking;
+                canAttack = true;
+            }
+            else
+            {
+                currentState = EnemyState.Moving;
+                canAttack = false;
+            }
         }
     }
 }

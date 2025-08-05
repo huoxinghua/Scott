@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class RangedEnemy : MonoBehaviour
+public class RangedEnemy : MonoBehaviour, IDamageable, IRagDollable
 { 
 [SerializeField]float moveSpeed;
 [SerializeField] float attackDistance;
@@ -31,7 +31,7 @@ GameObject playerObj;
 Transform playerTransform;
 List<int> agentTypeIdList = new List<int>();
 bool hasJumped = false;
-//[SerializeField] Ragdoll ragDollScript;
+[SerializeField] Ragdoll ragDollScript;
 Transform hitPoint;
     bool isAroundCorner = false;
 public enum EnemyState
@@ -51,6 +51,7 @@ public void DamagePos(Transform hitPos)
 public void TakeDamage(float damage)
 {
     currentHealth -= damage;
+        Debug.Log(currentHealth.ToString());
     if (currentHealth <= 0 && currentState != EnemyState.Dead)
     {
         currentState = EnemyState.Dead;
@@ -60,9 +61,12 @@ public void TakeDamage(float damage)
         agent.ResetPath();
         agent.isStopped = true;
         // agent.enabled = false;
-    //    ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position), 1000f);
-        enemySpawn.EnemyWasKilled();
-        StartCoroutine(DecayBody());
+      ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position), 10f);
+    if(enemySpawn != null)
+            {
+                enemySpawn.EnemyWasKilled();
+            }
+            StartCoroutine(DecayBody());
 
         //proper death later
         //  Destroy(gameObject);
@@ -75,7 +79,7 @@ IEnumerator DecayBody()
 }
 public void Awake()
 {
-  //  animator = transform.GetComponentInChildren<Animator>();
+    animator = transform.GetComponentInChildren<Animator>();
     currentHealth = maxHealth;
 
 }
@@ -132,7 +136,7 @@ public void Moving()
     {
         if (!hasJumped)
         {
-           // animator.SetTrigger("Jump");
+            animator.SetBool("isJump",true);
         }
 
         hasJumped = true;
@@ -140,6 +144,7 @@ public void Moving()
     else
     {
         hasJumped = false;
+            animator.SetBool("isJump", false);
     }
     if (currentState == EnemyState.Dead)
     {
@@ -149,24 +154,33 @@ public void Moving()
     if (isAttacking)
     {
         agent.speed = 0;
+            animator.SetBool("isMove", false);
     }
     else
     {
         agent.speed = moveSpeed;
-     //   animator.SetFloat("Speed", agent.velocity.magnitude / moveSpeed);
+        animator.SetBool("isMove", true);
     }
     // Debug.Log(agent.velocity.magnitude / moveSpeed);
 
 }
 public void Attacking()
 {
-    //animator.SetFloat("Speed", 0);
-    if (!isAttacking)
+        animator.SetBool("isMove", false);
+        if (!isAttacking)
     {
+            if (isHighArc)
+            {
+                animator.SetBool("isProjectile", true);
+            }
+            else
+            {
+                animator.SetBool("isShoot", true);
+            }
             //  animator.SetInteger("AtkNumber", Random.Range(0, 3));
             //     animator.SetTrigger("Attack");
-            // isAttacking = true;
-            StartCoroutine(ShootCor()); 
+            isAttacking = true;
+            //StartCoroutine(ShootCor()); 
     }
 }
 //likely needs a better way and or needs event from animator
@@ -178,11 +192,12 @@ public void Attacking()
  }*/
 public void OnAttemptHit()
 {
-    if (canAttack)
-    {
+    
+    
             GameObject tempBullet = Instantiate(projectilePrefab,bulletOrigin);
             tempBullet.GetComponent<REProjectile>().targetTransform = playerTransform;
             tempBullet.GetComponent<REProjectile>().shootHigh = isHighArc;
+        tempBullet.GetComponent<REProjectile>().damage = attackDamage;
        // Debug.Log("hitPlayer");
        //xh code this can been used already
             /*    PlayerHealth playerHealth = FindAnyObjectByType<PlayerHealth>();
@@ -192,7 +207,7 @@ public void OnAttemptHit()
                 }*/
             //xh code end
 
-    }
+    
 }
 
     //temp solution while waiting for anim
@@ -204,9 +219,16 @@ public void OnAttemptHit()
         yield return new WaitForSeconds(Random.Range(.5f,3f));
         OnAttackFinish();
     }
+    IEnumerator ShootDelay()
+    {
+        yield return new WaitForSeconds(Random.Range(0.2f,2f));
+        isAttacking = false;
+    }
 public void OnAttackFinish()
 {
-    isAttacking = false;
+        animator.SetBool("isProjectile", false);
+        animator.SetBool("isShoot", false);
+    StartCoroutine(ShootDelay());
 }
 // Update is called once per frame
 IEnumerator GetAroundCorner()
@@ -228,41 +250,46 @@ void Update()
             Attacking();
             //  Debug.Log("EnemyIsAttacking");
             break;
-
-        default:
+            case EnemyState.Dead:
+                break;
+            default:
             Debug.Log("Unknown state.");
             break;
     }
-    if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
-    {
-            RaycastHit hit;
-            if(Physics.Raycast(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, out hit, Vector3.Distance(rayOrigin.position, playerTransform.position) * 1.1f,~lm)){
-                Debug.DrawRay(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, Color.green);
-                if (hit.collider.gameObject.name == "FirstPersonController")
+        if (currentState != EnemyState.Dead)
+        {
+            if (Vector3.Distance(transform.position, playerTransform.position) < attackDistance + attackDistBuffer)
+            {
+                RaycastHit hit;
+                if (Physics.Raycast(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, out hit, Vector3.Distance(rayOrigin.position, playerTransform.position) * 1.1f, ~lm))
                 {
-                 //   Debug.Log("HitPlayer");
-                    if (!isAroundCorner)
+                    Debug.DrawRay(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, Color.green);
+                    if (hit.collider.gameObject.name == "FirstPersonController")
                     {
-                        StartCoroutine(GetAroundCorner());  
+                        //   Debug.Log("HitPlayer");
+                        if (!isAroundCorner)
+                        {
+                            StartCoroutine(GetAroundCorner());
+                        }
+                        currentState = EnemyState.Attacking;
+                        canAttack = true;
                     }
-                    currentState = EnemyState.Attacking;
-                    canAttack = true;
+                    else
+                    {
+                        //    Debug.Log(hit.collider.gameObject.name);
+                        currentState = EnemyState.Moving;
+                        canAttack = false;
+                        isAroundCorner = false;
+                    }
                 }
-                else
-                {
-                //    Debug.Log(hit.collider.gameObject.name);
-                    currentState = EnemyState.Moving;
-                    canAttack = false;
-                    isAroundCorner = false;
-                }
+
             }
-        
-    }
-    else
-    {
-            isAroundCorner = false;
-        currentState = EnemyState.Moving;
-        canAttack = false;
-    }
+            else
+            {
+                isAroundCorner = false;
+                currentState = EnemyState.Moving;
+                canAttack = false;
+            }
+        }
 }
 }

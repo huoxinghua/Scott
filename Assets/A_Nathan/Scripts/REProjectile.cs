@@ -11,6 +11,7 @@ public class REProjectile : MonoBehaviour
     public bool shootHigh;
     Vector3 startPos;
     Vector3 endPos;
+    public float damage;
     public Transform targetTransform;
 
     void Awake()
@@ -35,6 +36,9 @@ public class REProjectile : MonoBehaviour
 
     public void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.GetComponent<IDamageable>()!=null) {
+            collision.gameObject.GetComponent<IDamageable>().TakeDamage(damage);
+                }
         Destroy(gameObject);
     }
 

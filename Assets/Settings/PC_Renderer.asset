@@ -34,14 +34,14 @@ MonoBehaviour:
   m_AssetVersion: 2
   m_OpaqueLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 471
   m_TransparentLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 471
   m_DefaultStencilState:
-    overrideStencilState: 0
-    stencilReference: 1
-    stencilCompareFunction: 3
+    overrideStencilState: 1
+    stencilReference: 0
+    stencilCompareFunction: 4
     passOperation: 2
     failOperation: 0
     zFailOperation: 0
@@ -66,12 +66,12 @@ MonoBehaviour:
   m_Name: FullScreenPassRendererFeature
   m_EditorClassIdentifier: 
   m_Active: 1
-  injectionPoint: 600
+  injectionPoint: 450
   fetchColorBuffer: 1
   requirements: 0
   passMaterial: {fileID: 2100000, guid: 130bf322a84890a48af9da9a95802f91, type: 2}
   passIndex: 0
-  bindDepthStencilAttachment: 0
+  bindDepthStencilAttachment: 1
   m_Version: 1
 --- !u!114 &6877518722773152096
 MonoBehaviour:
