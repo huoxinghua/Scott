@@ -172,61 +172,21 @@ PrefabInstance:
       value: SoundManager
       objectReference: {fileID: 0}
     - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+      propertyPath: bgmName
+      value: BGM
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: bgmVolume
-      value: 0
+      value: 0.207
       objectReference: {fileID: 0}
     - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
       propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: bgm.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: sfx.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: bgm.Array.data[0].clip
+      propertyPath: sfxSource
       value: 
-      objectReference: {fileID: 8300000, guid: 01e112b04f38bcb4ab7fe68477738673, type: 3}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: bgm.Array.data[0].name
-      value: BGM
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: bgm.Array.data[1].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 4ca6b584456e14646bad48cc0eede7aa, type: 3}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: bgm.Array.data[1].name
-      value: BGM
-      objectReference: {fileID: 0}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: sfx.Array.data[0].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 03a73f8644c6cec459ee058c24b13c61, type: 3}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: sfx.Array.data[1].clip
-      value: 
-      objectReference: {fileID: 8300000, guid: 4ca6b584456e14646bad48cc0eede7aa, type: 3}
-    - target: {fileID: 6686008410649996719, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: sfx.Array.data[1].name
-      value: ARReload
-      objectReference: {fileID: 0}
-    - target: {fileID: 8694485563534770201, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: m_Volume
-      value: 0.013
-      objectReference: {fileID: 0}
-    - target: {fileID: 8694485563534770201, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: m_Resource
-      value: 
-      objectReference: {fileID: 8300000, guid: 01e112b04f38bcb4ab7fe68477738673, type: 3}
-    - target: {fileID: 8694485563534770201, guid: 144c5566e22bd014480333defb7e2135, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 8300000, guid: 01e112b04f38bcb4ab7fe68477738673, type: 3}
+      objectReference: {fileID: 232947108}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10907,6 +10867,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1135584892}
   m_LocalEulerAnglesHint: {x: 0, y: 15, z: 0}
+--- !u!82 &232947108 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 759538137828942734, guid: 144c5566e22bd014480333defb7e2135, type: 3}
+  m_PrefabInstance: {fileID: 2260094}
+  m_PrefabAsset: {fileID: 0}
 --- !u!43 &243993607
 Mesh:
   m_ObjectHideFlags: 0
@@ -86066,6 +86031,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4850085511177877707, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4591048b696d28d4489cfe68af9535b3, type: 2}
     - target: {fileID: 7399189470166605176, guid: 4545fd920aa2616438d8e166d890e28a, type: 3}
       propertyPath: ppVol
       value: 
