@@ -20,7 +20,7 @@ public class Gun : MonoBehaviour
     private Animator gunAnimator;
     private Animator playerAnimator;
     private WeaponController weaponController;
-
+    public int currentAmmo;
     //upgrade 
     public float spreadAmount ;
     private int bulletsPerShot;
@@ -28,14 +28,9 @@ public class Gun : MonoBehaviour
     private int magzaineSize;
     public float shootCooldown;//it is little different to fire rate, but this easy to set in logic
     private float recoilAmount;
+    private float reloadSpeed = 1f;
     //event
     public event Action OnShoot;
-    public event Action OnReload;
-   // public event Action<float> OnRecoilAmountUpgrade;
-
-    // [Header("Ammo and Magazine")]
-    public int currentAmmo;
-
 
     private void Awake()
     {
@@ -71,7 +66,7 @@ public class Gun : MonoBehaviour
         SetGunUpgradeFireRate(upgrade.GetBonus(BonusType.FireRate));
         SetGunUpgradeSpreadAmount(upgrade.GetBonus(BonusType.Spread));
         SetGunUpgradeRecoil(upgrade.GetBonus(BonusType.Recoil));
-      //  SetGunUpgradeReloadSpeed(upgrade.GetBonus(BonusType.ReloadSpeed));
+        SetGunUpgradeReloadSpeed(upgrade.GetBonus(BonusType.ReloadSpeed));
         SetGunUpgradeBulletsPerShot(upgrade.GetBonus(BonusType.ShotsPerShoot));
     }
 
@@ -204,10 +199,8 @@ public class Gun : MonoBehaviour
         if (isShoot)return;
         Debug.Log(this.name + "reload ");
         isReload = true;
-        //  ReloadAnimation();
         currentAmmo = magzaineSize;
         Debug.Log("after reload ammo:"+currentAmmo);
-   
     }
 
 
@@ -335,7 +328,9 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeReloadSpeed(float bonus)
     {
         if (bonus == 0) return;
-
+       
+        reloadSpeed = reloadSpeed * (1 + bonus);
+        SetReloadSpeed(reloadSpeed);
     }
     public int shotTimes = 2;
     public void SetGunUpgradeBulletsPerShot(float bonus)
@@ -361,6 +356,14 @@ public class Gun : MonoBehaviour
         gunAnimator.SetBool("isShoot", false);
         isShoot = false;
     }
-
+  
+    public float GetReloadSpeed()
+    {
+        return reloadSpeed;
+    }
+    private void SetReloadSpeed(float bonusSpeed)
+    {
+        reloadSpeed = bonusSpeed;
+    }
 }
 

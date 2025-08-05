@@ -7,23 +7,16 @@ public class WeaponController : MonoBehaviour
     private Transform shootStartPoint;//fx
     [SerializeField] public WeaponSO[] weapons;
     public List<GameObject> guns = new List<GameObject>();
-    //  private GameObject currentWeapon;
-    // public Transform weaponContainer;
     public Gun currentGun;
     [SerializeField] private Gun startingGun;
     [SerializeField] Transform gunParent;
     private Animator playerAnim;
-    // private int currentIndex = 0;
-    // [SerializeField] public GameObject crossHair;
-
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
-
     public bool isShotGun ;
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Image crosshairImage;
-
 
     private void Awake()
     {
@@ -36,30 +29,21 @@ public class WeaponController : MonoBehaviour
         currentGun = startingGun;
         isShotGun = false;
         playerAnim.SetBool("isShotgun", false);
-        // guns.Enqueue(currentGun.gameObject);
+ 
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-        //var another = Instantiate(weapons[1].gunPrefab, transform.position, Quaternion.identity);
-        //  another.transform.SetParent(gunParent);
-
-        /* another.gameObject.SetActive(false);
-
-         another.transform.position = spawnPosition;
-         another.transform.rotation = spawnRotation;
-
-         guns.Enqueue(another);*/
+     
     
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
       
-        /* idleScale = Vector3.one * currentGun.gunData.crosshairIdleScale;
-         moveScale = new Vector3(2, 2, 2) * currentGun.gunData.crosshairMoveScale;*/
+     
     }
 
     private void Update()
     {
         UpdateCrosshairColor();
-        //UpdateCrosshairScale();
+     
     }
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()

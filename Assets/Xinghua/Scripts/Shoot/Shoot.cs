@@ -67,14 +67,23 @@ public class Shoot : MonoBehaviour
             Debug.Log("weapon is null");
         }
     }
+    public void UpGradeReloadAnimationSpeed(Animator gunAnimator, Gun currentGun)
+    {
+        var bonusSpeed = currentGun.GetReloadSpeed();
+        gunAnimator.speed = bonusSpeed;
+        playerAnimator.speed = bonusSpeed;
+    }
+    public float reloadSpeed = 1f;
     private void GunReload()
     {
         currentGun = weaponController.currentGun;
-        Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
+       // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         // Debug.Log(gunAnimator.name + " :" + "reload");
         if (!currentGun.CheckFullAmmo())
         {
+            //upgrade animation speed here
+            UpGradeReloadAnimationSpeed(gunAnimator,currentGun);
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
 
@@ -171,7 +180,14 @@ public class Shoot : MonoBehaviour
     public void OnLoadFinish()
     {
         playerAnimator.SetBool("isReload", false);
+        ResetAnimationSpeed();
     }
-  
+    public void ResetAnimationSpeed()
+    {
+        currentGun = weaponController.currentGun;
+        Animator gunAnimator = currentGun.GetComponent<Animator>();
+        gunAnimator.speed = 1f;
+        playerAnimator.speed = 1f;
+    }
 
 }

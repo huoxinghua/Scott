@@ -27,4 +27,4 @@ MonoBehaviour:
   spreadAmount: 0.02
   bulletPerShot: 1
   maxMagazineSize: 50
-  recoil: 0.2
+  recoilAmount: 0.2

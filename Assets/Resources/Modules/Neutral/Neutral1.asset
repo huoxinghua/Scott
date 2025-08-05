@@ -24,6 +24,6 @@ MonoBehaviour:
     FireRateBonus: 0
     SpreadAmountBonus: 0
     RecoilBonus: 0
-    ReloadSpeedBonus: 0
+    ReloadSpeedBonus: 1.4
     MagazineBonus: 0
     ShotsPerShootBonus: 2
