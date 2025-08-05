@@ -197,7 +197,8 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
                 Attacking();
               //  Debug.Log("EnemyIsAttacking");
                 break;
-
+            case EnemyState.Dead:
+                break;
             default:
                 Debug.Log("Unknown state.");
                 break;

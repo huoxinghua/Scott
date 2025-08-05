@@ -16,8 +16,8 @@ MonoBehaviour:
   waveToStartRangedEnemies: 4
   waveToStartTanks: 8
   waveToRampUp: 11
-  totalEnemyPerWave: 3
-  startEnemyPerWave: 2
+  totalEnemyPerWave: 8
+  startEnemyPerWave: 7
   baseEnemyChance: 100
   rangedEnemyChance: 0
   rangedChanceIncrease: 10
