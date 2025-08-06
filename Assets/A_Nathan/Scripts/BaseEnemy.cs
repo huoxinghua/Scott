@@ -64,7 +64,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
             agent.isStopped = true;
            // agent.enabled = false;
             ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position   )  , 1000f);
-            enemySpawn.EnemyWasKilled();
+            enemySpawn.EnemyWasKilled();    
             StartCoroutine(DecayBody());
             
             //proper death later

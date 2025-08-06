@@ -108,7 +108,7 @@ public class EnemySpawn : MonoBehaviour
     {
         int rand = Random.Range(0, spawnList.Count);
         GameObject latestEnemy = Instantiate(TankEnemy, spawnList[rand]);
-        latestEnemy.GetComponent<BeefCake>().enemySpawn = this;
+        latestEnemy.GetComponent<TankEnemy>().enemySpawn = this;
         EnemiesSpawned++;
         latestEnemy.transform.SetParent(null, true);
         TrySpawn();

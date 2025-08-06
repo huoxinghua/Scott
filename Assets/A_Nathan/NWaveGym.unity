@@ -61233,9 +61233,9 @@ MonoBehaviour:
   CurrentWave: 0
   BaseEnemy: {fileID: 6318170868623974246, guid: a3775da327d87ae43969748c9e1ab690, type: 3}
   RangedEnemy: {fileID: 8505041738050379476, guid: 06668ca4b21fda246a8ce838b1b93197, type: 3}
-  TankEnemy: {fileID: 6440289541656138672, guid: 3539debbfada1754a97b308632de4054, type: 3}
+  TankEnemy: {fileID: 7527880656203386239, guid: 855a9b6fbe7b4c445872fc19a10826d5, type: 3}
   maxZombiesInScene: 20
-  spawnSpeed: 0.2
+  spawnSpeed: 3
   firstWaveEnemyAmount: 0
   waveData: {fileID: 11400000, guid: 25edbb28dfcdf1b4b829b1b4398909ba, type: 2}
   playerHealth: {fileID: 606943728}
@@ -63166,7 +63166,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1927556367}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 506a29e08c18090418afa3277a55cd84, type: 3}
   m_Name: 
