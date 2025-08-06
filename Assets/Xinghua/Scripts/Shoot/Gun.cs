@@ -39,10 +39,14 @@ public class Gun : MonoBehaviour
         playerAnimator = GetComponentInParent<Animator>();
         weaponController = GetComponentInParent<WeaponController>();
     }
-
-    private void SetOriginalData()
+    private void Start()
     {
         currentAmmo = gunData.maxMagazineSize;
+        
+    }
+    private void SetOriginalData()
+    {
+        
         Debug.Log(this.gunData.type + "currentAmmo when enable:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
@@ -53,9 +57,21 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
+       
         SetOriginalData();
         ApplyUpgradeBonuses();
     }
+    private void OnDisable()
+    {
+        SaveLeftAmmoBeforeChangeGun();
+    }
+    
+    private void SaveLeftAmmoBeforeChangeGun()//if player change to another weapon save
+    {
+        var leftAmmo = currentAmmo;
+       
+    }
+
     private void ApplyUpgradeBonuses()
     {
         var upgrade = UpgradeManager.Instance;
