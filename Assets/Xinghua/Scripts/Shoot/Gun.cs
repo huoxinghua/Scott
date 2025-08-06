@@ -172,7 +172,7 @@ public class Gun : MonoBehaviour
                 currentAmmo--;
                 if (currentAmmo <= 0)
                 {
-                    gunAnimator.SetBool("Automatic", false);
+                    gunAnimator.SetBool("isShoot", false);
                     playerAnimator.SetBool("Automatic", false);
                 }
 
@@ -384,8 +384,9 @@ public class Gun : MonoBehaviour
     public void OnShootFinish()
     {
         currentState = GunState.Idle;
+        
         gunAnimator.SetBool("isShoot", false);
-       
+      
     }
     public void OnPlayReloadSoundAR()
     {

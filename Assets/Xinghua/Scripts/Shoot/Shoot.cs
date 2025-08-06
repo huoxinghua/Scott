@@ -77,7 +77,7 @@ public class Shoot : MonoBehaviour
     private void GunReload()
     {
         currentGun = weaponController.currentGun;
-        if (currentGun.currentState != GunState.Idle)
+        if (currentGun.currentState != GunState.Idle || isAutoShooting)
         {
             return;
         }
@@ -98,29 +98,17 @@ public class Shoot : MonoBehaviour
             Debug.Log("full ammo");
         }
     }
-    private void CanShoot()
-    {
-        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-        //  return stateInfo.IsName("Shotgun") || stateInfo.IsName("AR");
-      //  Debug.Log("animation state info:"+stateInfo.IsName("Shotgun"));
-      //  Debug.Log("animation state info:" + stateInfo.IsName("Shotgun"));
-    }
+   
     private void HandleShoot(bool isAuto)
     {
-        /*  var canShoot = CanShoot();
-          if (!canShoot) return;*/
-       // CanShoot();
         var currentGun = weaponController.GetCurrentGun();
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         if (currentGun != null && !currentGun.CheckEmptyAmmo())
         {
-
-            // Debug.Log("gunAnimation in Handle shoot:" + gunAnimator.name);
             if (gunAnimator != null)
             {
-                gunAnimator.SetBool("Automatic", true);
+                gunAnimator.SetBool("isShoot", true);
             }
-            // Debug.Log("Handle shoot :" + isAuto);
             currentGun.Shoot();
             playerAnimator.SetBool("Automatic", true);
         }
@@ -128,15 +116,6 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
-       /* Gun[] guns= GetComponentsInChildren<Gun>();
-        foreach (Gun gun in guns)
-        {
-            if(gun.currentState == GunState.Switching)
-            {
-                Debug.Log(gun.name + "isSwitch can not shoot now");
-                return;
-            }
-        }*/
         var currentGun = weaponController.GetCurrentGun();
         
         if (currentGun.CheckEmptyAmmo())
@@ -155,11 +134,12 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootCanceledInput()
     {
+        isAutoShooting = false;
         //animation
         playerAnimator.SetBool("Automatic", false);
         Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
         GetComponent<Animator>();
-        gunAnimator.SetBool("Automatic", false);
+        gunAnimator.SetBool("isShoot", false);
 
         if (continuousShootingCoroutine != null)
         {
@@ -180,7 +160,7 @@ public class Shoot : MonoBehaviour
 
             playerAnimator.SetBool("Automatic", true);
 
-            //isAutoShooting = true;
+            isAutoShooting = true;
             while (true)
             {
                 if (currentGun.CheckEmptyAmmo())
