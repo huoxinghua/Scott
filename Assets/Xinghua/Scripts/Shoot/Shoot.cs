@@ -58,13 +58,18 @@ public class Shoot : MonoBehaviour
     {
 
         weapon = GetComponentInChildren<WeaponController>();
-        if (weapon != null)
+        if (!weapon.isSwitchingGun)
         {
-            weapon.EquipWeapon();
-        }
-        else
-        {
-            Debug.Log("weapon is null");
+
+            weapon.isSwitchingGun = true;
+            if (weapon != null)
+            {
+                weapon.EquipWeapon();
+            }
+            else
+            {
+                Debug.Log("weapon is null");
+            }
         }
     }
     public void UpGradeReloadAnimationSpeed(Animator gunAnimator, Gun currentGun)

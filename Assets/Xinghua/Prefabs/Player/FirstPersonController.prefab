@@ -8691,6 +8691,7 @@ MonoBehaviour:
   startingGun: {fileID: 8930682161582984047}
   gunParent: {fileID: 9179913335497371036}
   isShotGun: 0
+  isSwitchingGun: 0
   isCrossHairActive: 0
 --- !u!1 &4498348664541725758
 GameObject:
@@ -12245,7 +12246,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2938535980174298031, guid: 40887496f2140934784f269698fca0ab, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5437485812489341520, guid: 40887496f2140934784f269698fca0ab, type: 3}
       propertyPath: isReload

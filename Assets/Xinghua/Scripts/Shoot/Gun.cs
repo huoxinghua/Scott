@@ -160,7 +160,11 @@ public class Gun : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
            // Camera.main.GetComponent<CameraShake>().Shake();
-            FilterBulletHole(offsetPos,rotation,hit);
+           if(hit.transform.gameObject.layer != 9)
+            {
+                FilterBulletHole(offsetPos, rotation, hit);
+            }
+            
 
 
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");

@@ -18,6 +18,7 @@ public class WeaponController : MonoBehaviour
     private Vector3 moveScale;
     private Image crosshairImage;
 
+    public bool isSwitchingGun;
     private void Awake()
     {
 
@@ -106,7 +107,7 @@ public class WeaponController : MonoBehaviour
             {
                 weapon.SetActive(false);
             }
-
+            isSwitchingGun = false;
         }
     }
 
