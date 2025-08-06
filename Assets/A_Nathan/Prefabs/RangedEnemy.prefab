@@ -434,7 +434,7 @@ MonoBehaviour:
   attackDistance: 30
   minAttackDistance: 0
   attackDistBuffer: 0.5
-  attackDamage: 0
+  attackDamage: 12
   attackSpeed: 3.5
   maxHealth: 75
   rayOrigin: {fileID: 2884389057772927430}

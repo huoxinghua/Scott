@@ -197,7 +197,7 @@ MonoBehaviour:
   moveSpeed: 2.5
   attackDistance: 2
   attackDistBuffer: 0.5
-  attackDamage: 15
+  attackDamage: 25
   attackSpeed: 3
   maxHealth: 250
   enemySpawn: {fileID: 0}

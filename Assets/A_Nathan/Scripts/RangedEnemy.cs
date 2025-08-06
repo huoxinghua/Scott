@@ -158,8 +158,8 @@ public void GenerateAgentIdList()
 }
 public void Moving()
 {
-       
-    if (agent.isOnOffMeshLink)
+        agent.updateRotation = true;
+        if (agent.isOnOffMeshLink)
     {
         if (!hasJumped)
         {
@@ -193,6 +193,8 @@ public void Moving()
 }
 public void Attacking()
 {
+        agent.updateRotation = false;
+        transform.LookAt(playerTransform.position);
         animator.SetBool("isMove", false);
         if (!isAttacking)
     {
