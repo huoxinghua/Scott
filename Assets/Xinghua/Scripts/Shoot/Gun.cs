@@ -3,9 +3,18 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum GunState
+{
+    Idle,
+    Firing,
+    Reloading,
+    Switching
+}
 
 public class Gun : MonoBehaviour
 {
+    public GunState currentState;
+
     public int shoot = 0;
     private float lastShootTime = 0f;
     public WeaponSO gunData;
@@ -42,6 +51,7 @@ public class Gun : MonoBehaviour
     }
     private void Start()
     {
+        currentState = GunState.Idle;
         currentAmmo = gunData.maxMagazineSize;
         leftAmmo = currentAmmo;
     }
@@ -58,17 +68,15 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
-        isReload = false;
-        isShoot = false;
-        currentAmmo = leftAmmo;
+        
+       // currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
     }
     private void OnDisable()
     {
         SaveLeftAmmoBeforeChangeGun();
-        isReload = false;
-        isShoot = false;
+       
     }
   
     private void SaveLeftAmmoBeforeChangeGun()//if player change to another weapon save
@@ -102,7 +110,7 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
-      
+        if (currentState != GunState.Idle || currentAmmo <= 0) return;
         switch (gunData.type)
         {
             case GunType.Automatic:
@@ -115,9 +123,7 @@ public class Gun : MonoBehaviour
     }
     public void AutomaticShoot()
     {
-
-        if (isReload || currentAmmo <= 0) return;
-
+        currentState = GunState.Firing;
         // StartGunShake();
 
         float offsetX = 0f;
@@ -193,8 +199,7 @@ public class Gun : MonoBehaviour
             Destroy(objHole, 1f);
         }
     }
-    public bool isReload = false;
-    public bool isShoot = false;
+ 
     public bool CheckFullAmmo()
     {
         if (currentAmmo == magzaineSize)
@@ -217,9 +222,9 @@ public class Gun : MonoBehaviour
     }
     public void Reload()
     {
-        if (isShoot)return;
+        if (currentState != GunState.Idle) return;
         Debug.Log(this.name + "reload ");
-        isReload = true;
+        currentState = GunState.Reloading;
         currentAmmo = magzaineSize;
         Debug.Log("after reload ammo:"+currentAmmo);
     }
@@ -228,7 +233,7 @@ public class Gun : MonoBehaviour
     public void FireMultiRayShot()
     {
         Debug.Log("FireMultiRayShot");
-
+        currentState = GunState.Firing;
         currentAmmo -= bulletsPerShot;
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
@@ -251,7 +256,7 @@ public class Gun : MonoBehaviour
                
                 
                 CheckEmptyAmmo();
-                isShoot = true;
+                currentState = GunState.Firing;
                 if (hit.collider.GetComponent<IDamageable>() == null)
                 {
 
@@ -368,17 +373,19 @@ public class Gun : MonoBehaviour
 
     public void OnGunReloadFinish()
     {
+        currentState = GunState.Idle;
         Debug.Log("reload finish");
         gunAnimator.SetBool("isReload", false);
         currentAmmo = magzaineSize;
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
-        isReload = false;
+      
     }
     public void OnShootFinish()
     {
+        currentState = GunState.Idle;
         gunAnimator.SetBool("isShoot", false);
-        isShoot = false;
+       
     }
     public void OnPlayReloadSoundAR()
     {

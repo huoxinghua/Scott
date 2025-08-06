@@ -76,7 +76,9 @@ public class Shoot : MonoBehaviour
     public float reloadSpeed = 1f;
     private void GunReload()
     {
+        
         currentGun = weaponController.currentGun;
+        if (currentGun.currentState != GunState.Idle) return;
        // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         // Debug.Log(gunAnimator.name + " :" + "reload");
