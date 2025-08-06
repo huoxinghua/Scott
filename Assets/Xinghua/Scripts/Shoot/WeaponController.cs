@@ -121,7 +121,6 @@ public class WeaponController : MonoBehaviour
     //animation
     public void OnReLoadFinish()
     {
-        Debug.Log("OnReLoadFinish");
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
         playerMovement.playerAnim.SetBool("isReload", false);
         playerMovement.gunAnim.SetBool("isReload", false);

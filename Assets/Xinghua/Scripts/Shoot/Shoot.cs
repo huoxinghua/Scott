@@ -78,35 +78,32 @@ public class Shoot : MonoBehaviour
     private void GunReload()
     {
         currentGun = weaponController.currentGun;
-        /*    if (currentGun.currentState != GunState.Idle || isAutoShooting)
-            {
-                return;
-            }*/
+
         if (currentGun.currentState != GunState.Idle || isAutoShooting)
         {
-            Debug.Log("currentGun GunState: " + currentGun.currentState + "isAutoShoot:" + isAutoShooting);
+           // Debug.Log("currentGun GunState: " + currentGun.currentState + "isAutoShoot:" + isAutoShooting);
             return;
         }
 
-        // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
-        Animator gunAnimator = currentGun.GetComponent<Animator>();
-        // Debug.Log(gunAnimator.name + " :" + "reload");
+       
+
         if (!currentGun.CheckFullAmmo())
         {
+            Animator gunAnimator = currentGun.GetComponent<Animator>();
             //upgrade animation speed here
             UpGradeReloadAnimationSpeed(gunAnimator, currentGun);
             playerAnimator.SetBool("isReload", true);
-            gunAnimator.SetBool("isReload", true);
+   
 
             currentGun.Reload();
         }
         else
         {
-            Debug.Log("full ammo");
+            Debug.Log("full ammo "+currentGun.currentAmmo);
         }
     }
 
-    private void HandleShoot(bool isAuto)
+    private void HandleShoot( )
     {
         var currentGun = weaponController.GetCurrentGun();
         Animator gunAnimator = currentGun.GetComponent<Animator>();
@@ -116,14 +113,8 @@ public class Shoot : MonoBehaviour
             {
                 gunAnimator.SetBool("isShoot", true);
             }
-            if (isAuto)
-            {
-                currentGun.AutomaticShoot();
-            }
-            else
-            {
-                currentGun.FireMultiRayShot();
-            }
+            currentGun.Shoot();
+
             playerAnimator.SetBool("Automatic", true);
         }
     }
@@ -148,6 +139,7 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootCanceledInput()
     {
+      
         isAutoShooting = false;
         //animation
         playerAnimator.SetBool("Automatic", false);
@@ -184,14 +176,14 @@ public class Shoot : MonoBehaviour
                     break;
                 }
 
-                HandleShoot(true);
+                HandleShoot();
                 yield return new WaitForSeconds(currentGun.shootCooldown);
             }
 
         }
         else
         {
-            HandleShoot(false);
+            HandleShoot();
             yield return new WaitForSeconds(currentGun.shootCooldown); // this is for single shoot
         }
 

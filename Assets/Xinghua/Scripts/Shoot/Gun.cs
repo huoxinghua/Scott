@@ -57,8 +57,6 @@ public class Gun : MonoBehaviour
     }
     private void SetOriginalData()
     {
-
-        Debug.Log(this.gunData.type + "currentAmmo when enable:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
         shootCooldown = this.gunData.shootCooldown;//this is not idea for upgrade 
@@ -110,7 +108,7 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
-        if (currentState != GunState.Idle || currentAmmo <= 0) return;
+        if (currentState != GunState.Idle || currentAmmo <= 0||!canShoot) return;
         switch (gunData.type)
         {
             case GunType.Automatic:
@@ -124,7 +122,7 @@ public class Gun : MonoBehaviour
     public void AutomaticShoot()
     {
         currentState = GunState.Firing;
-        // StartGunShake();
+     
 
         float offsetX = 0f;
         float offsetY = 0f;
@@ -161,24 +159,20 @@ public class Gun : MonoBehaviour
 
 
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
-
+        
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
                 shoot++;
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
 
-
-                currentAmmo--;
                 if (currentAmmo <= 0)
                 {
                     gunAnimator.SetBool("isShoot", false);
                     playerAnimator.SetBool("Automatic", false);
+                    currentState = GunState.Idle;
                 }
 
-                //  crosshairController.PlayShootAnimation();
-
-               
                 lastShootTime = Time.time;
             }
 
@@ -225,8 +219,7 @@ public class Gun : MonoBehaviour
         if (currentState != GunState.Idle) return;
         Debug.Log(this.name + "reload ");
         currentState = GunState.Reloading;
-        currentAmmo = magzaineSize;
-        Debug.Log("after reload ammo:"+currentAmmo);
+
     }
 
 
@@ -373,20 +366,30 @@ public class Gun : MonoBehaviour
 
     public void OnGunReloadFinish()
     {
-        Debug.Log("reload finish");
-        currentState = GunState.Idle;
+
         gunAnimator.SetBool("isReload", false);
+        canShoot = true;
+        currentState = GunState.Idle;
         currentAmmo = magzaineSize;
+        Debug.Log("after reload ammo:" + currentAmmo);
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
+        currentAmmo =gunData.maxMagazineSize;
+
       
+    }
+   private bool canShoot = true;
+   public void OnReloadStart()
+    {
+        canShoot = false;
     }
     public void OnShootFinish()
     {
-        Debug.Log("shoot finish");
-        currentState = GunState.Idle;
         gunAnimator.SetBool("isShoot", false);
-      
+        currentState = GunState.Idle;
+        currentAmmo--;
+
+
     }
     public void OnPlayReloadSoundAR()
     {
