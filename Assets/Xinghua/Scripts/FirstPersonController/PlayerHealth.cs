@@ -36,7 +36,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (health > a)
         {
             health -= a;
-            Debug.Log("player current health:" + health);
+           // Debug.Log("player current health:" + health);
         }
         else
         {

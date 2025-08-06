@@ -87,7 +87,7 @@ public class Shoot : MonoBehaviour
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
 
-            gun.Reload();
+            currentGun.Reload();
         }
         else
         {
@@ -154,7 +154,7 @@ public class Shoot : MonoBehaviour
         }
         isAutoShooting = false;
 
-        gun.shoot = 0;
+        currentGun.shoot = 0;
     }
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
@@ -169,7 +169,7 @@ public class Shoot : MonoBehaviour
             //isAutoShooting = true;
             while (true)
             {
-                if (gun.CheckEmptyAmmo())
+                if (currentGun.CheckEmptyAmmo())
                 {
                     playerAnimator.SetBool("Automatic", false);
                     break;
@@ -192,6 +192,7 @@ public class Shoot : MonoBehaviour
     {
         playerAnimator.SetBool("isReload", false);
         ResetAnimationSpeed();
+     
     }
     public void ResetAnimationSpeed()
     {

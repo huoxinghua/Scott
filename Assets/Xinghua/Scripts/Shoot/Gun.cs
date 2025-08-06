@@ -21,6 +21,7 @@ public class Gun : MonoBehaviour
     private Animator playerAnimator;
     private WeaponController weaponController;
     public int currentAmmo;
+    private int leftAmmo;
     //upgrade 
     public float spreadAmount ;
     private int bulletsPerShot;
@@ -42,7 +43,7 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         currentAmmo = gunData.maxMagazineSize;
-        
+        leftAmmo = currentAmmo;
     }
     private void SetOriginalData()
     {
@@ -57,20 +58,24 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
-       
+        isReload = false;
+        isShoot = false;
+        currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
     }
     private void OnDisable()
     {
         SaveLeftAmmoBeforeChangeGun();
+        isReload = false;
+        isShoot = false;
     }
-    
+  
     private void SaveLeftAmmoBeforeChangeGun()//if player change to another weapon save
     {
-        var leftAmmo = currentAmmo;
-       
+         leftAmmo = currentAmmo;
     }
+
 
     private void ApplyUpgradeBonuses()
     {
@@ -110,9 +115,9 @@ public class Gun : MonoBehaviour
     }
     public void AutomaticShoot()
     {
-        // Debug.Log("AutomaticShoot");
+
         if (isReload || currentAmmo <= 0) return;
-        Debug.Log("gun shake");
+
         // StartGunShake();
 
         float offsetX = 0f;
@@ -192,7 +197,7 @@ public class Gun : MonoBehaviour
     public bool isShoot = false;
     public bool CheckFullAmmo()
     {
-        if (this.currentAmmo == magzaineSize)
+        if (currentAmmo == magzaineSize)
         {
             return true;
 
@@ -202,7 +207,7 @@ public class Gun : MonoBehaviour
 
     public bool CheckEmptyAmmo()
     {
-        if (this.currentAmmo <= 0)
+        if (currentAmmo <= 0)
         {
 
             return true;
@@ -361,13 +366,14 @@ public class Gun : MonoBehaviour
        // Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
     }
 
-    public void OnReloadFinish()
+    public void OnGunReloadFinish()
     {
         Debug.Log("reload finish");
         gunAnimator.SetBool("isReload", false);
         currentAmmo = magzaineSize;
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
+        isReload = false;
     }
     public void OnShootFinish()
     {
