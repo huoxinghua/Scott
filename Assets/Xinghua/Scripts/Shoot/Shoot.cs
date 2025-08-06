@@ -70,8 +70,9 @@ public class Shoot : MonoBehaviour
     public void UpGradeReloadAnimationSpeed(Animator gunAnimator, Gun currentGun)
     {
         var bonusSpeed = currentGun.GetReloadSpeed();
-        gunAnimator.speed = bonusSpeed;
-        playerAnimator.speed = bonusSpeed;
+        gunAnimator.SetFloat("reloadSpeed",bonusSpeed);
+        playerAnimator.SetFloat("reloadSpeed",bonusSpeed);
+
     }
     public float reloadSpeed = 1f;
     private void GunReload()
@@ -198,8 +199,8 @@ public class Shoot : MonoBehaviour
     {
         currentGun = weaponController.currentGun;
         Animator gunAnimator = currentGun.GetComponent<Animator>();
-        gunAnimator.speed = 1f;
-        playerAnimator.speed = 1f;
+        playerAnimator.SetFloat("isReload", 1f);
+        gunAnimator.SetFloat("isReload", 1f);
         Debug.Log("player animation speed:"+ playerAnimator.speed);
 
     }
