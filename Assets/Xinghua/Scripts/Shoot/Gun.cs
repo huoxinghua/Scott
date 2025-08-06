@@ -54,9 +54,14 @@ public class Gun : MonoBehaviour
         currentState = GunState.Idle;
         currentAmmo = gunData.maxMagazineSize;
         leftAmmo = currentAmmo;
+
+        originalPosition = transform.localPosition;//if this will help the second position problem
+        originalRotation = transform.localRotation;
     }
     private void SetOriginalData()
     {
+        originalPosition = transform.localPosition;//if this will help the second position problem
+        originalRotation = transform.localRotation;
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
         shootCooldown = this.gunData.shootCooldown;//this is not idea for upgrade 
