@@ -13,7 +13,7 @@ public class WeaponController : MonoBehaviour
     private Animator playerAnim;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
-    public bool isShotGun ;
+    public bool isShotGun;
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Image crosshairImage;
@@ -29,21 +29,21 @@ public class WeaponController : MonoBehaviour
         currentGun = startingGun;
         isShotGun = false;
         playerAnim.SetBool("isShotgun", false);
- 
+
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-     
-    
+
+
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-      
-     
+
+
     }
 
     private void Update()
     {
         UpdateCrosshairColor();
-     
+
     }
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
@@ -61,14 +61,14 @@ public class WeaponController : MonoBehaviour
             else
             {
                 crosshairImage.color = currentGun.gunData.crosshairNormalColor;
-                isCrossHairActive = false;  
+                isCrossHairActive = false;
             }
         }
     }
-  
+
     private void HandGunSwitchAnimation()
     {
-        Debug.Log("player animation :"+ playerAnim);
+        Debug.Log("player animation :" + playerAnim);
         if (isShotGun == false)
         {
             isShotGun = true;
@@ -106,15 +106,16 @@ public class WeaponController : MonoBehaviour
             {
                 weapon.SetActive(false);
             }
-          
+
         }
     }
 
 
     public void EquipWeapon()
     {
-       HandGunSwitchAnimation();
- 
+       // currentGun.currentState = GunState.Switching;
+        HandGunSwitchAnimation();
+        
     }
 
     //animation
@@ -124,11 +125,15 @@ public class WeaponController : MonoBehaviour
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
         playerMovement.playerAnim.SetBool("isReload", false);
         playerMovement.gunAnim.SetBool("isReload", false);
-        
+
 
     }
     public void OnPlayerShotGunReloadFinish()
     {
         playerAnim.SetBool("isReload", false);
+    }
+    public void OnPlayerGunSwitchEnd()
+    {
+        currentGun.currentState = GunState.Idle;
     }
 }

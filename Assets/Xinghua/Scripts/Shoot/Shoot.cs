@@ -76,9 +76,11 @@ public class Shoot : MonoBehaviour
     public float reloadSpeed = 1f;
     private void GunReload()
     {
-        
         currentGun = weaponController.currentGun;
-        if (currentGun.currentState != GunState.Idle) return;
+        if (currentGun.currentState != GunState.Idle)
+        {
+            return;
+        }
        // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         // Debug.Log(gunAnimator.name + " :" + "reload");
@@ -126,7 +128,17 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
+       /* Gun[] guns= GetComponentsInChildren<Gun>();
+        foreach (Gun gun in guns)
+        {
+            if(gun.currentState == GunState.Switching)
+            {
+                Debug.Log(gun.name + "isSwitch can not shoot now");
+                return;
+            }
+        }*/
         var currentGun = weaponController.GetCurrentGun();
+        
         if (currentGun.CheckEmptyAmmo())
         {
             Debug.Log("current ammo empty need reload");

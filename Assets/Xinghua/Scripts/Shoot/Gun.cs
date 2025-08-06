@@ -32,7 +32,7 @@ public class Gun : MonoBehaviour
     public int currentAmmo;
     private int leftAmmo;
     //upgrade 
-    public float spreadAmount ;
+    public float spreadAmount;
     private int bulletsPerShot;
     private float damage;
     private int magzaineSize;
@@ -57,7 +57,7 @@ public class Gun : MonoBehaviour
     }
     private void SetOriginalData()
     {
-        
+
         Debug.Log(this.gunData.type + "currentAmmo when enable:" + currentAmmo);
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
@@ -68,20 +68,20 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
-        
-       // currentAmmo = leftAmmo;
+        currentState = GunState.Idle;
+        // currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
     }
     private void OnDisable()
     {
         SaveLeftAmmoBeforeChangeGun();
-       
+
     }
-  
+
     private void SaveLeftAmmoBeforeChangeGun()//if player change to another weapon save
     {
-         leftAmmo = currentAmmo;
+        leftAmmo = currentAmmo;
     }
 
 
@@ -392,6 +392,7 @@ public class Gun : MonoBehaviour
         Debug.Log("reload sound play");
         SoundManager.Instance.PlaySFX("ARReload",0.8f);
     }
+  
     public float GetReloadSpeed()
     {
         return reloadSpeed;
