@@ -199,6 +199,8 @@ public class Shoot : MonoBehaviour
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         gunAnimator.speed = 1f;
         playerAnimator.speed = 1f;
+        Debug.Log("player animation speed:"+ playerAnimator.speed);
+
     }
 
 }

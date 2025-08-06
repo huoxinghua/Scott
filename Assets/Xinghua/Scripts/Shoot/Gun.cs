@@ -350,6 +350,8 @@ public class Gun : MonoBehaviour
         Debug.Log("reload finish");
         gunAnimator.SetBool("isReload", false);
         currentAmmo = magzaineSize;
+        gunAnimator.speed = 1;
+        playerAnimator.speed = 1;
     }
     public void OnShootFinish()
     {
