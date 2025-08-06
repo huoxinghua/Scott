@@ -384,7 +384,6 @@ public class Gun : MonoBehaviour
     public void OnShootFinish()
     {
         currentState = GunState.Idle;
-        
         gunAnimator.SetBool("isShoot", false);
       
     }
