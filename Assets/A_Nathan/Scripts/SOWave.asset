@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b5fba506e79aa844a8e110dd08b635a, type: 3}
   m_Name: SOWave
   m_EditorClassIdentifier: 
-  currentWave: 2
+  currentWave: 1
   waveToStartRangedEnemies: 4
   waveToStartTanks: 8
   waveToRampUp: 11
-  totalEnemyPerWave: 8
+  totalEnemyPerWave: 7
   startEnemyPerWave: 7
-  baseEnemyChance: 100
+  baseEnemyChance: 0
   rangedEnemyChance: 0
   rangedChanceIncrease: 10
-  tankEnemyChance: 0
+  tankEnemyChance: 100
   tankChanceIncrease: 7

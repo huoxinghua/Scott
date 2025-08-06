@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {  
@@ -7,18 +8,27 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     public float maxHealth=100f;
     [SerializeField] SOSanity sanityData;
     [SerializeField] Volume ppVol;
+    [SerializeField] Image hpBar;
+    [SerializeField] float healPercentPerWave;
     private void Start()
     {
         maxHealth = sanityData.maxSanity;
         health = sanityData.maxSanity;
         ApplyUpgrade();
+        HealBetweenWave();
     }
     private void ApplyUpgrade()
     {
       //  Debug.Log("before health:" + health);
         var bonus = UpgradeManager.Instance.GetBonus(BonusType.Sanity);
         health = health *(1+ bonus);
+        sanityData.maxSanity = sanityData.maxSanity * (1 + bonus);
        // Debug.Log("after health:"+ health);
+    }
+    public void HealBetweenWave()
+    {
+        sanityData.currentSanity += sanityData.maxSanity * healPercentPerWave;
+        sanityData.currentSanity = Mathf.Clamp(sanityData.currentSanity, 0, sanityData.maxSanity);
     }
     public void SetHealth(float value)
     {
@@ -52,7 +62,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         //May change to a percent based system. Currently based on minutes gained
         sanityData.currentSanity += (sanityData.sanityGainedOnKill * 100) / sanityData.sanityMins;
-        Mathf.Clamp(sanityData.currentSanity, 0, sanityData.maxSanity);
+        sanityData.currentSanity = Mathf.Clamp(sanityData.currentSanity, 0, sanityData.maxSanity);
     }
     public void DamagedSanity(float dmg)
     {
@@ -78,6 +88,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         DecreaseSanityOvertime();
         HandlePostProcess();
+        hpBar.fillAmount = sanityData.currentSanity / sanityData.maxSanity;
     }
 
 }

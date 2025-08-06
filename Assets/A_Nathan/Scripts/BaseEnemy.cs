@@ -28,6 +28,15 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     bool hasJumped = false;
     [SerializeField] Ragdoll ragDollScript;
     Transform hitPoint;
+    [SerializeField] Material disperseShaderBody;
+    [SerializeField] Renderer bodyRend;
+
+    [SerializeField] Material disperseShaderTeeth;
+    [SerializeField] Renderer teethRend;
+    [SerializeField] string paraName;
+    bool doDecay = false;
+    float decayProgress = 3f;
+    [SerializeField] float DecaySpeed;
     public enum EnemyState
     {
         Moving = 0,
@@ -55,7 +64,7 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
             agent.isStopped = true;
            // agent.enabled = false;
             ragDollScript.AvtivateRagdoll((transform.position - playerTransform.position).normalized, hitPoint.InverseTransformPoint(hitPoint.position   )  , 1000f);
-            enemySpawn.EnemyWasKilled();
+            enemySpawn.EnemyWasKilled();    
             StartCoroutine(DecayBody());
             
             //proper death later
@@ -64,8 +73,27 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     }
     IEnumerator DecayBody()
     {
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(5f);
+        doDecay = true;
+        yield return new WaitForSeconds(7);
         Destroy(gameObject);
+    }
+    public void DecayShader()
+    {
+        bodyRend.material = disperseShaderBody;
+        teethRend.material = disperseShaderTeeth;
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+        MaterialPropertyBlock mpbt = new MaterialPropertyBlock();
+        
+        bodyRend.GetPropertyBlock(mpb);
+
+        decayProgress -= Time.deltaTime * DecaySpeed;
+        mpb.SetFloat(paraName, decayProgress);
+        bodyRend.SetPropertyBlock(mpb);
+
+        teethRend.GetPropertyBlock(mpbt);
+        mpbt.SetFloat(paraName, decayProgress);
+        teethRend.SetPropertyBlock(mpbt);
     }
     public void Awake()
     {
@@ -186,6 +214,10 @@ public class BaseEnemy : MonoBehaviour , IDamageable , IRagDollable
     // Update is called once per frame
     void Update()
     {
+        if (doDecay)
+        {
+            DecayShader();
+        }
         switch (currentState)
         {
             case EnemyState.Moving:
