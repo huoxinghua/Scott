@@ -34,7 +34,16 @@ bool hasJumped = false;
 [SerializeField] Ragdoll ragDollScript;
 Transform hitPoint;
     bool isAroundCorner = false;
-public enum EnemyState
+
+    [SerializeField] Material disperseShaderBody;
+    [SerializeField] Renderer bodyRend;
+
+    
+    [SerializeField] string paraName;
+    bool doDecay = false;
+    float decayProgress = 3f;
+    [SerializeField] float DecaySpeed;
+    public enum EnemyState
 {
     Moving = 0,
     Attacking = 1,
@@ -72,11 +81,29 @@ public void TakeDamage(float damage)
         //  Destroy(gameObject);
     }
 }
-IEnumerator DecayBody()
-{
-    yield return new WaitForSeconds(15);
-    Destroy(gameObject);
-}
+    IEnumerator DecayBody()
+    {
+        yield return new WaitForSeconds(5f);
+        doDecay = true;
+        yield return new WaitForSeconds(7);
+        Destroy(gameObject);
+    }
+    public void DecayShader()
+    {
+        bodyRend.material = disperseShaderBody;
+
+        MaterialPropertyBlock mpb = new MaterialPropertyBlock();
+
+
+        bodyRend.GetPropertyBlock(mpb);
+
+        decayProgress -= Time.deltaTime * DecaySpeed;
+        mpb.SetFloat(paraName, decayProgress);
+        bodyRend.SetPropertyBlock(mpb);
+
+      
+    }
+  
 public void Awake()
 {
     animator = transform.GetComponentInChildren<Animator>();
@@ -239,7 +266,11 @@ IEnumerator GetAroundCorner()
     }
 void Update()
 {
-    switch (currentState)
+        if (doDecay)
+        {
+            DecayShader();
+        }
+        switch (currentState)
     {
         case EnemyState.Moving:
             Moving();
