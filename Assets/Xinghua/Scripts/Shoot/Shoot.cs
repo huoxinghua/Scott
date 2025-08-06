@@ -94,8 +94,18 @@ public class Shoot : MonoBehaviour
             Debug.Log("full ammo");
         }
     }
+    private void CanShoot()
+    {
+        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
+        //  return stateInfo.IsName("Shotgun") || stateInfo.IsName("AR");
+      //  Debug.Log("animation state info:"+stateInfo.IsName("Shotgun"));
+      //  Debug.Log("animation state info:" + stateInfo.IsName("Shotgun"));
+    }
     private void HandleShoot(bool isAuto)
     {
+        /*  var canShoot = CanShoot();
+          if (!canShoot) return;*/
+       // CanShoot();
         var currentGun = weaponController.GetCurrentGun();
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         if (currentGun != null && !currentGun.CheckEmptyAmmo())
@@ -189,6 +199,8 @@ public class Shoot : MonoBehaviour
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         gunAnimator.speed = 1f;
         playerAnimator.speed = 1f;
+        Debug.Log("player animation speed:"+ playerAnimator.speed);
+
     }
 
 }
