@@ -70,8 +70,8 @@ public class Shoot : MonoBehaviour
     public void UpGradeReloadAnimationSpeed(Animator gunAnimator, Gun currentGun)
     {
         var bonusSpeed = currentGun.GetReloadSpeed();
-        gunAnimator.SetFloat("reloadSpeed",bonusSpeed);
-        playerAnimator.SetFloat("reloadSpeed",bonusSpeed);
+        gunAnimator.SetFloat("reloadSpeed", bonusSpeed);
+        playerAnimator.SetFloat("reloadSpeed", bonusSpeed);
 
     }
     public float reloadSpeed = 1f;
@@ -84,17 +84,17 @@ public class Shoot : MonoBehaviour
             }*/
         if (currentGun.currentState != GunState.Idle || isAutoShooting)
         {
-            Debug.Log("currentGun GunState: "+currentGun.currentState +"isAutoShoot:"+ isAutoShooting);
+            Debug.Log("currentGun GunState: " + currentGun.currentState + "isAutoShoot:" + isAutoShooting);
             return;
         }
-    
-       // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
+
+        // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         // Debug.Log(gunAnimator.name + " :" + "reload");
         if (!currentGun.CheckFullAmmo())
         {
             //upgrade animation speed here
-            UpGradeReloadAnimationSpeed(gunAnimator,currentGun);
+            UpGradeReloadAnimationSpeed(gunAnimator, currentGun);
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
 
@@ -105,7 +105,7 @@ public class Shoot : MonoBehaviour
             Debug.Log("full ammo");
         }
     }
-   
+
     private void HandleShoot(bool isAuto)
     {
         var currentGun = weaponController.GetCurrentGun();
@@ -116,7 +116,14 @@ public class Shoot : MonoBehaviour
             {
                 gunAnimator.SetBool("isShoot", true);
             }
-            currentGun.Shoot();
+            if (isAuto)
+            {
+                currentGun.AutomaticShoot();
+            }
+            else
+            {
+                currentGun.FireMultiRayShot();
+            }
             playerAnimator.SetBool("Automatic", true);
         }
     }
@@ -124,7 +131,7 @@ public class Shoot : MonoBehaviour
     private void HandleShootStartedInput()
     {
         var currentGun = weaponController.GetCurrentGun();
-        
+
         if (currentGun.CheckEmptyAmmo())
         {
             Debug.Log("current ammo empty need reload");
@@ -156,6 +163,7 @@ public class Shoot : MonoBehaviour
         isAutoShooting = false;
 
         currentGun.shoot = 0;
+        currentGun.OnShootFinish();
     }
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
@@ -193,7 +201,7 @@ public class Shoot : MonoBehaviour
     {
         playerAnimator.SetBool("isReload", false);
         ResetAnimationSpeed();
-     
+
     }
     public void ResetAnimationSpeed()
     {
@@ -201,7 +209,7 @@ public class Shoot : MonoBehaviour
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         playerAnimator.SetFloat("isReload", 1f);
         gunAnimator.SetFloat("isReload", 1f);
-        Debug.Log("player animation speed:"+ playerAnimator.speed);
+        Debug.Log("player animation speed:" + playerAnimator.speed);
 
     }
 

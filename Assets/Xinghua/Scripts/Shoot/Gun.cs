@@ -373,8 +373,8 @@ public class Gun : MonoBehaviour
 
     public void OnGunReloadFinish()
     {
-        currentState = GunState.Idle;
         Debug.Log("reload finish");
+        currentState = GunState.Idle;
         gunAnimator.SetBool("isReload", false);
         currentAmmo = magzaineSize;
         gunAnimator.speed = 1;
@@ -383,6 +383,7 @@ public class Gun : MonoBehaviour
     }
     public void OnShootFinish()
     {
+        Debug.Log("shoot finish");
         currentState = GunState.Idle;
         gunAnimator.SetBool("isShoot", false);
       
