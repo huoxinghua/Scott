@@ -15,15 +15,15 @@ MonoBehaviour:
   stats:
     Type: 2
     panel: {fileID: 1457927524695103150, guid: 639cea59594c5e640a12601dbc9f35c5, type: 3}
-    name: Neutral2
+    name: Burger and a side salad
     sprite: {fileID: 21300000, guid: 541f6c83222bf4b01a02f4c3760a2ee0, type: 3}
-    Description: 
-    SanityBonus: 1
-    MoveSpeedBonus: 0.2
+    Description: Healthier, but will slow you down
+    SanityBonus: 0.15
+    MoveSpeedBonus: -0.1
     DamageBonus: 0
     FireRateBonus: 0
     SpreadAmountBonus: 0
     RecoilBonus: 0
-    ReloadSpeedBonus: 1.2
+    ReloadSpeedBonus: 0
     MagazineBonus: 0
-    ShotsPerShootBonus: 2
+    ShotsPerShootBonus: 0

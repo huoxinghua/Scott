@@ -15,15 +15,15 @@ MonoBehaviour:
   stats:
     Type: 0
     panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
-    name: Evil3
+    name: Annoy
     sprite: {fileID: 21300000, guid: 6dfd67e3fbc0341349e142f024efc882, type: 3}
-    Description: 
-    SanityBonus: -0.2
-    MoveSpeedBonus: 0.4
-    DamageBonus: 0.6
-    FireRateBonus: 0
-    SpreadAmountBonus: 0
+    Description: Annoy your foes with more but weaker bullets
+    SanityBonus: 0
+    MoveSpeedBonus: 0
+    DamageBonus: -0.2
+    FireRateBonus: -0.2
+    SpreadAmountBonus: -0.1
     RecoilBonus: 0
     ReloadSpeedBonus: 0
-    MagazineBonus: 0
+    MagazineBonus: 10
     ShotsPerShootBonus: 0
