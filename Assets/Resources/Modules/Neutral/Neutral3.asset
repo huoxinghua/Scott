@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af7f65847e56b79449f66d20d7c3f444, type: 3}
-  m_Name: Good1
+  m_Name: Neutral3
   m_EditorClassIdentifier: 
   stats:
-    Type: 0
-    panel: {fileID: 9123232687271131692, guid: 69875d762a92e684aaf5ae86e21e435b, type: 3}
-    name: Wheatgrass shot
-    sprite: {fileID: 21300000, guid: 04721f5aa3b1b48b3832c140421b1344, type: 3}
-    Description: Good for a healthy body
-    SanityBonus: 0.1
+    Type: 2
+    panel: {fileID: 1457927524695103150, guid: 639cea59594c5e640a12601dbc9f35c5, type: 3}
+    name: After market modifications
+    sprite: {fileID: 21300000, guid: 541f6c83222bf4b01a02f4c3760a2ee0, type: 3}
+    Description: Improves ammo and fire rate, but impacts other aspects
+    SanityBonus: 0
     MoveSpeedBonus: 0
     DamageBonus: 0
-    FireRateBonus: 0
-    SpreadAmountBonus: 0
-    RecoilBonus: 0
-    ReloadSpeedBonus: 0
-    MagazineBonus: 0
+    FireRateBonus: -0.1
+    SpreadAmountBonus: -0.1
+    RecoilBonus: -0.1
+    ReloadSpeedBonus: 0.15
+    MagazineBonus: 15
     ShotsPerShootBonus: 0

@@ -20,7 +20,13 @@ public class RandomBoils : MonoBehaviour
         if (spawnOnStart)
             SpawnBoils();
     }
-
+    public void DestroyAllBoil()
+    {
+        foreach(var boil in spawnedBoils)
+        {
+            if (boil != null) Destroy(boil);
+        }
+    }
     public void SpawnBoils()
     {
         // Clear previous boils if needed

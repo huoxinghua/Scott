@@ -36,6 +36,7 @@ public class TankEnemy : MonoBehaviour , IDamageable, IRagDollable
     bool doDecay = false;
     float decayProgress = 3f;
     [SerializeField] float DecaySpeed;
+    [SerializeField] RandomBoils boils;
     public enum EnemyState
     {
         Moving = 0,
@@ -72,14 +73,16 @@ public class TankEnemy : MonoBehaviour , IDamageable, IRagDollable
     }
     IEnumerator DecayBody()
     {
+        boils.DestroyAllBoil();
         yield return new WaitForSeconds(5f);
+        
         doDecay = true;
         yield return new WaitForSeconds(7);
         Destroy(gameObject);
     }
     public void DecayShader()
     {
-     /*   bodyRend.material = disperseShaderBody;
+        bodyRend.material = disperseShaderBody;
         teethRend.material = disperseShaderTeeth;
         MaterialPropertyBlock mpb = new MaterialPropertyBlock();
         MaterialPropertyBlock mpbt = new MaterialPropertyBlock();
@@ -92,7 +95,7 @@ public class TankEnemy : MonoBehaviour , IDamageable, IRagDollable
 
         teethRend.GetPropertyBlock(mpbt);
         mpbt.SetFloat(paraName, decayProgress);
-        teethRend.SetPropertyBlock(mpbt);*/
+        teethRend.SetPropertyBlock(mpbt);
     }
     public void Awake()
     {

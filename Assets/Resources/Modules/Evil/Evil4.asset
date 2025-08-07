@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af7f65847e56b79449f66d20d7c3f444, type: 3}
-  m_Name: Good2
+  m_Name: Evil4
   m_EditorClassIdentifier: 
   stats:
     Type: 0
-    panel: {fileID: 9123232687271131692, guid: 69875d762a92e684aaf5ae86e21e435b, type: 3}
-    name: Coffee in the morning
-    sprite: {fileID: 21300000, guid: dcdfa4829dd3742fb8777b5384499662, type: 3}
-    Description: A little energy to speed up your day
-    SanityBonus: 0
-    MoveSpeedBonus: 0.1
-    DamageBonus: 0
-    FireRateBonus: 0.05
+    panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
+    name: Class A
+    sprite: {fileID: 21300000, guid: 6dfd67e3fbc0341349e142f024efc882, type: 3}
+    Description: Not good for you
+    SanityBonus: -0.25
+    MoveSpeedBonus: 0.6
+    DamageBonus: -0.2
+    FireRateBonus: -0.15
     SpreadAmountBonus: 0
     RecoilBonus: 0
-    ReloadSpeedBonus: 0.05
+    ReloadSpeedBonus: -0.3
     MagazineBonus: 0
     ShotsPerShootBonus: 0

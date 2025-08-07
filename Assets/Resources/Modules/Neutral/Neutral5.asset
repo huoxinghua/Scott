@@ -10,20 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af7f65847e56b79449f66d20d7c3f444, type: 3}
-  m_Name: Neutral2
+  m_Name: Neutral5
   m_EditorClassIdentifier: 
   stats:
     Type: 2
     panel: {fileID: 1457927524695103150, guid: 639cea59594c5e640a12601dbc9f35c5, type: 3}
-    name: Burger and a side salad
+    name: 5.56. Your lucky number
     sprite: {fileID: 21300000, guid: 541f6c83222bf4b01a02f4c3760a2ee0, type: 3}
-    Description: Healthier, but will slow you down
-    SanityBonus: 0.15
-    MoveSpeedBonus: -0.1
-    DamageBonus: 0
-    FireRateBonus: 0
-    SpreadAmountBonus: 0
-    RecoilBonus: 0
-    ReloadSpeedBonus: 0
-    MagazineBonus: 0
-    ShotsPerShootBonus: 0
+    Description: THIS IS MY RIFLE. THERE ARE MANY LIKE IT BUT THIS ONE'S MINE
+    SanityBonus: 0
+    MoveSpeedBonus: 0
+    DamageBonus: 0.1
+    FireRateBonus: -0.1
+    SpreadAmountBonus: 0.1
+    RecoilBonus: 0.1
+    ReloadSpeedBonus: -0.15
+    MagazineBonus: 5
+    ShotsPerShootBonus: -4
