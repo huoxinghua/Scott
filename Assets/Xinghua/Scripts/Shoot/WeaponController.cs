@@ -157,4 +157,21 @@ public class WeaponController : MonoBehaviour
     {
         currentGun.currentState = GunState.Idle;
     }
+    //player movement sound
+    public void OnPlayerStep1Sound()
+    {
+        if(SoundManager.Instance!= null)
+        {
+            Debug.Log("play walk sound");
+            SoundManager.Instance.PlaySFX("Step1", 1f);
+        }
+    }
+    public void OnPlayerStep2Sound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            Debug.Log("play walk sound");
+            SoundManager.Instance.PlaySFX("Step2", 1f);
+        }
+    }
 }

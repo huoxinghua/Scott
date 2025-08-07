@@ -52199,7 +52199,21 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.033333335
-    functionName: OnPlayReloadSoundAR
+    functionName: OnPlayclipOutSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1
+    functionName: OnPlayclipInSound
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 1.6666666
+    functionName: OnPlayclipCockSound
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

@@ -319,7 +319,15 @@ public class Gun : MonoBehaviour
     }
     public void OnShootSoundPlay()
     {
-        SoundManager.Instance.PlaySFX("BaseGunShoot", 0.02f);
+        if(gunData.type == GunType.Automatic)
+        {
+            SoundManager.Instance.PlaySFX("BaseGunShoot", 0.4f);
+        }
+        else if(gunData.type == GunType.SpreadShot)
+        {
+            SoundManager.Instance.PlaySFX("shotGunShoot", 0.4f);
+        }
+        
     }
 
 
@@ -426,6 +434,55 @@ public class Gun : MonoBehaviour
     private void SetReloadSpeed(float bonusSpeed)
     {
         reloadSpeed = bonusSpeed;
+    }
+    // shotGun sound event
+    public void OnPlayBreakSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("shotGunBreak1", 1f);
+        }
+
+    }
+    public void OnPlayBreak2Sound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("shotGunBreak2", 1f);
+        }
+
+    }
+    public void OnPlayShellSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("shotGunShell", 1f);
+        }
+
+    }
+    //Automatic  gun sound Event
+    public void OnPlayclipInSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("ARGunClipIn", 1f);
+        }
+    }
+    public void OnPlayclipOutSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("ARGunClipOut", 1f);
+        }
+
+    }
+    public void OnPlayclipCockSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("ARGunCock", 1f);
+        }
+
     }
 }
 

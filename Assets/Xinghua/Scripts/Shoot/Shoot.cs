@@ -99,8 +99,8 @@ public class Shoot : MonoBehaviour
             UpGradeReloadAnimationSpeed(gunAnimator, currentGun);
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
-
-
+          
+   
             currentGun.Reload();
         }
         else
@@ -109,6 +109,7 @@ public class Shoot : MonoBehaviour
         }
     }
 
+    
     private void HandleShoot( )
     {
         var currentGun = weaponController.GetCurrentGun();
@@ -210,5 +211,6 @@ public class Shoot : MonoBehaviour
         Debug.Log("player animation speed:" + playerAnimator.speed);
 
     }
+ 
 
 }
