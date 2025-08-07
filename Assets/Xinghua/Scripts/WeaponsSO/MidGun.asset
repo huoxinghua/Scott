@@ -26,5 +26,5 @@ MonoBehaviour:
   shootCooldown: 0.8
   spreadAmount: 0.09
   bulletPerShot: 8
-  maxMagazineSize: 16
+  maxMagazineSize: 2
   recoilAmount: 0.2

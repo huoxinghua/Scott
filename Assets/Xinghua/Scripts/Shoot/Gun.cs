@@ -35,7 +35,7 @@ public class Gun : MonoBehaviour
     public float spreadAmount;
     private int bulletsPerShot;
     private float damage;
-    private int magzaineSize;
+    public int magzaineSize;
     public float shootCooldown;//it is little different to fire rate, but this easy to set in logic
     private float recoilAmount;
     private float reloadSpeed = 1f;
@@ -71,10 +71,13 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
+
         currentState = GunState.Idle;
         // currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
+        weaponController.GetCurrentGun();
+        weaponController.UpdateBullet();
     }
     private void OnDisable()
     {
@@ -114,6 +117,7 @@ public class Gun : MonoBehaviour
     public void Shoot()
     {
         if (currentState != GunState.Idle || currentAmmo <= 0||!canShoot) return;
+
         switch (gunData.type)
         {
             case GunType.Automatic:
@@ -217,7 +221,7 @@ public class Gun : MonoBehaviour
     {
         if (currentAmmo <= 0)
         {
-
+            currentAmmo = 0;
             return true;
 
         }
@@ -236,7 +240,7 @@ public class Gun : MonoBehaviour
     {
         Debug.Log("FireMultiRayShot");
         currentState = GunState.Firing;
-        currentAmmo -= bulletsPerShot;
+        currentAmmo --;
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
@@ -331,7 +335,12 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeMagazine(float bonus)
     {
         if (bonus == 0) return;
-        magzaineSize = (int)(magzaineSize * (1 + bonus));
+        if (gunData.type == GunType.Automatic)
+        {
+            magzaineSize = (int)(magzaineSize * (1 + bonus));
+        }
+        
+      
     }
 
     public void SetGunUpgradeFireRate(float bonus)
@@ -368,7 +377,7 @@ public class Gun : MonoBehaviour
        // Debug.Log(this.gunData.type+" :gun before bullets per shot:" + bulletsPerShot +"bones"+bonus);
       
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
-        magzaineSize = bulletsPerShot * shotTimes;
+        //magzaineSize = bulletsPerShot * shotTimes;
         currentAmmo = magzaineSize;
        // Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
     }
@@ -396,7 +405,11 @@ public class Gun : MonoBehaviour
     {
         gunAnimator.SetBool("isShoot", false);
         currentState = GunState.Idle;
-        currentAmmo--;
+        if(gunData.type == GunType.Automatic)
+        {
+            currentAmmo--;
+        }
+       
 
 
     }

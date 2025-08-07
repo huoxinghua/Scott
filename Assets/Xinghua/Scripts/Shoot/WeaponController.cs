@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,8 @@ public class WeaponController : MonoBehaviour
     private Image crosshairImage;
 
     public bool isSwitchingGun;
+    [SerializeField] GameObject bulletCanves;
+    [SerializeField] TMP_Text bulletTMP;
     private void Awake()
     {
 
@@ -37,14 +40,30 @@ public class WeaponController : MonoBehaviour
 
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-
+        
 
     }
 
     private void Update()
     {
         UpdateCrosshairColor();
+        if (!currentGun.CheckEmptyAmmo())
+        {
+            UpdateBullet();
+        }
+        else
+        {
+            DisplayEmpty();
+        }
+    }
+    public void DisplayEmpty()
+    {
+        bulletTMP.text = 0 + "/" + currentGun.magzaineSize;
+    }
 
+    public void UpdateBullet()
+    {
+        bulletTMP.text = currentGun.currentAmmo + "/" + currentGun.magzaineSize;
     }
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
@@ -108,6 +127,8 @@ public class WeaponController : MonoBehaviour
                 weapon.SetActive(false);
             }
             isSwitchingGun = false;
+            UpdateBullet();
+          
         }
     }
 
