@@ -8,7 +8,7 @@ public class RandomBoils : MonoBehaviour
     public Transform[] spawnBones;   // Bone locations for possible boils
     [Range(3, 15)] public int minBoils = 5;
     [Range(3, 15)] public int maxBoils = 8;
-    public int randomSeed = 12345;
+ //   public int randomSeed = 12345;
 
     [Header("Debug")]
     public bool spawnOnStart = true;
@@ -31,7 +31,7 @@ public class RandomBoils : MonoBehaviour
         spawnedBoils.Clear();
 
         // Apply seed for consistent results
-        Random.InitState(randomSeed);
+     //   Random.InitState(randomSeed);
 
         int boilCount = Random.Range(minBoils, maxBoils + 1);
         List<int> usedBones = new List<int>();
