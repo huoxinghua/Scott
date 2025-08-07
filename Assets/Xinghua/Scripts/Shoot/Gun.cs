@@ -3,9 +3,18 @@ using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
+public enum GunState
+{
+    Idle,
+    Firing,
+    Reloading,
+    Switching
+}
 
 public class Gun : MonoBehaviour
 {
+    public GunState currentState;
+
     public int shoot = 0;
     private float lastShootTime = 0f;
     public WeaponSO gunData;
@@ -21,11 +30,12 @@ public class Gun : MonoBehaviour
     private Animator playerAnimator;
     private WeaponController weaponController;
     public int currentAmmo;
+    private int leftAmmo;
     //upgrade 
-    public float spreadAmount ;
+    public float spreadAmount;
     private int bulletsPerShot;
     private float damage;
-    private int magzaineSize;
+    public int magzaineSize;
     public float shootCooldown;//it is little different to fire rate, but this easy to set in logic
     private float recoilAmount;
     private float reloadSpeed = 1f;
@@ -39,11 +49,19 @@ public class Gun : MonoBehaviour
         playerAnimator = GetComponentInParent<Animator>();
         weaponController = GetComponentInParent<WeaponController>();
     }
+    private void Start()
+    {
+        currentState = GunState.Idle;
+        currentAmmo = gunData.maxMagazineSize;
+        leftAmmo = currentAmmo;
 
+        originalPosition = transform.localPosition;//if this will help the second position problem
+        originalRotation = transform.localRotation;
+    }
     private void SetOriginalData()
     {
-        currentAmmo = gunData.maxMagazineSize;
-        Debug.Log(this.gunData.type + "currentAmmo when enable:" + currentAmmo);
+        originalPosition = transform.localPosition;//if this will help the second position problem
+        originalRotation = transform.localRotation;
         magzaineSize = gunData.maxMagazineSize;
         damage = this.gunData.damage;
         shootCooldown = this.gunData.shootCooldown;//this is not idea for upgrade 
@@ -53,9 +71,26 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
+
+        currentState = GunState.Idle;
+        // currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
+        weaponController.GetCurrentGun();
+        weaponController.UpdateBullet();
     }
+    private void OnDisable()
+    {
+        SaveLeftAmmoBeforeChangeGun();
+
+    }
+
+    private void SaveLeftAmmoBeforeChangeGun()//if player change to another weapon save
+    {
+        leftAmmo = currentAmmo;
+    }
+
+
     private void ApplyUpgradeBonuses()
     {
         var upgrade = UpgradeManager.Instance;
@@ -81,7 +116,8 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
-      
+        if (currentState != GunState.Idle || currentAmmo <= 0||!canShoot) return;
+
         switch (gunData.type)
         {
             case GunType.Automatic:
@@ -94,10 +130,8 @@ public class Gun : MonoBehaviour
     }
     public void AutomaticShoot()
     {
-        // Debug.Log("AutomaticShoot");
-        if (isReload || currentAmmo <= 0) return;
-        Debug.Log("gun shake");
-        // StartGunShake();
+        currentState = GunState.Firing;
+     
 
         float offsetX = 0f;
         float offsetY = 0f;
@@ -130,28 +164,28 @@ public class Gun : MonoBehaviour
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
            // Camera.main.GetComponent<CameraShake>().Shake();
-            FilterBulletHole(offsetPos,rotation,hit);
+           if(hit.transform.gameObject.layer != 9)
+            {
+                FilterBulletHole(offsetPos, rotation, hit);
+            }
+            
 
 
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
-
+        
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
                 shoot++;
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
 
-
-                currentAmmo--;
                 if (currentAmmo <= 0)
                 {
-                    gunAnimator.SetBool("Automatic", false);
+                    gunAnimator.SetBool("isShoot", false);
                     playerAnimator.SetBool("Automatic", false);
+                    currentState = GunState.Idle;
                 }
 
-                //  crosshairController.PlayShootAnimation();
-
-               
                 lastShootTime = Time.time;
             }
 
@@ -172,11 +206,10 @@ public class Gun : MonoBehaviour
             Destroy(objHole, 1f);
         }
     }
-    public bool isReload = false;
-    public bool isShoot = false;
+ 
     public bool CheckFullAmmo()
     {
-        if (this.currentAmmo == magzaineSize)
+        if (currentAmmo == magzaineSize)
         {
             return true;
 
@@ -186,9 +219,9 @@ public class Gun : MonoBehaviour
 
     public bool CheckEmptyAmmo()
     {
-        if (this.currentAmmo <= 0)
+        if (currentAmmo <= 0)
         {
-
+            currentAmmo = 0;
             return true;
 
         }
@@ -196,19 +229,18 @@ public class Gun : MonoBehaviour
     }
     public void Reload()
     {
-        if (isShoot)return;
+        if (currentState != GunState.Idle) return;
         Debug.Log(this.name + "reload ");
-        isReload = true;
-        currentAmmo = magzaineSize;
-        Debug.Log("after reload ammo:"+currentAmmo);
+        currentState = GunState.Reloading;
+
     }
 
 
     public void FireMultiRayShot()
     {
         Debug.Log("FireMultiRayShot");
-
-        currentAmmo -= bulletsPerShot;
+        currentState = GunState.Firing;
+        currentAmmo --;
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
@@ -224,13 +256,13 @@ public class Gun : MonoBehaviour
                 Vector3 hitPos = hit.point + hit.normal * 0.001f;
                 Quaternion rotation = Quaternion.LookRotation(hit.normal) * Quaternion.Euler(0f, 180f, 0f);
 
-
-                CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.Shake();
+/*
+               CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                camShake.Shake();*/
                
                 
                 CheckEmptyAmmo();
-                isShoot = true;
+                currentState = GunState.Firing;
                 if (hit.collider.GetComponent<IDamageable>() == null)
                 {
 
@@ -287,7 +319,15 @@ public class Gun : MonoBehaviour
     }
     public void OnShootSoundPlay()
     {
-        SoundManager.Instance.PlaySFX("BaseGunShoot", 0.02f);
+        if(gunData.type == GunType.Automatic)
+        {
+            SoundManager.Instance.PlaySFX("BaseGunShoot", 0.4f);
+        }
+        else if(gunData.type == GunType.SpreadShot)
+        {
+            SoundManager.Instance.PlaySFX("shotGunShoot", 0.4f);
+        }
+        
     }
 
 
@@ -303,7 +343,15 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeMagazine(float bonus)
     {
         if (bonus == 0) return;
-        magzaineSize = (int)(magzaineSize * (1 + bonus));
+        if (gunData.type == GunType.Automatic)
+        {
+            magzaineSize = (int)(magzaineSize * (1 + bonus));
+            currentAmmo = magzaineSize;
+            Debug.Log("current ammo bonus:"+currentAmmo);
+           
+        }
+     
+      
     }
 
     public void SetGunUpgradeFireRate(float bonus)
@@ -340,29 +388,48 @@ public class Gun : MonoBehaviour
        // Debug.Log(this.gunData.type+" :gun before bullets per shot:" + bulletsPerShot +"bones"+bonus);
       
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
-        magzaineSize = bulletsPerShot * shotTimes;
+        //magzaineSize = bulletsPerShot * shotTimes;
         currentAmmo = magzaineSize;
        // Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
     }
 
-    public void OnReloadFinish()
+    public void OnGunReloadFinish()
     {
-        Debug.Log("reload finish");
+
         gunAnimator.SetBool("isReload", false);
+        canShoot = true;
+        currentState = GunState.Idle;
         currentAmmo = magzaineSize;
+        Debug.Log("after reload ammo:" + currentAmmo);
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
+        currentAmmo =gunData.maxMagazineSize;
+
+      
+    }
+   private bool canShoot = true;
+   public void OnReloadStart()
+    {
+        canShoot = false;
     }
     public void OnShootFinish()
     {
         gunAnimator.SetBool("isShoot", false);
-        isShoot = false;
+        currentState = GunState.Idle;
+        if(gunData.type == GunType.Automatic)
+        {
+            currentAmmo--;
+        }
+       
+
+
     }
     public void OnPlayReloadSoundAR()
     {
         Debug.Log("reload sound play");
         SoundManager.Instance.PlaySFX("ARReload",0.8f);
     }
+  
     public float GetReloadSpeed()
     {
         return reloadSpeed;
@@ -370,6 +437,55 @@ public class Gun : MonoBehaviour
     private void SetReloadSpeed(float bonusSpeed)
     {
         reloadSpeed = bonusSpeed;
+    }
+    // shotGun sound event
+    public void OnPlayBreakSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("shotGunBreak1", 1f);
+        }
+
+    }
+    public void OnPlayBreak2Sound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("shotGunBreak2", 1f);
+        }
+
+    }
+    public void OnPlayShellSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("shotGunShell", 1f);
+        }
+
+    }
+    //Automatic  gun sound Event
+    public void OnPlayclipInSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("ARGunClipIn", 1f);
+        }
+    }
+    public void OnPlayclipOutSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("ARGunClipOut", 1f);
+        }
+
+    }
+    public void OnPlayclipCockSound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.PlaySFX("ARGunCock", 1f);
+        }
+
     }
 }
 

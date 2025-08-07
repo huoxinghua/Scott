@@ -29,6 +29,8 @@ public class PlayerLook : MonoBehaviour
     [SerializeField] float fovTransitionTime = 0.2f;
     private float targetFOV;
     float originalY;
+
+    WeaponController weaponController;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -36,6 +38,7 @@ public class PlayerLook : MonoBehaviour
     private void Awake()
     {
         inputManager = GetComponentInParent<PlayerInputManager>();
+        weaponController = GetComponentInChildren<WeaponController>();
     }
     private void OnEnable()
     {
@@ -52,8 +55,12 @@ public class PlayerLook : MonoBehaviour
             Debug.Log("input manager is null ");
         }
 
-        gun = GetComponentInChildren<Gun>();
-        gun.OnShoot += HandleShoot;
+        gun = weaponController.GetCurrentGun();
+        if(gun != null)
+        {
+            gun.OnShoot += HandleShoot;
+        }
+       
     }
 
 
@@ -72,8 +79,12 @@ public class PlayerLook : MonoBehaviour
             Debug.Log("input manager is null ");
         }
 
-        gun = GetComponentInChildren<Gun>();
-        gun.OnShoot -= HandleShoot;
+        gun = weaponController.GetCurrentGun();
+        if(gun != null)
+        {
+            gun.OnShoot -= HandleShoot;
+        }
+        
     }
 
 

@@ -299,7 +299,7 @@ void Update()
                     Debug.DrawRay(rayOrigin.position, (playerTransform.position - rayOrigin.position).normalized, Color.green);
                     if (hit.collider.gameObject.name == "FirstPersonController")
                     {
-                        //   Debug.Log("HitPlayer");
+                           Debug.Log("HitPlayer");
                         if (!isAroundCorner)
                         {
                             StartCoroutine(GetAroundCorner());

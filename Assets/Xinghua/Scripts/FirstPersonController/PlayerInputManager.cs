@@ -125,7 +125,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log("OnGunReloadInput");
             OnGunReloadInput?.Invoke();
         }
     }

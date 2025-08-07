@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 public class EnemySpawn : MonoBehaviour
 {
@@ -48,6 +49,7 @@ public class EnemySpawn : MonoBehaviour
     //start next wave
     public void NextWave()
     {
+       
         CurrentWave = waveData.currentWave;
         EnemiesToSpawn = waveData.totalEnemyPerWave;
         EnemiesSpawned = 0;
@@ -121,7 +123,16 @@ public class EnemySpawn : MonoBehaviour
         EnemiesKilled++;
         if(EnemiesKilled >= EnemiesToSpawn)
         {
-            WaveEnd.Invoke();
+            if(waveData.currentWave >= 15)
+            {
+                    SceneManager.LoadScene("YouWonScene");
+
+            }
+            else
+            {
+                WaveEnd.Invoke();
+            }
+          
          //   NextWave();
         }
         else

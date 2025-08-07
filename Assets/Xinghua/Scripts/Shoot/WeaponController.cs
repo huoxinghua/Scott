@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,11 +14,14 @@ public class WeaponController : MonoBehaviour
     private Animator playerAnim;
     private Vector3 spawnPosition;
     private Quaternion spawnRotation;
-    public bool isShotGun ;
+    public bool isShotGun;
     private Vector3 idleScale;
     private Vector3 moveScale;
     private Image crosshairImage;
 
+    public bool isSwitchingGun;
+    [SerializeField] GameObject bulletCanves;
+    [SerializeField] TMP_Text bulletTMP;
     private void Awake()
     {
 
@@ -29,21 +33,37 @@ public class WeaponController : MonoBehaviour
         currentGun = startingGun;
         isShotGun = false;
         playerAnim.SetBool("isShotgun", false);
- 
+
         spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-     
-    
+
+
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
-      
-     
+        
+
     }
 
     private void Update()
     {
         UpdateCrosshairColor();
-     
+        if (!currentGun.CheckEmptyAmmo())
+        {
+            UpdateBullet();
+        }
+        else
+        {
+            DisplayEmpty();
+        }
+    }
+    public void DisplayEmpty()
+    {
+        bulletTMP.text = 0 + "/" + currentGun.magzaineSize;
+    }
+
+    public void UpdateBullet()
+    {
+        bulletTMP.text = currentGun.currentAmmo + "/" + currentGun.magzaineSize;
     }
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
@@ -61,14 +81,14 @@ public class WeaponController : MonoBehaviour
             else
             {
                 crosshairImage.color = currentGun.gunData.crosshairNormalColor;
-                isCrossHairActive = false;  
+                isCrossHairActive = false;
             }
         }
     }
-  
+
     private void HandGunSwitchAnimation()
     {
-        Debug.Log("player animation :"+ playerAnim);
+        Debug.Log("player animation :" + playerAnim);
         if (isShotGun == false)
         {
             isShotGun = true;
@@ -106,6 +126,8 @@ public class WeaponController : MonoBehaviour
             {
                 weapon.SetActive(false);
             }
+            isSwitchingGun = false;
+            UpdateBullet();
           
         }
     }
@@ -113,22 +135,43 @@ public class WeaponController : MonoBehaviour
 
     public void EquipWeapon()
     {
-       HandGunSwitchAnimation();
- 
+       // currentGun.currentState = GunState.Switching;
+        HandGunSwitchAnimation();
+        
     }
 
     //animation
     public void OnReLoadFinish()
     {
-        Debug.Log("OnReLoadFinish");
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
         playerMovement.playerAnim.SetBool("isReload", false);
         playerMovement.gunAnim.SetBool("isReload", false);
-        currentGun.isReload = false;
+
 
     }
     public void OnPlayerShotGunReloadFinish()
     {
         playerAnim.SetBool("isReload", false);
+    }
+    public void OnPlayerGunSwitchEnd()
+    {
+        currentGun.currentState = GunState.Idle;
+    }
+    //player movement sound
+    public void OnPlayerStep1Sound()
+    {
+        if(SoundManager.Instance!= null)
+        {
+            Debug.Log("play walk sound");
+            SoundManager.Instance.PlaySFX("Step1", 1f);
+        }
+    }
+    public void OnPlayerStep2Sound()
+    {
+        if (SoundManager.Instance != null)
+        {
+            Debug.Log("play walk sound");
+            SoundManager.Instance.PlaySFX("Step2", 1f);
+        }
     }
 }

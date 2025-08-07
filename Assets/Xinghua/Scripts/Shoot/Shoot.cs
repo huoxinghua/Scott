@@ -58,66 +58,70 @@ public class Shoot : MonoBehaviour
     {
 
         weapon = GetComponentInChildren<WeaponController>();
-        if (weapon != null)
+        if (!weapon.isSwitchingGun)
         {
-            weapon.EquipWeapon();
-        }
-        else
-        {
-            Debug.Log("weapon is null");
+
+            weapon.isSwitchingGun = true;
+            if (weapon != null)
+            {
+                weapon.EquipWeapon();
+            }
+            else
+            {
+                Debug.Log("weapon is null");
+            }
         }
     }
     public void UpGradeReloadAnimationSpeed(Animator gunAnimator, Gun currentGun)
     {
         var bonusSpeed = currentGun.GetReloadSpeed();
-        gunAnimator.speed = bonusSpeed;
-        playerAnimator.speed = bonusSpeed;
+        gunAnimator.SetFloat("reloadSpeed", bonusSpeed);
+        playerAnimator.SetFloat("reloadSpeed", bonusSpeed);
+
     }
     public float reloadSpeed = 1f;
     private void GunReload()
     {
         currentGun = weaponController.currentGun;
-       // Debug.Log("currentGun in gunRoload :" + currentGun.currentAmmo);
-        Animator gunAnimator = currentGun.GetComponent<Animator>();
-        // Debug.Log(gunAnimator.name + " :" + "reload");
+
+        if (currentGun.currentState != GunState.Idle || isAutoShooting)
+        {
+           // Debug.Log("currentGun GunState: " + currentGun.currentState + "isAutoShoot:" + isAutoShooting);
+            return;
+        }
+
+       
+
         if (!currentGun.CheckFullAmmo())
         {
+            Animator gunAnimator = currentGun.GetComponent<Animator>();
             //upgrade animation speed here
-            UpGradeReloadAnimationSpeed(gunAnimator,currentGun);
+            UpGradeReloadAnimationSpeed(gunAnimator, currentGun);
             playerAnimator.SetBool("isReload", true);
             gunAnimator.SetBool("isReload", true);
-
-            gun.Reload();
+          
+   
+            currentGun.Reload();
         }
         else
         {
-            Debug.Log("full ammo");
+            Debug.Log("full ammo "+currentGun.currentAmmo);
         }
     }
-    private void CanShoot()
+
+    
+    private void HandleShoot( )
     {
-        AnimatorStateInfo stateInfo = playerAnimator.GetCurrentAnimatorStateInfo(0);
-        //  return stateInfo.IsName("Shotgun") || stateInfo.IsName("AR");
-      //  Debug.Log("animation state info:"+stateInfo.IsName("Shotgun"));
-      //  Debug.Log("animation state info:" + stateInfo.IsName("Shotgun"));
-    }
-    private void HandleShoot(bool isAuto)
-    {
-        /*  var canShoot = CanShoot();
-          if (!canShoot) return;*/
-       // CanShoot();
         var currentGun = weaponController.GetCurrentGun();
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         if (currentGun != null && !currentGun.CheckEmptyAmmo())
         {
-
-            // Debug.Log("gunAnimation in Handle shoot:" + gunAnimator.name);
             if (gunAnimator != null)
             {
-                gunAnimator.SetBool("Automatic", true);
+                gunAnimator.SetBool("isShoot", true);
             }
-            // Debug.Log("Handle shoot :" + isAuto);
             currentGun.Shoot();
+
             playerAnimator.SetBool("Automatic", true);
         }
     }
@@ -125,6 +129,7 @@ public class Shoot : MonoBehaviour
     private void HandleShootStartedInput()
     {
         var currentGun = weaponController.GetCurrentGun();
+
         if (currentGun.CheckEmptyAmmo())
         {
             Debug.Log("current ammo empty need reload");
@@ -141,11 +146,13 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootCanceledInput()
     {
+      
+        isAutoShooting = false;
         //animation
         playerAnimator.SetBool("Automatic", false);
         Animator gunAnimator = gun.gameObject.GetComponent<Animator>();
         GetComponent<Animator>();
-        gunAnimator.SetBool("Automatic", false);
+        gunAnimator.SetBool("isShoot", false);
 
         if (continuousShootingCoroutine != null)
         {
@@ -154,7 +161,8 @@ public class Shoot : MonoBehaviour
         }
         isAutoShooting = false;
 
-        gun.shoot = 0;
+        currentGun.shoot = 0;
+        currentGun.OnShootFinish();
     }
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
@@ -166,23 +174,23 @@ public class Shoot : MonoBehaviour
 
             playerAnimator.SetBool("Automatic", true);
 
-            //isAutoShooting = true;
+            isAutoShooting = true;
             while (true)
             {
-                if (gun.CheckEmptyAmmo())
+                if (currentGun.CheckEmptyAmmo())
                 {
                     playerAnimator.SetBool("Automatic", false);
                     break;
                 }
 
-                HandleShoot(true);
+                HandleShoot();
                 yield return new WaitForSeconds(currentGun.shootCooldown);
             }
 
         }
         else
         {
-            HandleShoot(false);
+            HandleShoot();
             yield return new WaitForSeconds(currentGun.shootCooldown); // this is for single shoot
         }
 
@@ -192,15 +200,17 @@ public class Shoot : MonoBehaviour
     {
         playerAnimator.SetBool("isReload", false);
         ResetAnimationSpeed();
+
     }
     public void ResetAnimationSpeed()
     {
         currentGun = weaponController.currentGun;
         Animator gunAnimator = currentGun.GetComponent<Animator>();
-        gunAnimator.speed = 1f;
-        playerAnimator.speed = 1f;
-        Debug.Log("player animation speed:"+ playerAnimator.speed);
+        playerAnimator.SetFloat("isReload", 1f);
+        gunAnimator.SetFloat("isReload", 1f);
+        Debug.Log("player animation speed:" + playerAnimator.speed);
 
     }
+ 
 
 }

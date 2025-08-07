@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
@@ -46,12 +47,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         if (health > a)
         {
             health -= a;
-            Debug.Log("player current health:" + health);
+           // Debug.Log("player current health:" + health);
         }
         else
         {
             health = 0;
             // Debug.Log("player die");
+            SceneManager.LoadScene("GameOverScene");
         }
     }
     public void DecreaseSanityOvertime()
