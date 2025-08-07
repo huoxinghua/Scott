@@ -256,9 +256,9 @@ public class Gun : MonoBehaviour
                 Vector3 hitPos = hit.point + hit.normal * 0.001f;
                 Quaternion rotation = Quaternion.LookRotation(hit.normal) * Quaternion.Euler(0f, 180f, 0f);
 
-
-                CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.Shake();
+/*
+               CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                camShake.Shake();*/
                
                 
                 CheckEmptyAmmo();
