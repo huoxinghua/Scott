@@ -11,6 +11,8 @@ public class ResetWaveMM : MonoBehaviour
         wave.tankEnemyChance = 0;
         wave.baseEnemyChance = 100;
         wave.rangedEnemyChance = 0;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     // Update is called once per frame
