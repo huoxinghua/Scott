@@ -16,7 +16,7 @@ MonoBehaviour:
     Type: 0
     panel: {fileID: 9123232687271131692, guid: 69875d762a92e684aaf5ae86e21e435b, type: 3}
     name: Coffee in the morning
-    sprite: {fileID: 21300000, guid: dcdfa4829dd3742fb8777b5384499662, type: 3}
+    sprite: {fileID: 21300000, guid: d53d384a8a4c4cf4daaea4b14472bff6, type: 3}
     Description: A little energy to speed up your day
     SanityBonus: 0
     MoveSpeedBonus: 0.1

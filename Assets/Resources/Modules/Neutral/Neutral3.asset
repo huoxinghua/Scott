@@ -16,7 +16,7 @@ MonoBehaviour:
     Type: 2
     panel: {fileID: 1457927524695103150, guid: 639cea59594c5e640a12601dbc9f35c5, type: 3}
     name: After market modifications
-    sprite: {fileID: 21300000, guid: 541f6c83222bf4b01a02f4c3760a2ee0, type: 3}
+    sprite: {fileID: 21300000, guid: 0ba97e098d54b2542a53d8e99f0a73f8, type: 3}
     Description: Improves ammo and fire rate, but impacts other aspects
     SanityBonus: 0
     MoveSpeedBonus: 0

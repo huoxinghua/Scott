@@ -346,8 +346,11 @@ public class Gun : MonoBehaviour
         if (gunData.type == GunType.Automatic)
         {
             magzaineSize = (int)(magzaineSize * (1 + bonus));
+            currentAmmo = magzaineSize;
+            Debug.Log("current ammo bonus:"+currentAmmo);
+           
         }
-        
+     
       
     }
 
