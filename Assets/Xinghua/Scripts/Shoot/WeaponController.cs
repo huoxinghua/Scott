@@ -47,23 +47,24 @@ public class WeaponController : MonoBehaviour
     private void Update()
     {
         UpdateCrosshairColor();
-        if (!currentGun.CheckEmptyAmmo())
+       /* if (!currentGun.CheckEmptyAmmo())
         {
             UpdateBullet();
         }
         else
         {
             DisplayEmpty();
-        }
+        }*/
     }
     public void DisplayEmpty()
     {
         bulletTMP.text = 0 + "/" + currentGun.magzaineSize;
     }
 
-    public void UpdateBullet()
+    public void UpdateBullet(int value)
     {
-        bulletTMP.text = currentGun.currentAmmo + "/" + currentGun.magzaineSize;
+        // bulletTMP.text = currentGun.currentAmmo + "/" + currentGun.magzaineSize;
+        bulletTMP.text = value + "/" + currentGun.magzaineSize;
     }
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
@@ -127,7 +128,7 @@ public class WeaponController : MonoBehaviour
                 weapon.SetActive(false);
             }
             isSwitchingGun = false;
-            UpdateBullet();
+           
           
         }
     }
@@ -135,9 +136,10 @@ public class WeaponController : MonoBehaviour
 
     public void EquipWeapon()
     {
+
        // currentGun.currentState = GunState.Switching;
         HandGunSwitchAnimation();
-        
+        UpdateBullet(currentGun.currentAmmo);
     }
 
     //animation

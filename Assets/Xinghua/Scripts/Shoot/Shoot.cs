@@ -12,6 +12,7 @@ public class Shoot : MonoBehaviour
     private Gun gun;
     private Gun currentGun;
     private WeaponController weaponController;
+    public float reloadSpeed = 1f;
     private void Awake()
     {
         inputManager = GetComponent<PlayerInputManager>();
@@ -79,7 +80,7 @@ public class Shoot : MonoBehaviour
         playerAnimator.SetFloat("reloadSpeed", bonusSpeed);
 
     }
-    public float reloadSpeed = 1f;
+   
     private void GunReload()
     {
         currentGun = weaponController.currentGun;
@@ -112,7 +113,7 @@ public class Shoot : MonoBehaviour
     
     private void HandleShoot( )
     {
-        var currentGun = weaponController.GetCurrentGun();
+        var currentGun = weaponController.currentGun;
         Animator gunAnimator = currentGun.GetComponent<Animator>();
         if (currentGun != null && !currentGun.CheckEmptyAmmo())
         {

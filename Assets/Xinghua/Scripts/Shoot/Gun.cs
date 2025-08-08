@@ -76,8 +76,7 @@ public class Gun : MonoBehaviour
         // currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
-        weaponController.GetCurrentGun();
-        weaponController.UpdateBullet();
+       
     }
     private void OnDisable()
     {
@@ -176,6 +175,7 @@ public class Gun : MonoBehaviour
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
                 shoot++;
+          
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
 
@@ -241,6 +241,7 @@ public class Gun : MonoBehaviour
         Debug.Log("FireMultiRayShot");
         currentState = GunState.Firing;
         currentAmmo --;
+        weaponController.UpdateBullet(currentAmmo);
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
@@ -346,9 +347,8 @@ public class Gun : MonoBehaviour
         if (gunData.type == GunType.Automatic)
         {
             magzaineSize = (int)(magzaineSize * (1 + bonus));
-            currentAmmo = magzaineSize;
-            Debug.Log("current ammo bonus:"+currentAmmo);
-           
+          /*  currentAmmo = magzaineSize;
+            weaponController.UpdateBullet( currentAmmo);*/
         }
      
       
@@ -384,13 +384,10 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeBulletsPerShot(float bonus)
     {
         if(bonus == 0)return;
-     
-       // Debug.Log(this.gunData.type+" :gun before bullets per shot:" + bulletsPerShot +"bones"+bonus);
-      
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
-        //magzaineSize = bulletsPerShot * shotTimes;
-        currentAmmo = magzaineSize;
-       // Debug.Log(this.gunData.type + ":gun after bulletsPerShot:" + bulletsPerShot);
+ 
+      //  currentAmmo = magzaineSize;
+ 
     }
 
     public void OnGunReloadFinish()
@@ -400,10 +397,11 @@ public class Gun : MonoBehaviour
         canShoot = true;
         currentState = GunState.Idle;
         currentAmmo = magzaineSize;
+        weaponController.UpdateBullet(currentAmmo);
         Debug.Log("after reload ammo:" + currentAmmo);
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
-        currentAmmo =gunData.maxMagazineSize;
+        
 
       
     }
@@ -419,6 +417,7 @@ public class Gun : MonoBehaviour
         if(gunData.type == GunType.Automatic)
         {
             currentAmmo--;
+            weaponController.UpdateBullet(currentAmmo);
         }
        
 
