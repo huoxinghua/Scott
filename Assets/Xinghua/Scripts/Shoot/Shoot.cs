@@ -65,7 +65,7 @@ public class Shoot : MonoBehaviour
             weapon.isSwitchingGun = true;
             if (weapon != null)
             {
-                weapon.EquipWeapon();
+                weapon.SwitchWeapon();
             }
             else
             {
@@ -129,9 +129,10 @@ public class Shoot : MonoBehaviour
 
     private void HandleShootStartedInput()
     {
-        var currentGun = weaponController.GetCurrentGun();
+        var currentGun = weaponController.currentGun;
 
-        if (currentGun.CheckEmptyAmmo())
+
+        if (currentGun != null && currentGun.CheckEmptyAmmo())
         {
             Debug.Log("current ammo empty need reload");
             return;
@@ -168,9 +169,9 @@ public class Shoot : MonoBehaviour
     public bool isAutoShooting = false;
     private IEnumerator ContinuousShootingRoutine()
     {
-        var currentGun = weaponController.GetCurrentGun();
-        var type = currentGun.gunData.type;
-        if (currentGun != null && type == GunType.Automatic)
+        var currentGun = weaponController.currentGun;
+      
+        if (currentGun != null && currentGun.gunData.type == GunType.Automatic)
         {
 
             playerAnimator.SetBool("Automatic", true);

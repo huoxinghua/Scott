@@ -37,9 +37,6 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isSwitch
-    m_EventTreshold: 0
-  - m_ConditionMode: 1
     m_ConditionEvent: isShotgun
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
@@ -51,7 +48,7 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.25
   m_TransitionOffset: 0
   m_ExitTime: 0.5
-  m_HasExitTime: 0
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -238,7 +235,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: ea028780c6b625045a21e085ef8d1575, type: 3}
+  m_Motion: {fileID: 7400000, guid: b3b331679739c374b948b7517e5ae03d, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -606,9 +603,6 @@ AnimatorStateTransition:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   m_Conditions:
-  - m_ConditionMode: 1
-    m_ConditionEvent: isSwitch
-    m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isShotgun
     m_EventTreshold: 0
@@ -1476,7 +1470,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 1827226128182048838, guid: 7f0fce7cda3201c45a5277369ba0d09e, type: 3}
+  m_Motion: {fileID: 7400000, guid: ae71712422321774bbd9908c3c1b55a1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 

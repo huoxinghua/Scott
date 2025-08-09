@@ -28,7 +28,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private LayerMask lm;
     private Animator gunAnimator;
     private Animator playerAnimator;
-    private WeaponController weaponController;
+    protected WeaponController weaponController;
     public int currentAmmo;
     private int leftAmmo;
     //upgrade 
@@ -52,7 +52,9 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         currentState = GunState.Idle;
+        SetOriginalData();
         currentAmmo = gunData.maxMagazineSize;
+      //  weaponController.DisplayBullet(currentAmmo,gunData.maxMagazineSize);
         leftAmmo = currentAmmo;
 
         originalPosition = transform.localPosition;//if this will help the second position problem
@@ -71,12 +73,12 @@ public class Gun : MonoBehaviour
     }
     private void OnEnable()
     {
-
+       weaponController.currentGun = this;
         currentState = GunState.Idle;
         // currentAmmo = leftAmmo;
         SetOriginalData();
         ApplyUpgradeBonuses();
-       
+        RefreshOriginalPose();
     }
     private void OnDisable()
     {
@@ -115,7 +117,7 @@ public class Gun : MonoBehaviour
     }
     public void Shoot()
     {
-        if (currentState != GunState.Idle || currentAmmo <= 0||!canShoot) return;
+        if (currentState != GunState.Idle || currentAmmo <= 0 || !canShoot) return;
 
         switch (gunData.type)
         {
@@ -130,7 +132,7 @@ public class Gun : MonoBehaviour
     public void AutomaticShoot()
     {
         currentState = GunState.Firing;
-     
+
 
         float offsetX = 0f;
         float offsetY = 0f;
@@ -162,20 +164,20 @@ public class Gun : MonoBehaviour
             }
             Quaternion rotation = Quaternion.LookRotation(hit.normal);
             rotation *= Quaternion.Euler(0f, 180f, 0f);
-           // Camera.main.GetComponent<CameraShake>().Shake();
-           if(hit.transform.gameObject.layer != 9)
+            // Camera.main.GetComponent<CameraShake>().Shake();
+            if (hit.transform.gameObject.layer != 9)
             {
                 FilterBulletHole(offsetPos, rotation, hit);
             }
-            
+
 
 
             // Debug.Log("Hit " + hit.collider.name + shoot + "times");
-        
+
             if (Time.time - lastShootTime > gunData.shootCooldown)
             {
                 shoot++;
-          
+
                 CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
                 camShake.Shake();
 
@@ -195,18 +197,18 @@ public class Gun : MonoBehaviour
         }
 
     }
-    private void FilterBulletHole(Vector3 offsetPos, Quaternion rotation,RaycastHit hit)
+    private void FilterBulletHole(Vector3 offsetPos, Quaternion rotation, RaycastHit hit)
     {
         if (!weaponController.isCrossHairActive)
         {
             var objHole = Instantiate(gunData.holeFX, offsetPos, rotation);
-          
+
             objHole.transform.SetParent(hit.collider.transform);
             objHole.tag = "BulletHole";
             Destroy(objHole, 1f);
         }
     }
- 
+
     public bool CheckFullAmmo()
     {
         if (currentAmmo == magzaineSize)
@@ -240,13 +242,12 @@ public class Gun : MonoBehaviour
     {
         Debug.Log("FireMultiRayShot");
         currentState = GunState.Firing;
-        currentAmmo --;
-        weaponController.UpdateBullet(currentAmmo);
+
         Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
-            float offsetX = Random.Range(-spreadAmount,spreadAmount);
-            float offsetY = Random.Range(-spreadAmount,spreadAmount);
+            float offsetX = Random.Range(-spreadAmount, spreadAmount);
+            float offsetY = Random.Range(-spreadAmount, spreadAmount);
 
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f + offsetX, 0.5f + offsetY, 0));
             RaycastHit hit;
@@ -257,11 +258,11 @@ public class Gun : MonoBehaviour
                 Vector3 hitPos = hit.point + hit.normal * 0.001f;
                 Quaternion rotation = Quaternion.LookRotation(hit.normal) * Quaternion.Euler(0f, 180f, 0f);
 
-/*
-               CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
-                camShake.Shake();*/
-               
-                
+                /*
+                               CameraShake camShake = Camera.main.GetComponentInParent<CameraShake>();
+                                camShake.Shake();*/
+
+
                 CheckEmptyAmmo();
                 currentState = GunState.Firing;
                 if (hit.collider.GetComponent<IDamageable>() == null)
@@ -273,7 +274,7 @@ public class Gun : MonoBehaviour
                     GameObject.Destroy(hole, 5f);
                 }
 
-                HandleDamage( hit, rotation);
+                HandleDamage(hit, rotation);
             }
         }
     }
@@ -320,15 +321,15 @@ public class Gun : MonoBehaviour
     }
     public void OnShootSoundPlay()
     {
-        if(gunData.type == GunType.Automatic)
+        if (gunData.type == GunType.Automatic)
         {
             SoundManager.Instance.PlaySFX("BaseGunShoot", 0.4f);
         }
-        else if(gunData.type == GunType.SpreadShot)
+        else if (gunData.type == GunType.SpreadShot)
         {
             SoundManager.Instance.PlaySFX("shotGunShoot", 0.4f);
         }
-        
+
     }
 
 
@@ -347,11 +348,11 @@ public class Gun : MonoBehaviour
         if (gunData.type == GunType.Automatic)
         {
             magzaineSize = (int)(magzaineSize * (1 + bonus));
-          /*  currentAmmo = magzaineSize;
-            weaponController.UpdateBullet( currentAmmo);*/
+            /*  currentAmmo = magzaineSize;
+              weaponController.UpdateBullet( currentAmmo);*/
         }
-     
-      
+
+
     }
 
     public void SetGunUpgradeFireRate(float bonus)
@@ -367,29 +368,33 @@ public class Gun : MonoBehaviour
     public void SetGunUpgradeRecoil(float bonus)
     {
         if (bonus == 0) return;
-        recoilAmount =recoilAmount * (1 + bonus);
-       // OnRecoilAmountUpgrade?.Invoke(recoilAmount);
+        recoilAmount = recoilAmount * (1 + bonus);
+        // OnRecoilAmountUpgrade?.Invoke(recoilAmount);
         var cam = Camera.main;
         PlayerLook camSc = cam.GetComponent<PlayerLook>();
         camSc.UpgradeRecoilAmount(recoilAmount);
-}
+    }
     public void SetGunUpgradeReloadSpeed(float bonus)
     {
         if (bonus == 0) return;
-       
+
         reloadSpeed = reloadSpeed * (1 + bonus);
         SetReloadSpeed(reloadSpeed);
     }
     public int shotTimes = 2;
     public void SetGunUpgradeBulletsPerShot(float bonus)
     {
-        if(bonus == 0)return;
+        if (bonus == 0) return;
         bulletsPerShot = (int)(bulletsPerShot * (1 + bonus));
- 
-      //  currentAmmo = magzaineSize;
- 
-    }
 
+        //  currentAmmo = magzaineSize;
+
+    }
+    public void RefreshOriginalPose()
+    {
+        originalPosition = transform.localPosition;
+        originalRotation = transform.localRotation;
+    }
     public void OnGunReloadFinish()
     {
 
@@ -397,16 +402,16 @@ public class Gun : MonoBehaviour
         canShoot = true;
         currentState = GunState.Idle;
         currentAmmo = magzaineSize;
-        weaponController.UpdateBullet(currentAmmo);
+        weaponController.DisplayBullet(currentAmmo,magzaineSize);
         Debug.Log("after reload ammo:" + currentAmmo);
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
-        
+        RefreshOriginalPose();
 
-      
+
     }
-   private bool canShoot = true;
-   public void OnReloadStart()
+    private bool canShoot = true;
+    public void OnReloadStart()
     {
         canShoot = false;
     }
@@ -414,21 +419,24 @@ public class Gun : MonoBehaviour
     {
         gunAnimator.SetBool("isShoot", false);
         currentState = GunState.Idle;
-        if(gunData.type == GunType.Automatic)
+        if(currentAmmo>=1)
+
         {
             currentAmmo--;
-            weaponController.UpdateBullet(currentAmmo);
         }
        
+        //weaponController.DisplayBullet(currentAmmo,magzaineSize);
+
+
 
 
     }
     public void OnPlayReloadSoundAR()
     {
         Debug.Log("reload sound play");
-        SoundManager.Instance.PlaySFX("ARReload",0.8f);
+        SoundManager.Instance.PlaySFX("ARReload", 0.8f);
     }
-  
+
     public float GetReloadSpeed()
     {
         return reloadSpeed;

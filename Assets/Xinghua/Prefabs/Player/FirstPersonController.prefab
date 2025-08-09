@@ -3270,6 +3270,8 @@ MonoBehaviour:
   maxHealth: 100
   sanityData: {fileID: 11400000, guid: 57a781526b4a3d04a8468ae1e6c97237, type: 2}
   ppVol: {fileID: 0}
+  hpBar: {fileID: 0}
+  healPercentPerWave: 0
 --- !u!136 &6912802623870004504
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8687,11 +8689,12 @@ MonoBehaviour:
   guns:
   - {fileID: 8327562770631268422}
   - {fileID: 7497477614543591520}
-  currentGun: {fileID: 8930682161582984047}
-  startingGun: {fileID: 8930682161582984047}
+  currentGun: {fileID: 0}
   gunParent: {fileID: 9179913335497371036}
   isShotGun: 0
   isSwitchingGun: 0
+  bulletCanves: {fileID: 0}
+  bulletTMP: {fileID: 0}
   isCrossHairActive: 0
 --- !u!1 &4498348664541725758
 GameObject:
@@ -10563,7 +10566,6 @@ GameObject:
   - component: {fileID: 7153885022278124250}
   - component: {fileID: 3166025715837815862}
   - component: {fileID: 6000850615932290628}
-  - component: {fileID: 8930682161582984047}
   m_Layer: 0
   m_Name: Gun
   m_TagString: Untagged
@@ -10637,30 +10639,6 @@ MonoBehaviour:
   - {fileID: 4579186406209739841}
   - {fileID: 5942714216790122890}
   - {fileID: 1232049750758810031}
---- !u!114 &8930682161582984047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7497477614543591520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba10ccb008af01747b93f73cdf21af8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentState: 0
-  shoot: 0
-  gunData: {fileID: 11400000, guid: 1d26c6a15a5c8834bac874b7d4db3624, type: 2}
-  shakeRotationAmount: {x: 2, y: 2, z: 1}
-  shakePositionAmount: 0.05
-  lm:
-    serializedVersion: 2
-    m_Bits: 448
-  currentAmmo: 0
-  spreadAmount: 0.02
-  shootCooldown: 0
-  shotTimes: 2
 --- !u!1 &7593720214011061485
 GameObject:
   m_ObjectHideFlags: 0
@@ -12268,7 +12246,8 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: e24c9af51f747ed4fbfe98646ceb8932, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5437485812489341520, guid: 40887496f2140934784f269698fca0ab, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

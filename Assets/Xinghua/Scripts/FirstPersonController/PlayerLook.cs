@@ -55,8 +55,8 @@ public class PlayerLook : MonoBehaviour
             Debug.Log("input manager is null ");
         }
 
-        gun = weaponController.GetCurrentGun();
-        if(gun != null)
+      
+        if(weaponController.currentGun != null)
         {
             gun.OnShoot += HandleShoot;
         }
@@ -79,8 +79,8 @@ public class PlayerLook : MonoBehaviour
             Debug.Log("input manager is null ");
         }
 
-        gun = weaponController.GetCurrentGun();
-        if(gun != null)
+
+        if(weaponController.currentGun!= null)
         {
             gun.OnShoot -= HandleShoot;
         }

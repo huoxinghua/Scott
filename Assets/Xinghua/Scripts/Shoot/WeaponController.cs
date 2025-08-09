@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] public WeaponSO[] weapons;
     public List<GameObject> guns = new List<GameObject>();
     public Gun currentGun;
-    [SerializeField] private Gun startingGun;
+
     [SerializeField] Transform gunParent;
     private Animator playerAnim;
     private Vector3 spawnPosition;
@@ -30,13 +31,14 @@ public class WeaponController : MonoBehaviour
     }
     private void Start()
     {
-        currentGun = startingGun;
+        currentGun = GetComponentInChildren<AutoGun>();
         isShotGun = false;
+     
         playerAnim.SetBool("isShotgun", false);
 
-        spawnPosition = currentGun.transform.position;
+     /*   spawnPosition = currentGun.transform.position;
         spawnRotation = currentGun.transform.rotation;
-
+*/
 
         var crosshair = Instantiate(currentGun.gunData.crosshairCanves);
         crosshairImage = crosshair.GetComponentInChildren<Image>();
@@ -47,21 +49,13 @@ public class WeaponController : MonoBehaviour
     private void Update()
     {
         UpdateCrosshairColor();
-       /* if (!currentGun.CheckEmptyAmmo())
-        {
-            UpdateBullet();
-        }
-        else
-        {
-            DisplayEmpty();
-        }*/
     }
     public void DisplayEmpty()
     {
         bulletTMP.text = 0 + "/" + currentGun.magzaineSize;
     }
 
-    public void UpdateBullet(int value)
+    public void DisplayBullet(int value,int max)
     {
         // bulletTMP.text = currentGun.currentAmmo + "/" + currentGun.magzaineSize;
         bulletTMP.text = value + "/" + currentGun.magzaineSize;
@@ -69,7 +63,8 @@ public class WeaponController : MonoBehaviour
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
     {
-
+        if (currentGun == null)
+            return;
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
@@ -87,59 +82,38 @@ public class WeaponController : MonoBehaviour
         }
     }
 
+
+
+
+    public void OnSwitchEnd()//anim event
+    {
+
+            isSwitchingGun = false;
+
+    }
+
+
+    public void SwitchWeapon()
+    {
+      
+        HandGunSwitchAnimation();
+       
+    }
     private void HandGunSwitchAnimation()
     {
-        Debug.Log("player animation :" + playerAnim);
-        if (isShotGun == false)
+        Debug.Log("isShotGun" + isShotGun);
+        if (!isShotGun)
         {
-            isShotGun = true;
+         
             playerAnim.SetBool("isShotgun", true);
-            playerAnim.SetBool("isSwitch", true);
+            isShotGun = true;
         }
         else
         {
-            isShotGun = false;
-            playerAnim.SetBool("isShotgun", false);
-            playerAnim.SetBool("isSwitch", true);
-        }
-    }
-
-    public Gun GetCurrentGun()
-    {
-        return currentGun = gameObject.GetComponentInChildren<Gun>(false);
-    }
-    public void OnSwitchEnd()//anim event
-    {
-        foreach (var weapon in guns)
-        {
-            Gun gun = weapon.GetComponent<Gun>();
-            if (gun != null && gun.gunData.type == GunType.SpreadShot && isShotGun)
-            {
-                weapon.SetActive(true);
-
-            }
-            else if (gun != null && gun.gunData.type == GunType.Automatic && !isShotGun)
-            {
-                weapon.SetActive(true);
-
-            }
-            else
-            {
-                weapon.SetActive(false);
-            }
-            isSwitchingGun = false;
            
-          
+            playerAnim.SetBool("isShotgun", false);
         }
-    }
-
-
-    public void EquipWeapon()
-    {
-
-       // currentGun.currentState = GunState.Switching;
-        HandGunSwitchAnimation();
-        UpdateBullet(currentGun.currentAmmo);
+    
     }
 
     //animation
@@ -157,7 +131,37 @@ public class WeaponController : MonoBehaviour
     }
     public void OnPlayerGunSwitchEnd()
     {
-        currentGun.currentState = GunState.Idle;
+        if(currentGun != null)
+        {
+            currentGun.currentState = GunState.Idle;
+        }
+        
+    }
+    private bool isARGun = false;
+    public void OnARGunDown()
+    {
+        guns[0].gameObject.SetActive(false);
+      
+    
+    }
+    public void OnARGunUp()
+    {
+        guns[0].gameObject.SetActive(true);
+        isSwitchingGun = false;
+        isShotGun = false;
+    }
+    public void OnShotGunDown()
+    {
+        guns[1].gameObject.SetActive(false);
+     
+        
+    }
+    public void OnShotGunUp()
+    {
+        guns[1].gameObject.SetActive(true);
+        isShotGun = true;
+        isSwitchingGun = false;
+
     }
     //player movement sound
     public void OnPlayerStep1Sound()
