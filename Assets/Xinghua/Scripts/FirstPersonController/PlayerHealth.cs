@@ -7,14 +7,18 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {  
     private float health;
     public float maxHealth=100f;
-    [SerializeField] SOSanity sanityData;
+    FixedSanity fSanity;
     [SerializeField] Volume ppVol;
     [SerializeField] Image hpBar;
     [SerializeField] float healPercentPerWave;
+    public void Awake()
+    {
+        fSanity = FixedSanity.instance;
+    }
     private void Start()
     {
-        maxHealth = sanityData.maxSanity;
-        health = sanityData.maxSanity;
+        maxHealth = fSanity.maxSanity;
+        health = fSanity.maxSanity;
         ApplyUpgrade();
         HealBetweenWave();
     }
@@ -23,13 +27,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
       //  Debug.Log("before health:" + health);
         var bonus = UpgradeManager.Instance.GetBonus(BonusType.Sanity);
         health = health *(1+ bonus);
-        sanityData.maxSanity = sanityData.maxSanity * (1 + bonus);
+        fSanity.maxSanity = fSanity.maxSanity * (1 + bonus);
        // Debug.Log("after health:"+ health);
     }
     public void HealBetweenWave()
     {
-        sanityData.currentSanity += sanityData.maxSanity * healPercentPerWave;
-        sanityData.currentSanity = Mathf.Clamp(sanityData.currentSanity, 0, sanityData.maxSanity);
+        fSanity.currentSanity += fSanity.maxSanity * healPercentPerWave;
+        fSanity.currentSanity = Mathf.Clamp(fSanity.currentSanity, 0, fSanity.maxSanity);
     }
     public void SetHealth(float value)
     {
@@ -38,8 +42,8 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void TakeDamage(float a)
     {
-        sanityData.currentSanity -= a;
-        if (sanityData.currentSanity <= 0)
+        fSanity.currentSanity -= a;
+        if (fSanity.currentSanity <= 0)
         {
             //playerDies
         }
@@ -58,13 +62,13 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void DecreaseSanityOvertime()
     {
-        sanityData.currentSanity -= (Time.deltaTime / 0.6f) / sanityData.sanityMins;
+        fSanity.currentSanity -= (Time.deltaTime / 0.6f) / fSanity.sanityMins;
     }
     public void SanityOnKill()
     {
         //May change to a percent based system. Currently based on minutes gained
-        sanityData.currentSanity += (sanityData.sanityGainedOnKill * 100) / sanityData.sanityMins;
-        sanityData.currentSanity = Mathf.Clamp(sanityData.currentSanity, 0, sanityData.maxSanity);
+        fSanity.currentSanity += (fSanity.sanityGainedOnKill * 100) / fSanity.sanityMins;
+        fSanity.currentSanity = Mathf.Clamp(fSanity.currentSanity, 0, fSanity.maxSanity);
     }
     public void DamagedSanity(float dmg)
     {
@@ -72,17 +76,17 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void HandlePostProcess()
     {
-        if (sanityData.currentSanity > sanityData.maxSanity / 2)
+        if (fSanity.currentSanity > fSanity.maxSanity / 2)
         {
-            ppVol.weight = Mathf.Lerp(0, 0.2f, 1 - (sanityData.currentSanity - sanityData.maxSanity / 2) / (sanityData.maxSanity / 2));
+            ppVol.weight = Mathf.Lerp(0, 0.2f, 1 - (fSanity.currentSanity - fSanity.maxSanity / 2) / (fSanity.maxSanity / 2));
         }
-        else if (sanityData.currentSanity > sanityData.maxSanity / 5)
+        else if (fSanity.currentSanity > fSanity.maxSanity / 5)
         {
-            ppVol.weight = Mathf.Lerp(0.2f, 0.5f, 1 - ((sanityData.currentSanity - (sanityData.maxSanity / 5))) / (sanityData.maxSanity / (3 + 1 / 3)));
+            ppVol.weight = Mathf.Lerp(0.2f, 0.5f, 1 - ((fSanity.currentSanity - (fSanity.maxSanity / 5))) / (fSanity.maxSanity / (3 + 1 / 3)));
         }
         else
         {
-            ppVol.weight = Mathf.Lerp(0.5f, 1f, 1 - (sanityData.currentSanity) / (sanityData.maxSanity / 5));
+            ppVol.weight = Mathf.Lerp(0.5f, 1f, 1 - (fSanity.currentSanity) / (fSanity.maxSanity / 5));
         }
     }
     // Update is called once per frame
@@ -90,7 +94,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     {
         DecreaseSanityOvertime();
         HandlePostProcess();
-        hpBar.fillAmount = sanityData.currentSanity / sanityData.maxSanity;
+        hpBar.fillAmount = fSanity.currentSanity / fSanity.maxSanity;
     }
 
 }

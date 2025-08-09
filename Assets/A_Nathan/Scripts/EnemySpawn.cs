@@ -21,7 +21,8 @@ public class EnemySpawn : MonoBehaviour
     [SerializeField] int maxZombiesInScene;
     [SerializeField] float spawnSpeed = 4;
     [SerializeField] int firstWaveEnemyAmount;
-    [SerializeField] SOWave waveData;
+    // [SerializeField] SOWave waveData;
+    FixedWaves fWave;
     [SerializeField] PlayerHealth playerHealth;
     int EnemiesToSpawn;
     int EnemiesSpawned;
@@ -31,7 +32,7 @@ public class EnemySpawn : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     { 
-        EnemiesToSpawn = waveData.totalEnemyPerWave;
+        EnemiesToSpawn = fWave.totalEnemyPerWave;
         //get all spawnpoints in scene (with a max possible in the scene)
         for (int i = 1; i < maxSpawnPoints; i++)
         {
@@ -46,36 +47,40 @@ public class EnemySpawn : MonoBehaviour
         }
         NextWave();
     }
+    public void Awake()
+    {
+        fWave = FixedWaves.instance;
+    }
     //start next wave
     public void NextWave()
     {
        
-        CurrentWave = waveData.currentWave;
-        EnemiesToSpawn = waveData.totalEnemyPerWave;
+        CurrentWave = fWave.currentWave;
+        EnemiesToSpawn = fWave.totalEnemyPerWave;
         EnemiesSpawned = 0;
         EnemiesKilled = 0;
         if(CurrentWave != 0)
         {
-            EnemiesToSpawn+= 1 + (int)(1 * Mathf.Ceil(waveData.currentWave/3));
+            EnemiesToSpawn+= 1 + (int)(1 * Mathf.Ceil(fWave.currentWave/3));
         }
         CurrentWave++;
-        if(CurrentWave == waveData.waveToStartRangedEnemies)
+        if(CurrentWave == fWave.waveToStartRangedEnemies)
         {
-            waveData.baseEnemyChance -= waveData.rangedChanceIncrease;
-            waveData.rangedEnemyChance += waveData.rangedChanceIncrease;
+            fWave.baseEnemyChance -= fWave.rangedChanceIncrease;
+            fWave.rangedEnemyChance += fWave.rangedChanceIncrease;
         }
-        if(CurrentWave == waveData.waveToStartTanks)
+        if(CurrentWave == fWave.waveToStartTanks)
         {
-            waveData.baseEnemyChance -= (waveData.rangedChanceIncrease + waveData.tankChanceIncrease);
-            waveData.tankEnemyChance += waveData.tankChanceIncrease;
-            waveData.rangedEnemyChance += waveData.rangedChanceIncrease;
-        }if(CurrentWave == waveData.waveToRampUp)
+            fWave.baseEnemyChance -= (fWave.rangedChanceIncrease + fWave.tankChanceIncrease);
+            fWave.tankEnemyChance += fWave.tankChanceIncrease;
+            fWave.rangedEnemyChance += fWave.rangedChanceIncrease;
+        }if(CurrentWave == fWave.waveToRampUp)
         {
-            waveData.baseEnemyChance -= (waveData.tankChanceIncrease);
-            waveData.tankEnemyChance += waveData.tankChanceIncrease;
+            fWave.baseEnemyChance -= (fWave.tankChanceIncrease);
+            fWave.tankEnemyChance += fWave.tankChanceIncrease;
         }
-        waveData.currentWave = CurrentWave;
-        waveData.totalEnemyPerWave = EnemiesToSpawn;
+        fWave.currentWave = CurrentWave;
+        fWave.totalEnemyPerWave = EnemiesToSpawn;
         TrySpawn();
     }
     //check if allowed to spawn. Wont spawn if too many have spawned at once, or all have been spawned
@@ -123,7 +128,7 @@ public class EnemySpawn : MonoBehaviour
         EnemiesKilled++;
         if(EnemiesKilled >= EnemiesToSpawn)
         {
-            if(waveData.currentWave >= 15)
+            if(fWave.currentWave >= 15)
             {
                     SceneManager.LoadScene("YouWonScene");
 
@@ -146,13 +151,13 @@ public class EnemySpawn : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnSpeed);
         int rand = Random.Range(0, 100);
-        if (rand <= waveData.baseEnemyChance)
+        if (rand <= fWave.baseEnemyChance)
         { 
             SpawnBaseEnemy();
-        }else if(rand > waveData.baseEnemyChance && rand <= waveData.baseEnemyChance + waveData.rangedEnemyChance) 
+        }else if(rand > fWave.baseEnemyChance && rand <= fWave.baseEnemyChance + fWave.rangedEnemyChance) 
         {
             SpawnRangedEnemy();
-        }else if (rand > waveData.baseEnemyChance + waveData.rangedEnemyChance)
+        }else if (rand > fWave.baseEnemyChance + fWave.rangedEnemyChance)
         {
             SpawnTankEnemy();
         }
