@@ -45,15 +45,22 @@ public class PlayerUpgrade : MonoBehaviour
         TryInteractPodium();
     }
     private bool isInRange = false;
+    private bool isGenerate = false;
     private void OnTriggerEnter(Collider other)
     {
         UpgradePodium upgradePodium = other.GetComponent<UpgradePodium>();
+        PodiumManager.Instance.SetCurrentUpgradeOptinon(upgradePodium.type);
         if (upgradePodium != null)
         {
             PodiumManager.Instance.ShowInteractE();
             upgradePodium.ShowPanel();
             isInRange = true;
-            PodiumManager.Instance.SetCurrentUpgradeOptinon(upgradePodium.config);
+            if (!isGenerate)
+            {
+                PodiumManager.Instance.GenerateRandomUpgradeOption();
+               
+                isGenerate = true;
+            }
 
         }
     }
@@ -77,9 +84,6 @@ public class PlayerUpgrade : MonoBehaviour
             isInRange = false;
         }
     }
-  /*  public void EquipModule(ModuleConfig module)
-    {
-        inputManager.OnUIClose();
-    }*/
+  
 
 }

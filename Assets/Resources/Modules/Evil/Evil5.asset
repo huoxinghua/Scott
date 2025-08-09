@@ -16,6 +16,7 @@ MonoBehaviour:
     Type: 0
     panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
     name: Antagonist
+    ID: 5
     sprite: {fileID: 21300000, guid: 3d675c34dd88f034ca94f66f021c4d50, type: 3}
     Description: Take more of a beating but dish out less
     SanityBonus: 0.5

@@ -28,6 +28,6 @@ public class ModuleStats
     public float RecoilBonus ;
     public float ReloadSpeedBonus;
 
-    public int MagazineBonus;
-    public int  ShotsPerShootBonus ;
+    public float MagazineBonus;
+    public float  ShotsPerShootBonus ;
 }

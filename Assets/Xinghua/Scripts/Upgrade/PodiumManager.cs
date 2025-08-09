@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using static UnityEngine.Rendering.STP;
-using Random = UnityEngine.Random;
+using SysRandom = System.Random;
 
 public class PodiumManager : MonoBehaviour
 {
@@ -30,6 +32,9 @@ public class PodiumManager : MonoBehaviour
     [SerializeField] private RectTransform goodUpgradeParent;
     [SerializeField] private RectTransform neutralUpgradeParent;
     [SerializeField] private RectTransform evilUpgradeParent;
+    private SysRandom rng;
+    private int rngSeed;
+    public string name;
     private void Awake()
     {
         if (Instance == null)
@@ -43,9 +48,8 @@ public class PodiumManager : MonoBehaviour
          goodConfigs = Resources.LoadAll<ModuleConfig>("Modules/Good").ToList();
          neutralConfigs = Resources.LoadAll<ModuleConfig>("Modules/Neutral").ToList();
          evilConfigs = Resources.LoadAll<ModuleConfig>("Modules/Evil").ToList();
-       
     }
-  
+    
     private void Start()
     {
         podiums = transform.GetComponentsInChildren<UpgradePodium>();
@@ -54,29 +58,39 @@ public class PodiumManager : MonoBehaviour
         cancelButton.SetActive(false);
         playerUpgrade = FindAnyObjectByType<PlayerUpgrade>();
         GenerateRandomUpgradeOption();
-
     }
  
-  
-    private void GenerateRandomUpgradeOption()
+  private List<ModuleConfig> generateConfigs = new List<ModuleConfig>();
+    public void GenerateRandomUpgradeOption()
     {
-        ModuleConfig randomGood = goodConfigs[Random.Range(0, goodConfigs.Count)];
-        ModuleConfig randomNeutral = neutralConfigs[Random.Range(0, neutralConfigs.Count)];
-        ModuleConfig randomEvil = evilConfigs[Random.Range(0, evilConfigs.Count)];
- 
-        var neutralPanel = Instantiate(randomNeutral.stats.panel, neutralUpgradeParent);
-        neutralPanel.GetComponent<UpgradePanelUI>().SetPanel(randomNeutral);
+        rng = new SysRandom(Guid.NewGuid().GetHashCode());
+        var index1 = rng.Next(goodConfigs.Count);
+        var index2 = rng.Next(neutralConfigs.Count);    
+        var index3 = rng.Next(evilConfigs.Count);
+        ModuleConfig randomGood = goodConfigs[index1];
+        generateConfigs.Add(randomGood);
+        ModuleConfig randomNeutral = neutralConfigs[index2];
+        generateConfigs.Add(randomNeutral);
+        ModuleConfig randomEvil = evilConfigs[index3];
+        generateConfigs.Add(randomEvil);
 
         var goodPanel = Instantiate(randomGood.stats.panel, goodUpgradeParent);
         goodPanel.GetComponent<UpgradePanelUI>().SetPanel(randomGood);
 
+      
+        var neutralPanel = Instantiate(randomNeutral.stats.panel, neutralUpgradeParent);
+        neutralPanel.GetComponent<UpgradePanelUI>().SetPanel(randomNeutral);
+
+     
+
         var evilPanel = Instantiate(randomEvil.stats.panel,evilUpgradeParent);
         evilPanel.GetComponent<UpgradePanelUI>().SetPanel(randomEvil);
+
+       
     }
 
     public void ConfirmUpgrade()
     {
-
         OnConfirmUpgradePodium?.Invoke(currentUpgradeOptinon);
         if (currentUpgradeOptinon != null)
         {
@@ -121,10 +135,18 @@ public class PodiumManager : MonoBehaviour
         HideButton();
     }
     private ModuleConfig currentUpgradeOptinon = null;
-
-    public void SetCurrentUpgradeOptinon(ModuleConfig config)
+    public PodiumType currentType;
+    public void SetCurrentUpgradeOptinon(PodiumType type)
     {
-        currentUpgradeOptinon = config;
+
+        foreach (var a in generateConfigs)
+        {
+            if (currentType == PodiumType.Good)
+            {
+                currentUpgradeOptinon = a;
+            }
+        }
+        
     }
 
 

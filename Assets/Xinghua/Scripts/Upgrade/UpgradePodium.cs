@@ -1,9 +1,14 @@
 using UnityEngine;
-
+public enum PodiumType
+{
+    Good,
+    Neutral,
+    Evil,
+}
 public class UpgradePodium : MonoBehaviour
 {
     private GameObject upgardePanel;
-    public ModuleConfig config;
+    public  PodiumType type;
 
     private void Awake()
     {

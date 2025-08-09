@@ -16,6 +16,7 @@ MonoBehaviour:
     Type: 1
     panel: {fileID: 6413628732692866756, guid: e7ade95d5fae3f34ea4f86d7509cdb00, type: 3}
     name: Pain
+    ID: 1
     sprite: {fileID: 21300000, guid: 3d675c34dd88f034ca94f66f021c4d50, type: 3}
     Description: Do unto others as you would have them do unto you
     SanityBonus: -0.2
@@ -25,5 +26,5 @@ MonoBehaviour:
     SpreadAmountBonus: 0
     RecoilBonus: 0
     ReloadSpeedBonus: 0.05
-    MagazineBonus: -5
+    MagazineBonus: 0
     ShotsPerShootBonus: 0
