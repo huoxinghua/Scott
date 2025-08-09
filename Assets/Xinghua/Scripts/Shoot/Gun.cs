@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public enum GunState
@@ -49,17 +50,7 @@ public class Gun : MonoBehaviour
         playerAnimator = GetComponentInParent<Animator>();
         weaponController = GetComponentInParent<WeaponController>();
     }
-    private void Start()
-    {
-        currentState = GunState.Idle;
-        SetOriginalData();
-        currentAmmo = gunData.maxMagazineSize;
-      //  weaponController.DisplayBullet(currentAmmo,gunData.maxMagazineSize);
-        leftAmmo = currentAmmo;
 
-        originalPosition = transform.localPosition;//if this will help the second position problem
-        originalRotation = transform.localRotation;
-    }
     private void SetOriginalData()
     {
         originalPosition = transform.localPosition;//if this will help the second position problem
@@ -70,27 +61,40 @@ public class Gun : MonoBehaviour
         bulletsPerShot = gunData.bulletPerShot;
         spreadAmount = gunData.spreadAmount;
         recoilAmount = gunData.recoilAmount;
+
+        currentAmmo = magzaineSize;
     }
     private void OnEnable()
     {
-       weaponController.currentGun = this;
+        weaponController.currentGun = this;
         currentState = GunState.Idle;
-        // currentAmmo = leftAmmo;
+
         SetOriginalData();
         ApplyUpgradeBonuses();
         RefreshOriginalPose();
     }
+    private void Start()
+    {
+        currentState = GunState.Idle;
+
+        if (currentState == GunState.Idle)
+        {
+            currentAmmo = magzaineSize;
+        }
+        leftAmmo = currentAmmo;
+
+        originalPosition = transform.localPosition;
+        originalRotation = transform.localRotation;
+    }
     private void OnDisable()
     {
         SaveLeftAmmoBeforeChangeGun();
-
     }
 
     private void SaveLeftAmmoBeforeChangeGun()//if player change to another weapon save
     {
         leftAmmo = currentAmmo;
     }
-
 
     private void ApplyUpgradeBonuses()
     {
@@ -232,7 +236,6 @@ public class Gun : MonoBehaviour
     public void Reload()
     {
         if (currentState != GunState.Idle) return;
-        Debug.Log(this.name + "reload ");
         currentState = GunState.Reloading;
 
     }
@@ -240,10 +243,7 @@ public class Gun : MonoBehaviour
 
     public void FireMultiRayShot()
     {
-        Debug.Log("FireMultiRayShot");
         currentState = GunState.Firing;
-
-        Debug.Log(this.gunData.type + "currentAmmo:" + currentAmmo);
         for (int i = 0; i < bulletsPerShot; i++)
         {
             float offsetX = Random.Range(-spreadAmount, spreadAmount);
@@ -289,7 +289,7 @@ public class Gun : MonoBehaviour
             Debug.Log("play blood fx:" + bloodFX.name);
             Destroy(bloodFX, 0.5f);
             damageable.TakeDamage(damage);
-            //Debug.Log(gunData.name + "gun damage apply:" + gunData.damage);
+        
         }
     }
 
@@ -348,11 +348,12 @@ public class Gun : MonoBehaviour
         if (gunData.type == GunType.Automatic)
         {
             magzaineSize = (int)(magzaineSize * (1 + bonus));
-            /*  currentAmmo = magzaineSize;
-              weaponController.UpdateBullet( currentAmmo);*/
+            currentAmmo = magzaineSize;
+            Debug.Log("currentAmmo:" + currentAmmo);
+            weaponController.DisplayBullet(currentAmmo, magzaineSize);
         }
 
-
+      
     }
 
     public void SetGunUpgradeFireRate(float bonus)
@@ -403,7 +404,7 @@ public class Gun : MonoBehaviour
         currentState = GunState.Idle;
         currentAmmo = magzaineSize;
         weaponController.DisplayBullet(currentAmmo,magzaineSize);
-        Debug.Log("after reload ammo:" + currentAmmo);
+       
         gunAnimator.speed = 1;
         playerAnimator.speed = 1;
         RefreshOriginalPose();
@@ -425,7 +426,7 @@ public class Gun : MonoBehaviour
             currentAmmo--;
         }
        
-        //weaponController.DisplayBullet(currentAmmo,magzaineSize);
+        weaponController.DisplayBullet(weaponController.currentGun.currentAmmo, weaponController.currentGun.magzaineSize);
 
 
 

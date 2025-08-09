@@ -58,7 +58,7 @@ public class PlayerLook : MonoBehaviour
       
         if(weaponController.currentGun != null)
         {
-            gun.OnShoot += HandleShoot;
+            weaponController.currentGun.OnShoot += HandleShoot;
         }
        
     }
@@ -82,7 +82,7 @@ public class PlayerLook : MonoBehaviour
 
         if(weaponController.currentGun!= null)
         {
-            gun.OnShoot -= HandleShoot;
+            weaponController.currentGun.OnShoot -= HandleShoot;
         }
         
     }

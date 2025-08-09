@@ -134,7 +134,7 @@ public class Shoot : MonoBehaviour
 
         if (currentGun != null && currentGun.CheckEmptyAmmo())
         {
-            Debug.Log("current ammo empty need reload");
+           // Debug.Log("current ammo empty need reload");
             return;
         }
 

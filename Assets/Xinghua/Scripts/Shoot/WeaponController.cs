@@ -32,6 +32,7 @@ public class WeaponController : MonoBehaviour
     private void Start()
     {
         currentGun = GetComponentInChildren<AutoGun>();
+        DisplayBullet(currentGun.currentAmmo,currentGun.magzaineSize);
         isShotGun = false;
      
         playerAnim.SetBool("isShotgun", false);
@@ -50,15 +51,12 @@ public class WeaponController : MonoBehaviour
     {
         UpdateCrosshairColor();
     }
-    public void DisplayEmpty()
-    {
-        bulletTMP.text = 0 + "/" + currentGun.magzaineSize;
-    }
+
 
     public void DisplayBullet(int value,int max)
     {
-        // bulletTMP.text = currentGun.currentAmmo + "/" + currentGun.magzaineSize;
-        bulletTMP.text = value + "/" + currentGun.magzaineSize;
+        bulletTMP.text = value + "/" + max;
+       
     }
     public bool isCrossHairActive = false;
     private void UpdateCrosshairColor()
@@ -101,7 +99,6 @@ public class WeaponController : MonoBehaviour
     }
     private void HandGunSwitchAnimation()
     {
-        Debug.Log("isShotGun" + isShotGun);
         if (!isShotGun)
         {
          
@@ -149,6 +146,7 @@ public class WeaponController : MonoBehaviour
         guns[0].gameObject.SetActive(true);
         isSwitchingGun = false;
         isShotGun = false;
+        DisplayBullet(currentGun.currentAmmo,currentGun.magzaineSize);
     }
     public void OnShotGunDown()
     {
@@ -161,7 +159,7 @@ public class WeaponController : MonoBehaviour
         guns[1].gameObject.SetActive(true);
         isShotGun = true;
         isSwitchingGun = false;
-
+        DisplayBullet(currentGun.currentAmmo, currentGun.magzaineSize);
     }
     //player movement sound
     public void OnPlayerStep1Sound()
