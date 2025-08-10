@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 1
   gunPrefab: {fileID: 919132149155446097, guid: e7ce988c4aa29a941b4ef4892ebd3224, type: 3}
-  ammoCapacity: 0
-  fireRate: 0
-  damage: 20
-  range: 400
-  shootCooldown: 0.8
+  bloodPrefab: {fileID: 5685843620557978232, guid: 39d131298c18072499369ce22d8e379b, type: 3}
   cube: {fileID: 1005940023021460580, guid: f2141ca312b3d9f4099dcc1e93cfaf44, type: 3}
   holeFX: {fileID: 7875382998292775455, guid: 640944ed71b0e6448a3b14e80240d711, type: 3}
   crosshairNormalColor: {r: 0.39607844, g: 0.45882353, b: 0.4745098, a: 1}
   crosshairEnemyColor: {r: 1, g: 0, b: 0, a: 1}
   crosshairFlashDuration: 0.1
   crosshairCanves: {fileID: 7223813662040375847, guid: 2cf6ea7ae36d5544ba8a81025dca424e, type: 3}
+  fireRate: 0
+  damage: 20
+  shootCooldown: 0.8
   spreadAmount: 0.09
   bulletPerShot: 8
-  maxMagazineSize: 300
+  maxMagazineSize: 2
+  recoilAmount: 0.2

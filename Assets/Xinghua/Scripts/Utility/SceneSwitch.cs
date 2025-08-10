@@ -19,7 +19,12 @@ public class SceneSwitch : MonoBehaviour
         {
             player.OnUpgradeInput += LoadScene;
         }
-        eSpawn.WaveEnd += LoadScene;
+        if (eSpawn != null)
+        {
+            eSpawn.WaveEnd += LoadScene;
+        }
+
+       
     }
     private void OnDisable()
     {
@@ -27,7 +32,12 @@ public class SceneSwitch : MonoBehaviour
         {
             player.OnUpgradeInput -= LoadScene;
         }
-        eSpawn.WaveEnd -= LoadScene;
+        if(eSpawn !=null)
+        {
+            eSpawn.WaveEnd -= LoadScene;
+        }
+
+      
     }
     public void LoadScene()
     {
@@ -52,5 +62,14 @@ public class SceneSwitch : MonoBehaviour
         upgradeProfile.ResetProfile();
         SceneManager.LoadScene(name);
 
+    }
+    public void QuitGame()
+    {
+
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
+
+        Application.Quit();
     }
 }

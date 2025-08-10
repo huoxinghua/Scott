@@ -14,6 +14,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Xinghua/XHUpgradeScene.unity
     guid: 7e6f8b374281135459e6dcfb9b3a14ec
+  - enabled: 1
+    path: Assets/KyleFolder/Scenes/GameOverScene.unity
+    guid: 2be34cbe049a94243ba05addaa297b70
+  - enabled: 1
+    path: Assets/KyleFolder/Scenes/YouWonScene.unity
+    guid: 642660b1f2979cc4e912109dec9fcb4a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     Type: 0
-    name: Good1
-    sprite: {fileID: 21300000, guid: 04721f5aa3b1b48b3832c140421b1344, type: 3}
     panel: {fileID: 9123232687271131692, guid: 69875d762a92e684aaf5ae86e21e435b, type: 3}
-    Description: Slight bonus no negative
-    SanityBonus: 0
+    name: Wheatgrass shot
+    sprite: {fileID: 21300000, guid: d53d384a8a4c4cf4daaea4b14472bff6, type: 3}
+    Description: Good for a healthy body
+    SanityBonus: 0.1
     MoveSpeedBonus: 0
     DamageBonus: 0
     FireRateBonus: 0

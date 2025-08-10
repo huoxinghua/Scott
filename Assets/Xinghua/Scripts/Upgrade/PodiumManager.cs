@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 public class PodiumManager : MonoBehaviour
 {
     public static PodiumManager Instance;
+    //[SerializeField] private GameObject buttonSoundPlayer;
     public event Action<ModuleConfig> OnConfirmUpgradePodium;
     public UnityEvent OnUpgrade;
     public UnityEvent OnUIClosePodium;
@@ -75,6 +76,7 @@ public class PodiumManager : MonoBehaviour
 
     public void ConfirmUpgrade()
     {
+
         OnConfirmUpgradePodium?.Invoke(currentUpgradeOptinon);
         if (currentUpgradeOptinon != null)
         {
@@ -90,6 +92,10 @@ public class PodiumManager : MonoBehaviour
         }
         HideOption();
         OnUpgradeConfirm?.Invoke();
+       /* if(buttonSoundPlayer != null)
+        {
+            buttonSoundPlayer.PlayClickSound();
+        }*/
     }
     public void ShowInteractE()
     {

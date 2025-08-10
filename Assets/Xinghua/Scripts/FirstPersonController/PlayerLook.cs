@@ -1,7 +1,5 @@
 using System.Collections;
-using Unity.Burst.Intrinsics;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class PlayerLook : MonoBehaviour
 {
@@ -21,16 +19,18 @@ public class PlayerLook : MonoBehaviour
     private Gun gun;
     Vector2 rawLook;
     Coroutine resetCoroutine;
-    [SerializeField]private float recoilAmount = 0.2f;
+    [SerializeField] private float recoilAmount = 0.2f;
     [HideInInspector]
     public bool isAiming = false;
-    [SerializeField]private float aimSensitivityMultiplier = 0.0005f;
-    private float normalFOV = 60f; 
-    private float aimFOV = 40f;     
-    private float fovTransitionSpeed = 10f; 
+    [SerializeField] private float aimSensitivityMultiplier = 0.0005f;
+    private float normalFOV = 60f;
+    private float aimFOV = 40f;
+    private float fovTransitionSpeed = 10f;
     [SerializeField] float fovTransitionTime = 0.2f;
     private float targetFOV;
+    float originalY;
 
+    WeaponController weaponController;
     void Reset()
     {
         character = GetComponentInParent<PlayerMovement>().transform;
@@ -38,6 +38,7 @@ public class PlayerLook : MonoBehaviour
     private void Awake()
     {
         inputManager = GetComponentInParent<PlayerInputManager>();
+        weaponController = GetComponentInChildren<WeaponController>();
     }
     private void OnEnable()
     {
@@ -47,14 +48,19 @@ public class PlayerLook : MonoBehaviour
             inputManager.OnLookInput += Look;
             inputManager.OnAimInputStart += AimStart;
             inputManager.OnAimInputCancle += AimCancel;
-        }
+            inputManager.OnShootCanceled += ResetCameraPositon;
+                }
         else
         {
             Debug.Log("input manager is null ");
         }
 
-        gun = GetComponentInChildren<Gun>();
-        gun.OnShoot += HandleShoot;
+        gun = weaponController.GetCurrentGun();
+        if(gun != null)
+        {
+            gun.OnShoot += HandleShoot;
+        }
+       
     }
 
 
@@ -66,14 +72,19 @@ public class PlayerLook : MonoBehaviour
             inputManager.OnLookInput -= Look;
             inputManager.OnAimInputStart -= AimStart;
             inputManager.OnAimInputCancle -= AimCancel;
+            inputManager.OnShootCanceled -= ResetCameraPositon;
         }
         else
         {
             Debug.Log("input manager is null ");
         }
 
-        gun = GetComponentInChildren<Gun>();
-        gun.OnShoot -= HandleShoot;
+        gun = weaponController.GetCurrentGun();
+        if(gun != null)
+        {
+            gun.OnShoot -= HandleShoot;
+        }
+        
     }
 
 
@@ -90,24 +101,35 @@ public class PlayerLook : MonoBehaviour
         resetCoroutine = StartCoroutine(CameraPositonReset());
 
     }
-    float originalY;
+
+    public void UpgradeRecoilAmount(float value)
+    {
+        
+        recoilAmount = value;
+    }
     private void CameraUP()
     {
-        Debug.Log("camera recoil up");
+        isUp = true;
         recoilOffsetY += recoilAddSpeed * recoilSpeedMultiplay * recoilAmount;
-
     }
+
     private IEnumerator CameraPositonReset()
     {
         yield return new WaitForEndOfFrame();
         recoilOffsetY = Mathf.MoveTowards(recoilOffsetY, originalY, recoilRecoverSpeed * recoilSpeedMultiplay * recoilAmount);
-        Debug.Log("CameraPositonReset");
+  
     }
-
+    private bool isUp = false;
+    private void ResetCameraPositon()
+    {
+        isUp = false;
+        recoilOffsetY = 0;
+       
+    }
     private void AimStart()
     {
         PlayerMovement playerMovement = GetComponentInParent<PlayerMovement>();
-        if(playerMovement.isSprinting == true) return;
+        if (playerMovement.isSprinting == true) return;
         isAiming = true;
         targetFOV = aimFOV;
     }
@@ -137,7 +159,7 @@ public class PlayerLook : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-        Camera.main.fieldOfView = to; 
+        Camera.main.fieldOfView = to;
     }
     void Update()
     {
@@ -153,19 +175,26 @@ public class PlayerLook : MonoBehaviour
         else
         {
             currentSensitivity = sensitivity;
-            
+
         }
-       
+
         Vector2 rawFrameVelocity = Vector2.Scale(rawLookScale, Vector2.one * currentSensitivity);
         frameVelocity = Vector2.Lerp(frameVelocity, rawFrameVelocity, 1 / smoothing);
         velocity += frameVelocity;
         velocity.y = Mathf.Clamp(velocity.y, -90, 90);
 
-   
-        Shoot shoot = character.GetComponent<Shoot>();
 
-        float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -90f, 90f);
-        transform.localRotation = Quaternion.AngleAxis(-finalY, Vector3.right);
+        Shoot shoot = character.GetComponent<Shoot>();
+        if (isUp)
+        {
+           
+            float finalY = Mathf.Clamp(velocity.y + recoilOffsetY, -90f, 90f);
+            transform.localRotation = Quaternion.AngleAxis(-finalY, Vector3.right);
+        }
+        else
+        {
+            transform.localRotation = Quaternion.AngleAxis(-velocity.y, Vector3.right);
+        }
         character.localRotation = Quaternion.AngleAxis(velocity.x, Vector3.up);
     }
 

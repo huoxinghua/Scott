@@ -42,17 +42,13 @@ public class CameraShake : MonoBehaviour
             elapsed += Time.deltaTime;
 
             transform.localPosition = originalPosition + Random.insideUnitSphere * shakePositionAmount;
-           // transform.localRotation = originalRotation * Quaternion.Euler(
-                //Random.Range(-shakeRotationAmount.x, shakeRotationAmount.x),
-                //Random.Range(-shakeRotationAmount.y, shakeRotationAmount.y),
-                //Random.Range(-shakeRotationAmount.z, shakeRotationAmount.z)
-            //);
+       
             isShake = false;
             yield return null;
         }
 
         transform.localPosition = originalPosition;
        // transform.localRotation = originalRotation;
-        Debug.Log("camera shake pos");
+
     }
 }

@@ -16,4 +16,4 @@ MonoBehaviour:
   maxSanity: 100
   baseMaxSanity: 100
   sanityMins: 5
-  sanityGainedOnKill: 0.05
+  sanityGainedOnKill: 0.15
