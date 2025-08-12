@@ -42,7 +42,7 @@ public class Gun : MonoBehaviour
     private float reloadSpeed = 1f;
     //event
     public event Action OnShoot;
-
+   
     private void Awake()
     {
 
@@ -61,11 +61,15 @@ public class Gun : MonoBehaviour
         bulletsPerShot = gunData.bulletPerShot;
         spreadAmount = gunData.spreadAmount;
         recoilAmount = gunData.recoilAmount;
+        if (weaponController.changeTime == 0)
+        {
+              currentAmmo = magzaineSize;
+        }
 
-        currentAmmo = magzaineSize;
     }
     private void OnEnable()
     {
+       
         weaponController.currentGun = this;
         currentState = GunState.Idle;
 
@@ -427,7 +431,10 @@ public class Gun : MonoBehaviour
         }
        
         weaponController.DisplayBullet(weaponController.currentGun.currentAmmo, weaponController.currentGun.magzaineSize);
-
+        if(gunData.type == GunType.SpreadShot)
+        {
+            RefreshOriginalPose();
+        }
 
 
 

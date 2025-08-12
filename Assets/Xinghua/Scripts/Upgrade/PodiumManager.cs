@@ -98,6 +98,7 @@ public class PodiumManager : MonoBehaviour
 
             // OnUpgradeConfirm?.Invoke();
             Debug.Log("ConfirmUpgrade" + currentUpgradeOptinon.name);
+            UpgradeManager.Instance.upgradeTime++;
             UpgradeManager.Instance.ApplyUpgradeBonus(currentUpgradeOptinon);
         }
         else

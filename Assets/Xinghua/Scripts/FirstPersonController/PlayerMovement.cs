@@ -87,9 +87,12 @@ public class PlayerMovement : MonoBehaviour
     private void SprintStart()
     {
         if (!groundCheck.isGrounded) return;//if jump in air can not sprint
-       
-        isSprinting = true;
-        playerAnim.SetFloat("Speed", 1);
+        if (isMoving)
+        {
+
+            isSprinting = true;
+            playerAnim.SetFloat("Speed", 1);
+        }
     }
     private void SprintCancel()
     {

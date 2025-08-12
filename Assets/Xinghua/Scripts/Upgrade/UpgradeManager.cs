@@ -20,6 +20,8 @@ public class UpgradeManager : MonoBehaviour
     private ModuleConfig currentConfig;
     public bool isUpgradeSceneStart = false;
 
+
+    public int upgradeTime = 0;
     private void Awake()
     {
 

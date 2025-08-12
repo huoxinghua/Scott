@@ -11,6 +11,9 @@ public class PlayerUpgrade : MonoBehaviour
     private PlayerInputManager inputManager;
     private Gun[] guns;
     public event Action OnUIInput;
+    public bool isInteract = false;
+    private bool isInRange = false;
+    private bool isGenerate = false;
 
     private void Awake()
     {
@@ -19,7 +22,7 @@ public class PlayerUpgrade : MonoBehaviour
         inputManager = GetComponent<PlayerInputManager>();
         guns = GetComponentsInChildren<Gun>();
    
-        var profile = Resources.Load<PlayerUpgradeProfile>("Data/PlayerUpgradeProfile");
+        
         
     }
     private void OnEnable()
@@ -39,13 +42,12 @@ public class PlayerUpgrade : MonoBehaviour
 
     }
     
-    public bool isInteract = false;
+   
     private void HandleInteract()
     {
         TryInteractPodium();
     }
-    private bool isInRange = false;
-    private bool isGenerate = false;
+ 
     private void OnTriggerEnter(Collider other)
     {
         UpgradePodium upgradePodium = other.GetComponent<UpgradePodium>();
@@ -85,5 +87,8 @@ public class PlayerUpgrade : MonoBehaviour
         }
     }
   
-
+    public void ClearUpgrade()
+    {
+        profile.ResetProfile();
+    }
 }

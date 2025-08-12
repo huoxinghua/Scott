@@ -3267,11 +3267,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e8e688c5e077d4ea111befaf427141, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
-  sanityData: {fileID: 11400000, guid: 57a781526b4a3d04a8468ae1e6c97237, type: 2}
   ppVol: {fileID: 0}
   hpBar: {fileID: 0}
-  healPercentPerWave: 0
+  healPercentPerWave: 0.2
+  playerUpgradeProfile: {fileID: 11400000, guid: 1cf86818586abce44ae284f4774e1cc7, type: 2}
 --- !u!136 &6912802623870004504
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -8696,6 +8695,7 @@ MonoBehaviour:
   bulletCanves: {fileID: 0}
   bulletTMP: {fileID: 0}
   isCrossHairActive: 0
+  changeTime: 0
 --- !u!1 &4498348664541725758
 GameObject:
   m_ObjectHideFlags: 0

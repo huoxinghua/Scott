@@ -89,13 +89,13 @@ public class WeaponController : MonoBehaviour
             isSwitchingGun = false;
 
     }
-
+    public int changeTime = 0;
 
     public void SwitchWeapon()
     {
       
         HandGunSwitchAnimation();
-       
+        
     }
     private void HandGunSwitchAnimation()
     {
@@ -159,6 +159,8 @@ public class WeaponController : MonoBehaviour
         guns[1].gameObject.SetActive(true);
         isShotGun = true;
         isSwitchingGun = false;
+
+        changeTime = 1;
         DisplayBullet(currentGun.currentAmmo, currentGun.magzaineSize);
     }
     //player movement sound

@@ -188972,7 +188972,6 @@ MonoBehaviour:
   maxZombiesInScene: 20
   spawnSpeed: 0.7
   firstWaveEnemyAmount: 7
-  waveData: {fileID: 11400000, guid: 25edbb28dfcdf1b4b829b1b4398909ba, type: 2}
   playerHealth: {fileID: 2080428907}
 --- !u!1 &1388498507
 GameObject:

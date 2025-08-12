@@ -10685,6 +10685,51 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 70638edde64049044963cbece6fa8ddf, type: 3}
   m_PrefabInstance: {fileID: 483828327}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &492137400
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 492137402}
+  - component: {fileID: 492137401}
+  m_Layer: 0
+  m_Name: UpgradeDataClear
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &492137401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492137400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ec17bf6670e4d89a8e2bc60f6e7e47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  profile: {fileID: 11400000, guid: 1cf86818586abce44ae284f4774e1cc7, type: 2}
+--- !u!4 &492137402
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492137400}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 12.072413, y: 2.8200405, z: 27.912779}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &493276485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14952,6 +14997,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: XHProtoGym
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 492137401}
+        m_TargetAssemblyTypeName: UpgradeClear, Assembly-CSharp
+        m_MethodName: ClearUpgradeData
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &662892895
@@ -55068,3 +55125,4 @@ SceneRoots:
   - {fileID: 1243186029}
   - {fileID: 635068458}
   - {fileID: 1604951020}
+  - {fileID: 492137402}

@@ -5,30 +5,43 @@ using UnityEngine.UI;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {  
-    private float health;
-    public float maxHealth=100f;
+   // private float health;
+   // public float maxHealth=100f;
     FixedSanity fSanity;
     [SerializeField] Volume ppVol;
     [SerializeField] Image hpBar;
     [SerializeField] float healPercentPerWave;
+    [SerializeField] private PlayerUpgradeProfile playerUpgradeProfile;
+   
     public void Awake()
     {
         fSanity = FixedSanity.instance;
     }
     private void Start()
     {
-        maxHealth = fSanity.maxSanity;
-        health = fSanity.maxSanity;
+        // maxHealth = fSanity.maxSanity;
+        // health = fSanity.maxSanity;
+        if(UpgradeManager.Instance.upgradeTime == 0)
+        {
+            fSanity.currentSanity = fSanity.maxSanity;
+        }
+        else
+        {
+            HealBetweenWave();
+        }
+
+       
         ApplyUpgrade();
-        HealBetweenWave();
+       
     }
     private void ApplyUpgrade()
     {
       //  Debug.Log("before health:" + health);
         var bonus = UpgradeManager.Instance.GetBonus(BonusType.Sanity);
-        health = health *(1+ bonus);
-        fSanity.maxSanity = fSanity.maxSanity * (1 + bonus);
-       // Debug.Log("after health:"+ health);
+      //  health = health *(1+ bonus);
+       // fSanity.maxSanity = fSanity.maxSanity * (1 + bonus);
+        fSanity.currentSanity = fSanity.currentSanity * (1 + bonus);//xh 
+        // Debug.Log("after health:"+ health);
     }
     public void HealBetweenWave()
     {
@@ -37,26 +50,31 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     }
     public void SetHealth(float value)
     {
-        health = value;
-        Debug.Log("player set new health to:" + health);
+        fSanity.currentSanity = value;
+        Debug.Log("player set new health to:" + fSanity.currentSanity);
     }
     public void TakeDamage(float a)
     {
-        fSanity.currentSanity -= a;
+        //fSanity.currentSanity -= a;
         if (fSanity.currentSanity <= 0)
         {
             //playerDies
         }
         // Debug.Log("player take damage");
-        if (health > a)
+        if (fSanity.currentSanity > a)
         {
-            health -= a;
-           // Debug.Log("player current health:" + health);
+            fSanity.currentSanity -= a;
+            //health -= a;
+            // Debug.Log("player current health:" + health);
         }
         else
         {
-            health = 0;
+            fSanity.currentSanity = 0;
+            DecreaseSanityOvertime();
+            // health = 0;
             // Debug.Log("player die");
+            playerUpgradeProfile.ResetProfile();
+
             SceneManager.LoadScene("GameOverScene");
         }
     }
