@@ -26,4 +26,4 @@ MonoBehaviour:
     RecoilBonus: -0.1
     ReloadSpeedBonus: 0.15
     MagazineBonus: -0.8
-    ShotsPerShootBonus: 8
+    ShotsPerShootBonus: 2

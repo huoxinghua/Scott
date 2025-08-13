@@ -25,5 +25,5 @@ MonoBehaviour:
     SpreadAmountBonus: -0.1
     RecoilBonus: -0.1
     ReloadSpeedBonus: 0.15
-    MagazineBonus: 15
+    MagazineBonus: 2
     ShotsPerShootBonus: 0

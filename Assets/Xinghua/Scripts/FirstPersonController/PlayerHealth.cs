@@ -7,7 +7,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 {  
    // private float health;
    // public float maxHealth=100f;
-    FixedSanity fSanity;
+    public FixedSanity fSanity;
     [SerializeField] Volume ppVol;
     [SerializeField] Image hpBar;
     [SerializeField] float healPercentPerWave;
@@ -27,6 +27,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         }
         else
         {
+            fSanity.currentSanity = PlayerPrefs.GetFloat("currentHealth",fSanity.currentSanity);
             HealBetweenWave();
         }
 

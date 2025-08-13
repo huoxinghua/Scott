@@ -8,13 +8,14 @@ public class PlayerUpgradeProfile : ScriptableObject
 
     public void AddUpgrade(ModuleConfig upgrade)
     {
-        if (!equippedUpgrades.Contains(upgrade))
-        {
+       // if (!equippedUpgrades.Contains(upgrade))
+       // {
             equippedUpgrades.Add(upgrade);
-        }
+       // }
     }
     public void ResetProfile()
     {
         equippedUpgrades.Clear();
+        Debug.Log("clear the upgrade profile");
     }
 }

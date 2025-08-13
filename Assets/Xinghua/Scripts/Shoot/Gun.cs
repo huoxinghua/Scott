@@ -19,8 +19,8 @@ public class Gun : MonoBehaviour
     public int shoot = 0;
     private float lastShootTime = 0f;
     public WeaponSO gunData;
-    private Vector3 originalPosition;
-    private Quaternion originalRotation;
+    public Vector3 originalPosition;
+    public Quaternion originalRotation;
     private Coroutine shakeCoroutine;
     private ParticleSystem muzzleFlash;
     [SerializeField] private Vector3 shakeRotationAmount = new Vector3(2f, 2f, 1f);
@@ -79,6 +79,7 @@ public class Gun : MonoBehaviour
     }
     private void Start()
     {
+      
         currentState = GunState.Idle;
 
         if (currentState == GunState.Idle)

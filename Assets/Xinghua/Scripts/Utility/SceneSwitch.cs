@@ -22,6 +22,9 @@ public class SceneSwitch : MonoBehaviour
         if (eSpawn != null)
         {
             eSpawn.WaveEnd += LoadScene;
+            PlayerHealth health = FindAnyObjectByType<PlayerHealth>();
+            PlayerPrefs.SetFloat("currentHealth", health.fSanity.currentSanity);
+          ;
         }
 
        
@@ -57,8 +60,13 @@ public class SceneSwitch : MonoBehaviour
             Debug.Log("podiumManager is null");
         }
     }
+    public int playTimes = 0;
     public void LoadSceneByName(string name)//just for main menu to level 
     {
+        if(name == "XHProtoGym")
+        {
+            playTimes++;
+        }
         upgradeProfile.ResetProfile();
         SceneManager.LoadScene(name);
 

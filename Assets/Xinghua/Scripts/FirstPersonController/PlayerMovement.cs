@@ -1,13 +1,15 @@
 using System;
 using UnityEngine;
 
+
 public class PlayerMovement : MonoBehaviour
 {
+   
     private PlayerInputManager inputManager;
     private GroundCheck groundCheck;
     [Header("move")]
     public float moveSpeed =5f;
-    private Vector2 moveDirection;
+    public Vector2 moveDirection;
     // [HideInInspector]
     public bool isSprinting = false;
 
@@ -23,6 +25,9 @@ public class PlayerMovement : MonoBehaviour
     public Animator playerAnim;
     public Animator gunAnim;
 
+    private WeaponController weaponController;
+
+    private bool isIdle = true;
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -32,16 +37,20 @@ public class PlayerMovement : MonoBehaviour
         animators = GetComponentsInChildren<Animator>();
         playerAnim = animators[0];
         gunAnim = animators[1];
+        weaponController = GetComponentInChildren<WeaponController>();
 
     }
-    private bool isIdle = true;
+   
     private void Start()
     {
+        isIdle = true;
         originalPos = transform.position;
         playerAnim.SetFloat("Speed", 0f);
-
+        weaponController.currentGun.RefreshOriginalPose();
         ApplyUpgrade();
     }
+ 
+  
     private void ApplyUpgrade()
     {
         // Debug.Log("before speed:" + moveSpeed);
@@ -91,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         {
 
             isSprinting = true;
+            weaponController.currentGun.RefreshOriginalPose();
             playerAnim.SetFloat("Speed", 1);
         }
     }
@@ -106,6 +116,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isIdle = true;
+          //  weaponController.currentGun.RefreshOriginalPose();//for the gun pos this is work
             playerAnim.SetFloat("Speed", 0f);
         }
 
@@ -166,10 +177,14 @@ public class PlayerMovement : MonoBehaviour
         if (dir != Vector2.zero)
         {
             isMoving = true;
+            isIdle = false;
+            playerAnim.SetFloat("Speed", 0.5f);
         }
         else
         {
             isMoving = false;
+            isIdle = false;
+            playerAnim.SetFloat("Speed", 0f);
         }
     }
     public void Jump()
